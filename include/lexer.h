@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 12:25:38 by fkrug             #+#    #+#             */
-/*   Updated: 2023/08/09 12:40:24 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/08/09 15:33:59 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,6 @@ typedef struct s_token
 {
 	t_type	type;
 	char	*value;
-}
+}	t_token;
 
 #endif
