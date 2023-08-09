@@ -33,4 +33,4 @@ jobs:
           python3 -m pip install norminette
       # Runs a single command using the runners shell
       - name: Run norminette validation
-        run: norminette
+        run: norminette ./src ./include
