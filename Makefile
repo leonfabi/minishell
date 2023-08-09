@@ -2,7 +2,7 @@ NAME := minishell
 TEST := test
 .DEFAULT_GOAL := all
 
-VPATH := src src/lexer src/signal
+VPATH := src src/lexer src/signal tests
 
 CFLAGS ?= -Wextra -Wall -Werror -MMD -MP
 LIBFT_DIR = libft
@@ -12,9 +12,14 @@ LIBS	:= $(LIBFT)
 SRCS_LEXER	:= lexer.c
 SRCS	:= $(SRCS_LEXER)
 OBJ_DIR := ./_obj
+OBJ_LEXER := $(addprefix $(OBJ_DIR)/, $(SRCS_LEXER=%.c=%.o))
 OBJS	:= $(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
 
 all: $(NAME) $(LIBFT)
+
+test: $(OBJ_LEXER)
+	cc ./tests/test_lexer.c -lreadline -o ./tests/test_lexer
+	./tests/test_lexer 
 
 $(LIBFT):
 	@make -C $(LIBFT_DIR) -B
@@ -50,3 +55,5 @@ C := "\033[36m"
 X := "\033[0m"
 
 -include $(OBJS:%.o=%.d)
+
+.PHONY: test

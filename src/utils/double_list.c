@@ -1,38 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
+/*   double_list.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/09 16:11:18 by fkrug             #+#    #+#             */
-/*   Updated: 2023/08/09 17:19:34 by fkrug            ###   ########.fr       */
+/*   Created: 2023/08/09 17:00:50 by fkrug             #+#    #+#             */
+/*   Updated: 2023/08/09 17:07:01 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-t_dlist	*ft_init_token_list(char *str)
+t_dlist	*ft_dlstnew(void *content)
 {
-	t_dlist	*token_list;
+	t_dlist	*start;
 
-	
-}
-
-t_token	*ft_create_token(t_type type, char *value)
-{
-	t_token	*token;
-
-	token = (t_token*)malloc(sizeof(t_token));
-	if (token == NULL)
+	start = (t_dlist *)malloc(sizeof(t_dlist));
+	if (start == NULL)
 		return (NULL);
-	token->type = type;
-	token->value = value;
-	token->value_length = ft_strlen(token->value);
-	return (token);
+	start->content = content;
+	start->next = NULL;
+	start->prev = NULL;
+	return (start);
 }
 
-t_token	*lexer(char *str)
+void	ft_dlstadd_back(t_dlist **lst, t_dlist *new)
 {
-	
+	t_dlist	*counter;
+
+	counter = ft_lstlast(*lst);
+	if (counter != NULL)
+	{
+		counter->next = new;
+		new->prev = counter;
+	}
+	else
+		*lst = new;
 }
