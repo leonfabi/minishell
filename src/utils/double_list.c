@@ -6,11 +6,11 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 17:00:50 by fkrug             #+#    #+#             */
-/*   Updated: 2023/08/09 17:07:01 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/08/09 17:25:27 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "minishell.h"
 
 t_dlist	*ft_dlstnew(void *content)
 {
