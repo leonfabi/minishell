@@ -6,12 +6,11 @@
 /*   By: makurz <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 16:15:29 by makurz            #+#    #+#             */
-/*   Updated: 2023/08/09 18:39:18 by makurz           ###   ########.fr       */
+/*   Updated: 2023/08/09 18:46:15 by makurz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "signal_handler.h"
-#include <stdlib.h>
 
 int	signal_handling(t_termios *xterm)
 {
