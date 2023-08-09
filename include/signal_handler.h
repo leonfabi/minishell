@@ -6,7 +6,7 @@
 /*   By: makurz <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 12:21:26 by makurz            #+#    #+#             */
-/*   Updated: 2023/08/09 18:44:55 by makurz           ###   ########.fr       */
+/*   Updated: 2023/08/09 22:35:16 by makurz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 # include <signal.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <readline.h>
-# include <history.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 # include <termios.h>
 
 typedef struct sigaction t_signal;
@@ -36,10 +36,10 @@ int		signal_handling(t_termios *xterm);
  */
 void	cleanup_control_character(t_termios *xterm);
 
-int		handle_termination_signal(void);
+void	handle_termination_signal(void);
 
 void	termination_handler(int signum);
 
-int		handle_quit_signal(void);
+void	handle_quit_signal(void);
 
 #endif // !SIGNALS_H

@@ -6,7 +6,7 @@
 /*   By: makurz <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 16:15:29 by makurz            #+#    #+#             */
-/*   Updated: 2023/08/09 18:46:15 by makurz           ###   ########.fr       */
+/*   Updated: 2023/08/09 22:34:59 by makurz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,15 @@ void	cleanup_control_character(t_termios *xterm)
 	tcsetattr(STDOUT_FILENO, TCSAFLUSH, &local_termios);
 }
 
-int	handle_termination_signal(void)
+void	handle_termination_signal(void)
 {
 	t_signal	sa;
 
 	sa = (t_signal){
 		.sa_flags = SA_RESTART,
-			.sa_handler = termination_handler
+		.sa_handler = termination_handler
 	};
 	sigemptyset(&sa.sa_mask);
-	return (EXIT_SUCCESS);
 }
 
 void	termination_handler(int signum)
@@ -52,7 +51,7 @@ void	termination_handler(int signum)
 	rl_redisplay();
 }
 
-int	handle_quit_signal(void)
+void	handle_quit_signal(void)
 {
 	t_signal	sa;
 
@@ -61,5 +60,4 @@ int	handle_quit_signal(void)
 		.sa_handler = SIG_IGN
 	};
 	sigemptyset(&sa.sa_mask);
-	return (EXIT_SUCCESS);
 }

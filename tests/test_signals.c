@@ -4,14 +4,14 @@
 
 void crash(void);
 
-Test(simple, caught, .signal = SIGINT) {
+Test(simple, caught, .signal = SIGINT)
+{
+	handle_termination_signal();
 	raise(SIGINT);
 }
 
-// Test(simple, wrong_signal, .signal = SIGINT) {
-//     crash();
-// }
-// 
-// Test(simple, uncaught) {
-//     crash();
-// }
+Test(simple, ignore, .signal = SIGQUIT)
+{
+	handle_quit_signal();
+	raise(SIGQUIT);
+}
