@@ -1,5 +1,4 @@
 # Single tests can be run with using make and the specific name
-
 .DEFAULT_GOAL := all
 
 TESTS := signals lexer
