@@ -1,17 +1,14 @@
-#include <signal.h>
-#include <criterion/criterion.h>
 #include "minishell.h"
+#include <criterion/criterion.h>
 
-void crash(void);
-
-Test(simple, caught, .signal = SIGINT)
+Test(simple, sigint)
 {
-	handle_termination_signal();
+	signal(SIGINT, termination_handler);
 	raise(SIGINT);
 }
 
-Test(simple, ignore, .signal = SIGQUIT)
+Test(simple, sigquit)
 {
-	handle_quit_signal();
+	signal(SIGQUIT, SIG_IGN);
 	raise(SIGQUIT);
 }

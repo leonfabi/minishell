@@ -6,7 +6,7 @@
 /*   By: makurz <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 12:21:26 by makurz            #+#    #+#             */
-/*   Updated: 2023/08/09 22:35:16 by makurz           ###   ########.fr       */
+/*   Updated: 2023/08/10 16:32:54 by makurz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,27 +16,30 @@
 # include <signal.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <termios.h>
 
-typedef struct sigaction t_signal;
-typedef struct termios t_termios;
+typedef struct sigaction	t_signal;
+typedef struct termios		t_termios;
+typedef void				t_handler(int);
 
-/* Main function for handling signals in minishell.
- * Input parameter is a pointer to a t_termios struct
- * to handle the control-characters.
- * Located in signal_handling.c.
+
+/*
+ ** Main function for handling signals in minishell.
+ ** Input parameter is a pointer to a t_termios struct
+ ** to handle the control-characters.
+ ** Located in signal_handling.c.
  */
-int		signal_handling(t_termios *xterm);
+int		user_signal_listener(t_termios *xterm);
 
-/* Function to cleanup the control-character..
- * Control-characters appear after pressing ctrl-c..
- * Located in signal_handling.c.
+/*
+ ** Function to cleanup the control-character..
+ ** Control-characters appear after pressing ctrl-c..
+ ** Located in signal_handling.c.
  */
 void	cleanup_control_character(t_termios *xterm);
-
-void	handle_termination_signal(void);
 
 void	termination_handler(int signum);
 
