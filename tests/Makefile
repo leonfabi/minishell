@@ -4,6 +4,9 @@
 ####################################################################
 .DEFAULT_GOAL := all
 
+M := \033[35m
+RST := \033[0m
+LOG := printf "[$(M)INFO$(RST)] %s\n"
 
 TESTS := signals lexer
 
@@ -15,13 +18,14 @@ vpath %.h $(INC_DIR)
 OBJ_DIR := ./_obj
 
 # define compiler and linker flags
-CFLAGS := -Wall -Wextra -Werror -g -I $(INC_DIR) -MMD -MP
+CFLAGS_TEST := -Wall -Wextra -Werror -g -I $(INC_DIR)
+CFLAGS := $(CFLAGS_TEST) -MMD -MP
 # LDFLAGS := -L $(LIBFT_DIR) -lft -lcriterion -lreadline
 LDFLAGS := -lcriterion -lreadline
 
 # define a variable to run the tests
 define run
-	$(CC) $(CFLAGS) $^ $(LDFLAGS) -o $@ && ./$@ --verbose
+	$(CC) $(CFLAGS_TEST) $^ $(LDFLAGS) -o $@ && ./$@ --verbose
 endef
 
 ####################################################################
@@ -31,23 +35,6 @@ endef
 # Src files for signals
 SRC_SIGNALS := signal_handler.c 
 OBJS_SIGNALS := $(addprefix $(OBJ_DIR)/, $(SRC_SIGNALS:%.c=%.o))
-# SRC_DIR := ../src
-
-# Specify all src file folders here
-# SRC_DIRS := lexer signals
-# SRC_DIRS := $(addprefix $(SRC_DIR)/, $(SRC_DIRS))
-# SRC_DIRS += $(SRC_DIR)
-
-# Specify the search paths for source and header files
-# vpath %.c $(SRC_DIRS)
-
-# Name all the source files for the unit tests
-# SOURCES := lexer.c
-# SOURCES := signal_handler.c
-
-# OBJS := $(addprefix $(OBJ_DIR)/, $(SOURCES:.c=.o))
-
-
 
 ####################################################################
 #>>>>>>>>>>>>>>>>> Here is the start of the tests <<<<<<<<<<<<<<<<<#
@@ -55,11 +42,11 @@ OBJS_SIGNALS := $(addprefix $(OBJ_DIR)/, $(SRC_SIGNALS:%.c=%.o))
 
 all: $(TESTS)
 
-
 .PHONY: lexer
 lexer: $(OBJS) test_lexer.c
 	@$(call run, "$^")
 
+# Testing the signal handler for SIGINT and SIGQUIT
 .PHONY: signals
 signals: $(OBJS_SIGNALS) test_signals.c
 	@$(call run, "$^")
@@ -67,5 +54,13 @@ signals: $(OBJS_SIGNALS) test_signals.c
 $(OBJ_DIR)/%.o: %.c
 	mkdir -p $(OBJ_DIR)
 	$(CC) $(CFLAGS) -I $(INC_DIR) -c $< $(LDFLAGS) -o $@
+
+clean:
+	@$(RM) -r $(OBJ_DIR)
+	@$(LOG) "Removing object files"
+
+fclean: clean
+	@$(RM) $(TESTS)
+	@$(LOG) "Removing executables"
 
 -include $(OBJS:%.o=%.d)
