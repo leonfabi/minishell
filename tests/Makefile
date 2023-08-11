@@ -32,9 +32,13 @@ endef
 #>>>>>>>>>>>>>>>>>>>>>>>> Individual Setup <<<<<<<<<<<<<<<<<<<<<<<<#
 ####################################################################
 
-# Src files for signals
+# Source files for signals
 SRC_SIGNALS := signal_handler.c 
 OBJS_SIGNALS := $(addprefix $(OBJ_DIR)/, $(SRC_SIGNALS:%.c=%.o))
+
+# Source files for lexer
+SRC_LEXER :=
+OBJS_LEXER := $(addprefix $(OBJ_DIR)/, $(SRC_LEXER:%.c=%.o))
 
 ####################################################################
 #>>>>>>>>>>>>>>>>> Here is the start of the tests <<<<<<<<<<<<<<<<<#
