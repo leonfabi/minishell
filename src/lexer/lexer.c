@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 16:11:18 by fkrug             #+#    #+#             */
-/*   Updated: 2023/08/14 11:34:02 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/08/14 14:31:22 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ t_token	*ft_create_token(t_type type, t_lexer *lexer)
 	return (token);
 }
 
-t_token	*ft_lexer(char *str)
+t_lexer	ft_lexer(char *str)
 {
 	t_lexer	lexer;
 
