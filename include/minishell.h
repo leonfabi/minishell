@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 09:31:46 by fkrug             #+#    #+#             */
-/*   Updated: 2023/08/14 11:48:50 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/08/14 12:06:53 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "libft.h"
+# include "signal_handler.h"
 # include "lexer.h"
 
 # define TRUE 1
