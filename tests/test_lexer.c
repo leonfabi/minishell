@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 15:39:10 by fkrug             #+#    #+#             */
-/*   Updated: 2023/08/14 08:58:22 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/08/14 10:42:08 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	main(void)
 	printf("%s\n", str);
 	while (str[++i])
 		printf("str[%d] = %c\n", i, str[i]);
+	ft_lexer(str);
 	free(str);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 16:11:18 by fkrug             #+#    #+#             */
-/*   Updated: 2023/08/14 09:27:51 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/08/14 11:34:02 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,38 +30,42 @@ int	ft_check_quotes(char *str)
 		count++;
 	}
 	if (quote_double % 2 == 0 && quote_single % 2 == 0)
+		return (0);
+	return (1);
 }
 
-t_lexer	*ft_init_lexer(char *str)
+t_lexer	ft_init_lexer(char *str)
 {
-	t_lexer	*lexer;
+	t_lexer	lexer;
 
-	lexer->start = str;
-	lexer->counter = str;
-	lexer->token_list = NULL;
+	lexer = (t_lexer){
+		.start = str,
+		.counter = str,
+		.token_list = NULL
+	};
 	return (lexer);
 }
 
-t_token	*ft_create_token(t_type type, char *value)
+t_token	*ft_create_token(t_type type, t_lexer *lexer)
 {
 	t_token	*token;
 
-	token = (t_token*)malloc(sizeof(t_token));
+	token = (t_token *)malloc(sizeof(t_token));
 	if (token == NULL)
 		return (NULL);
 	token->type = type;
-	token->value = value;
-	token->value_length = ft_strlen(token->value);
+	token->value = lexer->start;
+	token->value_length = lexer->counter - lexer->start;
 	return (token);
 }
 
-t_token	*lexer(char *str)
+t_token	*ft_lexer(char *str)
 {
-	t_lexer	*lexer;
+	t_lexer	lexer;
 
+	if (ft_check_quotes(str))
+		return ((t_token *) NULL);
 	lexer = ft_init_lexer(str);
-	while (lexer->counter)
-	{
-		
-	}
+
+	return (NULL);
 }

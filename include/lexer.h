@@ -6,14 +6,14 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 12:25:38 by fkrug             #+#    #+#             */
-/*   Updated: 2023/08/14 09:15:06 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/08/14 11:48:28 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
 
-typedef struct s_dlist t_dlist;
+typedef struct s_dlist	t_dlist;
 
 typedef enum e_type
 {
@@ -48,5 +48,11 @@ typedef struct s_lexer
 	char	*counter;
 	t_dlist	*token_list;
 }	t_lexer;
+
+// UTILS
+t_dlist	*ft_dlstnew(void *content);
+int		ft_dlstadd_back(t_dlist **lst, t_dlist *new);
+
+t_token	*ft_lexer(char *str);
 
 #endif
