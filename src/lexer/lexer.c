@@ -6,33 +6,33 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 16:11:18 by fkrug             #+#    #+#             */
-/*   Updated: 2023/08/15 14:57:18 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/08/15 16:20:42 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <stdio.h>
 
-int	ft_check_quotes(char *str)
-{
-	int	count;
-	int	quote_double;
-	int	quote_single;
+// int	ft_check_quotes(char *str)
+// {
+// 	int	count;
+// 	int	quote_double;
+// 	int	quote_single;
 
-	count = -1;
-	quote_double = 0;
-	quote_single = 0;
-	while (str[++count] != '\0')
-	{
-		if (str[count] == 34)
-			quote_double++;
-		else if (str[count] == 39)
-			quote_single++;
-	}
-	if (quote_double % 2 == 0 && quote_single % 2 == 0)
-		return (0);
-	return (0);
-}
+// 	count = -1;
+// 	quote_double = 0;
+// 	quote_single = 0;
+// 	while (str[++count] != '\0')
+// 	{
+// 		if (str[count] == 34)
+// 			quote_double++;
+// 		else if (str[count] == 39)
+// 			quote_single++;
+// 	}
+// 	if (quote_double % 2 == 0 && quote_single % 2 == 0)
+// 		return (0);
+// 	return (1);
+// }
 
 t_lexer	ft_init_lexer(char *str)
 {
@@ -71,8 +71,8 @@ t_lexer	ft_lexer(char *str)
 	t_lexer	lexer;
 
 	lexer = (t_lexer){};
-	if (ft_check_quotes(str))
-		return (lexer);
+	// if (ft_check_quotes(str))
+	// 	return (lexer);
 	lexer = ft_init_lexer(str);
 	ft_find_token(&lexer);
 	return (lexer);
