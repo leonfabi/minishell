@@ -36,7 +36,7 @@ SRC_SIGNALS := signal_handler.c
 OBJS_SIGNALS := $(addprefix $(OBJ_DIR)/, $(SRC_SIGNALS:%.c=%.o))
 
 # Source files for lexer
-SRC_LEXER := lexer.c lexer_token.c lexer_token_2.c double_list.c
+SRC_LEXER := lexer.c lexer_token.c lexer_token_2.c double_list.c error_mgmt.c
 OBJS_LEXER := $(addprefix $(OBJ_DIR)/, $(SRC_LEXER:%.c=%.o))
 
 ####################################################################

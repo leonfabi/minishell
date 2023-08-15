@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 12:25:38 by fkrug             #+#    #+#             */
-/*   Updated: 2023/08/14 16:19:44 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/08/15 14:52:37 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ t_dlist	*ft_dlstnew(void *content);
 int		ft_dlstadd_back(t_dlist **lst, t_dlist *new);
 int		ft_is_section(char c);
 void	ft_skip_whitespace(t_lexer *lexer);
+void	error_msg(char *str);
 
 t_lexer	ft_lexer(char *str);
 t_token	*ft_create_token(t_type type, t_lexer *lexer);

@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 16:11:18 by fkrug             #+#    #+#             */
-/*   Updated: 2023/08/15 14:45:10 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/08/15 14:57:18 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ t_lexer	ft_lexer(char *str)
 	if (ft_check_quotes(str))
 		return (lexer);
 	lexer = ft_init_lexer(str);
-	if (ft_find_token(&lexer) == FALSE)
-		printf("INVALID:syntax");
+	ft_find_token(&lexer);
 	return (lexer);
 }
