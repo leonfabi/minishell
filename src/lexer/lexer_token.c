@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 09:19:47 by fkrug             #+#    #+#             */
-/*   Updated: 2023/08/14 18:10:43 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/08/15 14:43:23 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,10 @@ int	ft_quoted_token(t_lexer *lexer)
 	// while (ft_is_section(*lexer->counter) == FALSE)
 	// 	lexer->counter++;
 	lexer->counter++;
-	while (*lexer->counter != quote)
+	while (*lexer->counter != quote && *lexer->counter != '\0')
 		lexer->counter++;
+	if (*lexer->counter == '\0')
+		return (FALSE);
 	if (quote == 34)
 	{
 		if (ft_make_append_token(lexer, TOKEN_DQUOTE) == FALSE)

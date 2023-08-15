@@ -19,9 +19,9 @@ OBJ_DIR := ./_obj
 # define compiler and linker flags
 CFLAGS_TEST := -Wall -Wextra -Werror -g
 CFLAGS := $(CFLAGS_TEST) -MMD -MP
-TEST_FLAG := -Wno-error=unused-command-line-argument
-LDFLAGS := -L $(LIBFT_DIR) -lft -lcriterion -lreadline
-
+#TEST_FLAG := -Wno-error=unused-command-line-argument
+LDFLAGS := -L $(LIBFT_DIR) -lft -lreadline
+#  -lcriterion
 # define a variable to run the tests
 define run
 	$(CC) $(CFLAGS_TEST) $^ $(INC_DIRS) $(LDFLAGS) -o $@ && ./$@ --verbose
