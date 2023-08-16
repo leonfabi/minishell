@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 15:39:10 by fkrug             #+#    #+#             */
-/*   Updated: 2023/08/16 17:43:34 by makurz           ###   ########.fr       */
+/*   Updated: 2023/08/16 19:09:55 by makurz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <stdlib.h>
 #include <criterion/criterion.h>
 #include <criterion/new/assert.h>
+
 void	ft_print_token_list(t_lexer *lexer);
 
 char* types[] = {
@@ -46,7 +47,7 @@ void	get_values(t_lexer lexer, t_type *type, int *len, char value[20])
 {
 	*type = ((t_token *)lexer.token_list->content)->type;
 	*len = ((t_token *)lexer.token_list->content)->value_length;
-	strcpy(value, ((t_token *)lexer.token_list->content)->value);
+	strncpy(value, ((t_token *)lexer.token_list->content)->value, *len);
 }
 
 // Test for single char tokens
@@ -61,6 +62,22 @@ Test(single_char, greater)
 	get_values(lexer, &type, &len, value);
 	cr_assert(eq(str, value, ">"));
 	cr_assert(eq(str, "TOKEN_GREATER", types[type]));
+	cr_assert(eq(int, 1, len));
+}
+
+Test(random, random)
+{
+
+	int			len;
+	char		value[20];
+	t_lexer		lexer;
+	t_type		type;
+
+	lexer = ft_lexer("echo \"Hello World\" | < < ls -a >");
+	n_token(&lexer, 4);
+	get_values(lexer, &type, &len, value);
+	cr_assert(eq(str, value, "<"));
+	cr_assert(eq(str, "TOKEN_LESS", types[type]));
 	cr_assert(eq(int, 1, len));
 }
 
