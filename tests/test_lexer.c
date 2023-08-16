@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 15:39:10 by fkrug             #+#    #+#             */
-/*   Updated: 2023/08/16 16:28:55 by makurz           ###   ########.fr       */
+/*   Updated: 2023/08/16 17:43:34 by makurz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <stdlib.h>
 #include <criterion/criterion.h>
 #include <criterion/new/assert.h>
+void	ft_print_token_list(t_lexer *lexer);
 
 char* types[] = {
 	"TOKEN_WORD",
@@ -57,6 +58,21 @@ Test(single_char, greater)
 	t_type		type;
 
 	lexer = ft_lexer(">");
+	get_values(lexer, &type, &len, value);
+	cr_assert(eq(str, value, ">"));
+	cr_assert(eq(str, "TOKEN_GREATER", types[type]));
+	cr_assert(eq(int, 1, len));
+}
+
+Test(single_char, greater_as_8)
+{
+	int			len;
+	char		value[20];
+	t_lexer		lexer;
+	t_type		type;
+
+	lexer = ft_lexer("echo \"Hello World\" | < < ls -a >");
+	n_token(&lexer, 8);
 	get_values(lexer, &type, &len, value);
 	cr_assert(eq(str, value, ">"));
 	cr_assert(eq(str, "TOKEN_GREATER", types[type]));
@@ -114,7 +130,7 @@ Test(single_char, pipe_as_second)
 	t_type		type;
 
 	lexer = ft_lexer("this |");
-	lexer.token_list = lexer.token_list->next;
+	n_token(&lexer, 2);
 	get_values(lexer, &type, &len, value);
 	cr_assert(eq(str, value, "|"));
 	cr_assert(eq(str, "TOKEN_PIPE", types[type]));
@@ -165,9 +181,23 @@ Test(double_char, dless)
 	cr_assert(eq(int, 2, len));
 }
 
+Test(double_char, dless_as_third)
+{
+	int			len;
+	char		value[20];
+	t_lexer		lexer;
+	t_type		type;
+
+	lexer = ft_lexer("test -l <<");
+	n_token(&lexer, 3);
+	get_values(lexer, &type, &len, value);
+	cr_assert(eq(str, value, "<<"));
+	cr_assert(eq(str, "TOKEN_DLESS", types[type]));
+	cr_assert(eq(int, 2, len));
+}
 
 // Test for multiple char tokens
-Test(single_char, quote)
+Test(multi_char, quote)
 {
 	int			len;
 	char		value[20];
@@ -181,7 +211,7 @@ Test(single_char, quote)
 	cr_assert(eq(int, 6, len));
 }
 
-Test(single_char, dquote)
+Test(multi_char, dquote)
 {
 	int			len;
 	char		value[20];
@@ -195,40 +225,55 @@ Test(single_char, dquote)
 	cr_assert(eq(int, 9, len));
 }
 
+Test(multi_char, word)
+{
+	int			len;
+	char		value[20];
+	char		test[] = "hallo";
+	t_lexer		lexer;
+	t_type		type;
 
-// Test(single_char, newline)
-// {
-// 	int			len;
-// 	char		value[20];
-// 	t_lexer		lexer;
-// 	t_type		type;
-// 
-// 	lexer = ft_lexer("\n");
-// 	get_values(lexer, &type, &len, value);
-// 	cr_assert(eq(str, value, "\n"));
-// 	cr_assert(eq(str, "TOKEN_NEWLINE", types[type]));
-// 	cr_assert(eq(int, 1, len));
-// }
-// void	ft_print_token_list(t_lexer *lexer)
-// {
-// 	int		len;
-// 	int		count;
-// 	t_type	type;
-// 
-// 	len = 0;
-// 	while(lexer->token_list != NULL)
-// 	{
-// 		count = 0;
-// 		type = ((t_token *)lexer->token_list->content)->type;
-// 		len = ((t_token *)lexer->token_list->content)->value_length;
-// 		printf("TOKEN: %s\t", types[type]);
-// 		while (len > count)
-// 		{
-// 			printf("%c", ((t_token *)lexer->token_list->content)->value[count]);
-// 			count++;
-// 		}
-// 		printf("\n-----------------------\n");
-// 		lexer->token_list = lexer->token_list->next;
-// 	}
-// }
+	lexer = ft_lexer(test);
+	get_values(lexer, &type, &len, value);
+	cr_assert(eq(str, value, "hallo"));
+	cr_assert(eq(str, "TOKEN_WORD", types[type]));
+	cr_assert(eq(int, 5, len));
+}
 
+Test(multi_char, dquote_second)
+{
+	int			len;
+	char		value[20];
+	t_lexer		lexer;
+	t_type		type;
+
+	lexer = ft_lexer("\"dquotes\" \"hello\"");
+	n_token(&lexer, 2);
+	get_values(lexer, &type, &len, value);
+	cr_assert(eq(str, value, "\"hello\""));
+	cr_assert(eq(str, "TOKEN_DQUOTE", types[type]));
+	cr_assert(eq(int, 7, len));
+}
+
+void	ft_print_token_list(t_lexer *lexer)
+{
+	int		len;
+	int		count;
+	t_type	type;
+
+	len = 0;
+	while(lexer->token_list != NULL)
+	{
+		count = 0;
+		type = ((t_token *)lexer->token_list->content)->type;
+		len = ((t_token *)lexer->token_list->content)->value_length;
+		printf("TOKEN: %s\t", types[type]);
+		while (len > count)
+		{
+			printf("%c", ((t_token *)lexer->token_list->content)->value[count]);
+			count++;
+		}
+		printf("\n-----------------------\n");
+		lexer->token_list = lexer->token_list->next;
+	}
+}
