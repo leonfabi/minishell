@@ -20,13 +20,14 @@ OBJ_DIR := ./_obj
 CFLAGS_TEST := -Wall -Wextra -Werror -g
 CFLAGS := $(CFLAGS_TEST) -MMD -MP
 #TEST_FLAG := -Wno-error=unused-command-line-argument
-LDFLAGS := -L $(LIBFT_DIR) -lft -lreadline
+LDFLAGS := -L $(LIBFT_DIR) -lft -lreadline -lcriterion
 #  -lcriterion
 # define a variable to run the tests
 define run
-	$(CC) $(CFLAGS_TEST) $^ $(INC_DIRS) $(LDFLAGS) -o $@ && ./$@ --verbose
+	$(CC) $^ $(INC_DIRS) $(LDFLAGS) -o $@ && ./$@ --verbose
 endef
 
+# $(CC) $(CFLAGS_TEST) $^ $(INC_DIRS) $(LDFLAGS) -o $@ && ./$@ --verbose
 ####################################################################
 #>>>>>>>>>>>>>>>>>>>>>>>> Individual Setup <<<<<<<<<<<<<<<<<<<<<<<<#
 ####################################################################
@@ -57,7 +58,8 @@ signals: $(OBJS_SIGNALS) test_signals.c
 
 $(OBJ_DIR)/%.o: %.c
 	mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) $(TEST_FLAG) -c $< $(INC_DIRS) $(LDFLAGS) -o $@
+	$(CC) -c $< $(INC_DIRS) $(LDFLAGS) -o $@
+# (CC) $(CFLAGS) $(TEST_FLAG) -c $< $(INC_DIRS) $(LDFLAGS) -o $@
 
 clean:
 	@$(RM) -r $(OBJ_DIR)
