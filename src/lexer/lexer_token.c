@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 09:19:47 by fkrug             #+#    #+#             */
-/*   Updated: 2023/08/15 14:54:13 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/08/16 15:43:48 by makurz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ int	ft_find_token(t_lexer *lexer)
 
 	while (*lexer->counter != '\0')
 	{
-		printf("CURR CHAR: %c\n", *lexer->counter);
 		if (*lexer->counter == 34 || *lexer->counter == 39)
 		{
 			if (ft_quoted_token(lexer) == FALSE)
