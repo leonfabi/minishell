@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 12:25:38 by fkrug             #+#    #+#             */
-/*   Updated: 2023/08/15 14:52:37 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/08/17 10:04:19 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,6 @@ void	error_msg(char *str);
 t_lexer	ft_lexer(char *str);
 t_token	*ft_create_token(t_type type, t_lexer *lexer);
 int		ft_find_token(t_lexer *lexer);
+int		ft_make_append_token(t_lexer *lexer, t_type type);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 17:00:50 by fkrug             #+#    #+#             */
-/*   Updated: 2023/08/14 11:48:10 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/08/17 10:00:41 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ int	ft_dlstadd_back(t_dlist **lst, t_dlist *new)
 
 	if (new == NULL)
 		return (FALSE);
-	// if (lst == NULL)
-	// 	return ; //something
 	counter = ft_dlstlast(*lst);
 	if (counter == NULL)
 		return (*lst = new, TRUE);
