@@ -6,12 +6,15 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 12:25:38 by fkrug             #+#    #+#             */
-/*   Updated: 2023/08/17 10:04:19 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/08/17 11:30:51 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
+
+# include <string.h>
+# include <stdio.h>
 
 typedef struct s_dlist	t_dlist;
 
@@ -49,6 +52,7 @@ typedef struct s_lexer
 	char	*start;
 	char	*counter;
 	t_dlist	*token_list;
+	int		error_code;
 }	t_lexer;
 
 // UTILS
@@ -56,7 +60,8 @@ t_dlist	*ft_dlstnew(void *content);
 int		ft_dlstadd_back(t_dlist **lst, t_dlist *new);
 int		ft_is_section(char c);
 void	ft_skip_whitespace(t_lexer *lexer);
-void	error_msg(char *str);
+void	error_msg(t_lexer *lexer, char *str);
+void	ft_dlstclear(t_dlist **lst, void (*del)(void *));
 
 t_lexer	ft_lexer(char *str);
 t_token	*ft_create_token(t_type type, t_lexer *lexer);

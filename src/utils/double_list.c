@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 17:00:50 by fkrug             #+#    #+#             */
-/*   Updated: 2023/08/17 10:00:41 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/08/17 11:31:13 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ t_dlist	*ft_dlstnew(void *content)
 
 	start = (t_dlist *)malloc(sizeof(t_dlist));
 	if (start == NULL)
-		return (NULL);
+		return (error_msg(NULL, \
+		"Creating node Memory allocation failed"), NULL);
 	start->content = content;
 	start->next = NULL;
 	start->prev = NULL;
@@ -46,4 +47,24 @@ int	ft_dlstadd_back(t_dlist **lst, t_dlist *new)
 	counter->next = new;
 	new->prev = counter;
 	return (TRUE);
+}
+
+void	ft_dlstclear(t_dlist **lst, void (*del)(void *))
+{
+	t_dlist	*tmp;
+	t_dlist	*tmp_free;
+
+	tmp = NULL;
+	tmp_free = NULL;
+	if (lst == NULL)
+		return ;
+	tmp = *lst;
+	while (tmp != NULL)
+	{
+		(*del)(tmp->content);
+		tmp_free = tmp;
+		tmp = tmp->next;
+		free(tmp_free);
+	}
+	*lst = NULL;
 }

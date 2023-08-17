@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 14:35:01 by fkrug             #+#    #+#             */
-/*   Updated: 2023/08/17 10:05:28 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/08/17 10:44:27 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ int	ft_make_append_token(t_lexer *lexer, t_type type)
 
 	token = ft_create_token(type, lexer);
 	if (token == NULL)
-		return (FALSE);
+		return (error_msg("Creating token failed"), FALSE);
 	if (ft_dlstadd_back(&lexer->token_list, ft_dlstnew(token)) == FALSE)
-		return (FALSE);
+		return (error_msg("Appending token failed"), FALSE);
 	if (type == TOKEN_EOF || type == TOKEN_WORD)
 		return (lexer->start = lexer->counter, TRUE);
 	lexer->counter++;

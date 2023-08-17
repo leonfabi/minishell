@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 09:19:47 by fkrug             #+#    #+#             */
-/*   Updated: 2023/08/17 10:07:43 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/08/17 11:15:01 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ int	ft_quoted_token(t_lexer *lexer)
 	while (*lexer->counter != quote && *lexer->counter != '\0')
 		lexer->counter++;
 	if (*lexer->counter == '\0')
-		return (error_msg("Quotes format error"), FALSE);
+		return (error_msg(lexer, "Quotes format error"), FALSE);
 	if (quote == 34)
 	{
 		if (ft_make_append_token(lexer, TOKEN_DQUOTE) == FALSE)
-			return (FALSE);
+			return (error_msg(lexer, "DQUOTEtoken failed"), FALSE);
 	}
 	else if (ft_make_append_token(lexer, TOKEN_QUOTE) == FALSE)
-		return (FALSE);
+		return (error_msg(lexer, "QUOTE token failed"), FALSE);
 	return (TRUE);
 }
 
@@ -42,10 +42,10 @@ int	ft_redirect_token(t_lexer *lexer)
 		{
 			lexer->counter++;
 			if (ft_make_append_token(lexer, TOKEN_DLESS) == FALSE)
-				return (FALSE);
+				return (error_msg(lexer, "DLESS token failed"), FALSE);
 		}
 		else if (ft_make_append_token(lexer, TOKEN_LESS) == FALSE)
-			return (FALSE);
+			return (error_msg(lexer, "LESS token failed"), FALSE);
 	}
 	else if (*lexer->counter == '>')
 	{
@@ -53,10 +53,10 @@ int	ft_redirect_token(t_lexer *lexer)
 		{
 			lexer->counter++;
 			if (ft_make_append_token(lexer, TOKEN_DGREATER) == FALSE)
-				return (FALSE);
+				return (error_msg(lexer, "DGREATER token failed"), FALSE);
 		}
 		else if (ft_make_append_token(lexer, TOKEN_GREATER) == FALSE)
-			return (FALSE);
+			return (error_msg(lexer, "GREATER token failed"), FALSE);
 	}
 	return (TRUE);
 }
@@ -67,7 +67,7 @@ int	ft_word_token(t_lexer *lexer)
 	ft_isspace(*lexer->counter) == FALSE)
 		lexer->counter++;
 	if (ft_make_append_token(lexer, TOKEN_WORD) == FALSE)
-		return (FALSE);
+		return (error_msg(lexer, "WORD token failed"), FALSE);
 	return (TRUE);
 }
 
@@ -91,7 +91,7 @@ int	ft_identify_token(t_lexer *lexer)
 		else if (*lexer->counter == '|')
 		{
 			if (ft_make_append_token(lexer, TOKEN_PIPE) == FALSE)
-				return (FALSE);
+				return (error_msg(lexer, "PIPE token failed"), FALSE);
 		}
 		else if (ft_word_token(lexer) == FALSE)
 			return (FALSE);
@@ -105,6 +105,6 @@ int	ft_find_token(t_lexer *lexer)
 		return (FALSE);
 	if (*lexer->counter == '\0' && \
 	ft_make_append_token(lexer, TOKEN_EOF) == FALSE)
-		return (FALSE);
+		return (error_msg(lexer, "EOF token failed"), FALSE);
 	return (TRUE);
 }

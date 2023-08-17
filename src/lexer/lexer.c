@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 16:11:18 by fkrug             #+#    #+#             */
-/*   Updated: 2023/08/17 10:00:59 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/08/17 10:59:14 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ t_lexer	ft_init_lexer(char *str)
 	lexer = (t_lexer){
 		.start = str,
 		.counter = str,
-		.token_list = NULL
+		.token_list = NULL,
+		.error_code = 0
 	};
 	return (lexer);
 }
@@ -52,7 +53,7 @@ t_token	*ft_create_token(t_type type, t_lexer *lexer)
 
 	token = (t_token *)malloc(sizeof(t_token));
 	if (token == NULL)
-		return (NULL);
+		return (error_msg("Creating token: Memory allocation failed"), NULL);
 	token->type = type;
 	token->value = lexer->start;
 	if (type == TOKEN_WORD || type == TOKEN_EOF)
@@ -72,6 +73,7 @@ t_lexer	ft_lexer(char *str)
 
 	lexer = (t_lexer){};
 	lexer = ft_init_lexer(str);
-	ft_find_token(&lexer);
+	if (ft_find_token(&lexer) == FALSE)
+		return (lexer.error_code--, lexer);
 	return (lexer);
 }
