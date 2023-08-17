@@ -11,21 +11,20 @@ LOG := printf "[$(M)INFO$(RST)] %s\n"
 TESTS := signals lexer
 
 # define include dirs and search paths
-# LIBFT_DIR := ../libft/lib
-INC_DIR := ../include
-VPATH := ../src ../src/lexer ../src/signals
-vpath %.h $(INC_DIR)
+LIBFT_DIR := ../libft/lib
+INC_DIRS := -I../include -I../libft/header
+VPATH := ../src ../src/lexer ../src/signals ../src/utils
 OBJ_DIR := ./_obj
 
 # define compiler and linker flags
-CFLAGS_TEST := -Wall -Wextra -Werror -g -I $(INC_DIR)
+CFLAGS_TEST := -Wall -Wextra -Werror -g
 CFLAGS := $(CFLAGS_TEST) -MMD -MP
-# LDFLAGS := -L $(LIBFT_DIR) -lft -lcriterion -lreadline
-LDFLAGS := -lcriterion -lreadline
-
+#TEST_FLAG := -Wno-error=unused-command-line-argument
+LDFLAGS := -L $(LIBFT_DIR) -lft -lreadline
+#  -lcriterion
 # define a variable to run the tests
 define run
-	$(CC) $(CFLAGS_TEST) $^ $(LDFLAGS) -o $@ && ./$@ --verbose
+	$(CC) $(CFLAGS_TEST) $^ $(INC_DIRS) $(LDFLAGS) -o $@ && ./$@ --verbose
 endef
 
 ####################################################################
@@ -37,7 +36,7 @@ SRC_SIGNALS := signal_handler.c
 OBJS_SIGNALS := $(addprefix $(OBJ_DIR)/, $(SRC_SIGNALS:%.c=%.o))
 
 # Source files for lexer
-SRC_LEXER :=
+SRC_LEXER := lexer.c lexer_token.c lexer_token_2.c double_list.c error_mgmt.c
 OBJS_LEXER := $(addprefix $(OBJ_DIR)/, $(SRC_LEXER:%.c=%.o))
 
 ####################################################################
@@ -46,8 +45,9 @@ OBJS_LEXER := $(addprefix $(OBJ_DIR)/, $(SRC_LEXER:%.c=%.o))
 
 all: $(TESTS)
 
+# Test cases for the lexer
 .PHONY: lexer
-lexer: $(OBJS) test_lexer.c
+lexer: $(OBJS_LEXER) test_lexer.c
 	@$(call run, "$^")
 
 # Testing the signal handler for SIGINT and SIGQUIT
@@ -57,7 +57,7 @@ signals: $(OBJS_SIGNALS) test_signals.c
 
 $(OBJ_DIR)/%.o: %.c
 	mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) -I $(INC_DIR) -c $< $(LDFLAGS) -o $@
+	$(CC) $(CFLAGS) $(TEST_FLAG) -c $< $(INC_DIRS) $(LDFLAGS) -o $@
 
 clean:
 	@$(RM) -r $(OBJ_DIR)

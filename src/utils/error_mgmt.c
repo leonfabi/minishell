@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   error_mgmt.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/14 09:31:46 by fkrug             #+#    #+#             */
-/*   Updated: 2023/08/14 12:06:53 by fkrug            ###   ########.fr       */
+/*   Created: 2023/08/15 14:49:02 by fkrug             #+#    #+#             */
+/*   Updated: 2023/08/17 11:28:50 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "minishell.h"
 
-# include "libft.h"
-# include "signal_handler.h"
-# include "lexer.h"
+void	error_handler(t_lexer *lexer)
+{
+	if (lexer == NULL)
+		return ;
+	ft_dlstclear(&(lexer->token_list), &free);
+}
 
-# define TRUE 1
-# define FALSE 0
-
-#endif
+void	error_msg(t_lexer *lexer, char *str)
+{
+	printf("Error: %s\n", str);
+	error_handler(lexer);
+}

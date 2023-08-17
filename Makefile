@@ -2,19 +2,31 @@ NAME := minishell
 TEST := test
 .DEFAULT_GOAL := all
 
-VPATH := src src/lexer src/signal
+VPATH := src src/lexer src/signal tests
 
 CFLAGS ?= -Wextra -Wall -Werror -MMD -MP
-LIBFT_DIR = libft
-LIBFT = $(LIBFT_DIR)/libft.a
+LIBFT_DIR = ./libft
+LIBFT = $(LIBFT_DIR)/lib/libft.a
 HEADERS	:= -I ./include -I $(LIBFT_DIR)/header
 LIBS	:= $(LIBFT)
-SRCS_LEXER	:= lexer.c
-SRCS	:= $(SRCS_LEXER)
+SRCS_LEXER	:= lexer.c lexer_token.c lexer_token_2.c
+SRCS_LEXER	:= $(addprefix lexer/, $(SRCS_LEXER))
+SRCS_UTIL	:= double_list.c error_mgmt.c
+SRCS_UTIL	:= $(addprefix utils/, $(SRCS_UTIL))
+SRCS_DIR	:= ./src
+SRCS	:= $(addprefix $(SRCS_DIR)/, $(SRCS_LEXER)) $(addprefix $(SRCS_DIR)/, $(SRCS_UTIL))
 OBJ_DIR := ./_obj
+OBJ_LEXER := $(addprefix $(OBJ_DIR)/, $(SRCS_LEXER=%.c=%.o))
 OBJS	:= $(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
 
-all: $(NAME) $(LIBFT)
+all: $(LIBFT) $(NAME)
+
+$(TEST): $(OBJ_LEXER)
+	cc ./tests/test_lexer.c $(SRCS) -lreadline $(HEADERS) -L ./libft/lib -lft -o ./tests/test_lexer
+	./tests/test_lexer
+
+$(NAME): $(OBJ_LEXER)
+	cc $(SRCS) $(HEADERS) -L ./libft/lib -lft -lreadline -o $(NAME)
 
 $(LIBFT):
 	@make -C $(LIBFT_DIR) -B
@@ -50,3 +62,5 @@ C := "\033[36m"
 X := "\033[0m"
 
 -include $(OBJS:%.o=%.d)
+
+.PHONY: test
