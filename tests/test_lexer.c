@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 15:39:10 by fkrug             #+#    #+#             */
-/*   Updated: 2023/08/16 19:09:55 by makurz           ###   ########.fr       */
+/*   Updated: 2023/08/18 16:54:59 by makurz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,7 +264,7 @@ Test(multi_char, dquote_second)
 	t_lexer		lexer;
 	t_type		type;
 
-	lexer = ft_lexer("\"dquotes\" \"hello\"");
+	lexer = ft_lexer("\"dquotes\" \"hello\" echo << |");
 	n_token(&lexer, 2);
 	get_values(lexer, &type, &len, value);
 	cr_assert(eq(str, value, "\"hello\""));
