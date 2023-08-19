@@ -12,6 +12,7 @@ TESTS := signals lexer
 
 # define include dirs and search paths
 LIBFT_DIR := ../libft/lib
+LIBFT := $(LIBFT_DIR)/libft.a
 INC_DIRS := -I../include -I../libft/header
 VPATH := ../src ../src/lexer ../src/signals ../src/utils
 OBJ_DIR := ./_obj
@@ -46,6 +47,9 @@ OBJS_LEXER := $(addprefix $(OBJ_DIR)/, $(SRC_LEXER:%.c=%.o))
 
 all: $(TESTS)
 
+$(LIBFT):
+	make -C ../libft -B
+
 # Test cases for the lexer
 .PHONY: lexer
 lexer: $(OBJS_LEXER) test_lexer.c
@@ -53,7 +57,7 @@ lexer: $(OBJS_LEXER) test_lexer.c
 
 # Testing the signal handler for SIGINT and SIGQUIT
 .PHONY: signals
-signals: $(OBJS_SIGNALS) test_signals.c
+signals: $(LIBFT) $(OBJS_SIGNALS) test_signals.c
 	@$(call run, "$^")
 
 $(OBJ_DIR)/%.o: %.c
