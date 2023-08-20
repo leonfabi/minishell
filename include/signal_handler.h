@@ -6,7 +6,7 @@
 /*   By: makurz <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 12:21:26 by makurz            #+#    #+#             */
-/*   Updated: 2023/08/10 16:32:54 by makurz           ###   ########.fr       */
+/*   Updated: 2023/08/20 17:35:09 by makurz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 typedef struct sigaction	t_signal;
 typedef struct termios		t_termios;
 typedef void				t_handler(int);
-
 
 /*
  ** Main function for handling signals in minishell.
