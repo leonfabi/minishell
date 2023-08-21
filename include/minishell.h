@@ -3,6 +3,7 @@
 
 # include <limits.h>
 # include "defines.h"
+# include "environment.h"
 # include "libft.h"
 # include "signal_handler.h"
 # include "lexer.h"
@@ -10,7 +11,7 @@
 typedef struct s_main
 {
 	char		*user;
-	t_env		env;
+	t_env		*env;
 	t_path		bin_path;
 	t_bool		no_environment;
 	t_lexer		lexer;

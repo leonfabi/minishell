@@ -6,6 +6,5 @@
 
 typedef char**	t_path;
 typedef int		t_bool;
-typedef char**	t_env;
 
 #endif
