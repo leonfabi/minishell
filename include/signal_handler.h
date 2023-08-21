@@ -1,18 +1,7 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   signal_handler.h                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: makurz <marvin@42.fr>                      +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/09 12:21:26 by makurz            #+#    #+#             */
-/*   Updated: 2023/08/10 16:32:54 by makurz           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef SIGNAL_HANDLER_H
 # define SIGNAL_HANDLER_H
 
+# include "defines.h"
 # include <signal.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -24,7 +13,6 @@
 typedef struct sigaction	t_signal;
 typedef struct termios		t_termios;
 typedef void				t_handler(int);
-
 
 /*
  ** Main function for handling signals in minishell.
@@ -41,8 +29,10 @@ int		user_signal_listener(t_termios *xterm);
  */
 void	cleanup_control_character(t_termios *xterm);
 
+/*
+ ** Function for handling the SIGINT signal
+ ** It is provoked by pressing the following keys: ctrl+c
+*/
 void	termination_handler(int signum);
-
-void	handle_quit_signal(void);
 
 #endif // !SIGNALS_H
