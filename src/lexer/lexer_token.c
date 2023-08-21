@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
+/*   By: makurz <makurz@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 09:19:47 by fkrug             #+#    #+#             */
-/*   Updated: 2023/08/17 11:15:01 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/08/19 17:32:28 by makurz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ int	ft_identify_token(t_lexer *lexer)
 {
 	while (*lexer->counter != '\0')
 	{
-		printf("CURR CHAR: %c\n", *lexer->counter);
 		if (*lexer->counter == 34 || *lexer->counter == 39)
 		{
 			if (ft_quoted_token(lexer) == FALSE)
