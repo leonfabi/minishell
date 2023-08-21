@@ -1,24 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/14 09:31:46 by fkrug             #+#    #+#             */
-/*   Updated: 2023/08/21 12:20:38 by fkrug            ###   ########.fr       */
+/*   Created: 2023/08/21 12:09:29 by fkrug             #+#    #+#             */
+/*   Updated: 2023/08/21 13:18:29 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "minishell.h"
 
-# include "libft.h"
-# include "signal_handler.h"
-# include "lexer.h"
-# include "builtins.h"
+int	echo(char **arg)
+{
+	int	count;
+	int	new_line;
+	int	print;
 
-# define TRUE 1
-# define FALSE 0
-
-#endif
+	count = 0;
+	print = 0;
+	new_line = 1;
+	if (arg[0] == NULL)
+		return (printf("\n"), TRUE);
+	if (!ft_strcmp(arg[0],"-n"))
+	{
+		new_line = 0;
+		count++;
+	}
+	while (arg[count])
+	{
+		if (print)
+			printf(" ");
+		printf("%s", arg[count]);
+		print++;
+		count++;
+	}
+	if (new_line)
+		printf("\n");
+	return (TRUE);
+}
