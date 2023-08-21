@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 13:23:01 by fkrug             #+#    #+#             */
-/*   Updated: 2023/08/21 13:36:04 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/08/21 15:34:25 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 int	pwd(char **args)
 {
-	char	buffer[1024];
+	char	buffer[PATH_MAX];
 
 	if (args != NULL && args[0] != NULL)
 		return (printf("pwd: too many arguments\n"), FALSE);
-	if (getcwd(buffer, (size_t)1024) == NULL)
+	if (getcwd(buffer, PATH_MAX) == NULL)
 		return (FALSE);
 	printf("%s\n", buffer);
 	return (TRUE);

@@ -6,13 +6,15 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 13:45:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/08/21 13:58:12 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/08/21 15:38:35 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	exit(void)
+int	exit(char **args)
 {
+	if (ft_strcmp(str, "exit"))
 	// Send SIGINT signal
 }
+
