@@ -1,21 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test_builtin.c                                     :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/21 12:58:10 by fkrug             #+#    #+#             */
-/*   Updated: 2023/08/21 13:36:49 by fkrug            ###   ########.fr       */
+/*   Created: 2023/08/21 13:45:56 by fkrug             #+#    #+#             */
+/*   Updated: 2023/08/21 13:58:12 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(void)
+int	exit(void)
 {
-	char	*test[] = {"hallo", "Test", NULL};
-	echo(test);
-	pwd(NULL);
-	return (0);
+	// Send SIGINT signal
 }

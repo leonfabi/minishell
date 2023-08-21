@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:19:00 by fkrug             #+#    #+#             */
-/*   Updated: 2023/08/21 13:01:51 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/08/21 13:25:43 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,6 @@
 # define BUILTINS_H
 
 int	echo(char **arg);
+int	pwd(char **args);
 
 #endif
