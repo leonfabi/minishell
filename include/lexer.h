@@ -1,18 +1,7 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   lexer.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/09 12:25:38 by fkrug             #+#    #+#             */
-/*   Updated: 2023/08/19 17:52:30 by makurz           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef LEXER_H
 # define LEXER_H
 
+# include "defines.h"
 # include <string.h>
 # include <stdio.h>
 
@@ -56,16 +45,16 @@ typedef struct s_lexer
 }	t_lexer;
 
 // UTILS
-t_dlist	*ft_dlstnew(void *content);
-int		ft_dlstadd_back(t_dlist **lst, t_dlist *new);
-int		ft_is_section(char c);
-void	ft_skip_whitespace(t_lexer *lexer);
-void	error_msg(t_lexer *lexer, char *str);
-void	ft_dlstclear(t_dlist **lst, void (*del)(void *));
+t_dlist		*ft_dlstnew(void *content);
+t_bool		ft_dlstadd_back(t_dlist **lst, t_dlist *new);
+t_bool		ft_is_section(char c);
+void		ft_skip_whitespace(t_lexer *lexer);
+void		error_msg(t_lexer *lexer, char *str);
+void		ft_dlstclear(t_dlist **lst, void (*del)(void *));
 
-t_lexer	ft_lexer(char *str);
-t_token	*ft_create_token(t_type type, t_lexer *lexer);
-int		ft_find_token(t_lexer *lexer);
-int		ft_make_append_token(t_lexer *lexer, t_type type);
+t_lexer		ft_lexer(char *str);
+t_token		*ft_create_token(t_type type, t_lexer *lexer);
+t_bool		ft_find_token(t_lexer *lexer);
+t_bool		ft_make_append_token(t_lexer *lexer, t_type type);
 
 #endif
