@@ -1,8 +1,9 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "../../libft/header/libft.h"
+# include <limits.h>
 # include "defines.h"
+# include "libft.h"
 # include "signal_handler.h"
 # include "lexer.h"
 
