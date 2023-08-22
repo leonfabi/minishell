@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 13:45:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/08/21 15:38:35 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/08/21 15:59:23 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,12 @@
 
 int	exit(char **args)
 {
-	if (ft_strcmp(str, "exit"))
+	cmd = exit;
+
+	cmd == "exit" => TRUE
+	=> exit routine (free all, cleanup + exit);
+
+	exit(0);
+
 	// Send SIGINT signal
 }
-

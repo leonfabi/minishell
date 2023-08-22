@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 09:31:46 by fkrug             #+#    #+#             */
-/*   Updated: 2023/08/21 15:41:07 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/08/21 15:44:17 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "../../libft/header/libft.h"
 # include "defines.h"
+# include "environment.h"
 # include "signal_handler.h"
 # include "lexer.h"
 # include "builtins.h"
