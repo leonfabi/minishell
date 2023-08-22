@@ -2,7 +2,8 @@
 
 t_bool	init_shell(t_main *main, t_path env)
 {
-	if (NULL != getenv("USER"))
+	set_exit_status(EXIT_SUCCESS);
+	if (NULL != env)
 	{
 		main->env = copy_env(env);
 		main->user = getenv("USER");
