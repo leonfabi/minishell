@@ -1,5 +1,17 @@
 #include "minishell.h"
 
+t_path	create_bin_paths(t_path env)
+{
+	t_path		bin_path;
+
+	while (NULL != *env && ft_strncmp(*env, "PATH=", 5))
+		++env;
+	bin_path = ft_split((*env) + 5, ':');
+	if (NULL == bin_path)
+		return (NULL);
+	return (bin_path);
+}
+
 t_bool	init_shell(t_main *main, t_path env)
 {
 	set_exit_status(EXIT_SUCCESS);
@@ -7,6 +19,7 @@ t_bool	init_shell(t_main *main, t_path env)
 	{
 		main->env = copy_env(env);
 		main->user = getenv("USER");
+		main->bin_path = create_bin_paths(env);
 	}
 	else
 		create_own_environment(main, env);
@@ -73,7 +86,6 @@ t_bool	create_own_environment(t_main *main, t_path env)
 	free(pwd);
 	return (TRUE);
 }
-
 // void	print_env(t_env *env)
 // {
 // 	t_env	*run;
@@ -87,19 +99,17 @@ t_bool	create_own_environment(t_main *main, t_path env)
 // 		run = run->next;
 // 	}
 // }
-
+// 
 // int	main(int argc, char *argv[], char *env[])
 // {
-// 	// t_main		main;
+// 	t_main		main;
 // 
-// 	char		*pwd;
-// 
-// 	pwd = NULL;
-// 	pwd = getcwd(pwd, 0);
-// 	printf("%s\n", pwd);
-// 	// main = (t_main){};
-// 	// init_shell(&main, env);
+// 	// pwd = NULL;
+// 	// pwd = getcwd(pwd, 0);
+// 	// printf("%s\n", pwd);
+// 	main = (t_main){};
+// 	init_shell(&main, env);
 // 	// print_env(main.env);
-// 	free(pwd);
+// 	ft_arrprint((const char **)main.bin_path);
 // 	return (EXIT_SUCCESS);
 // }

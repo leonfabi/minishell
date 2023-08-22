@@ -23,7 +23,7 @@ t_dlist	*ft_dlstnew(void *content)
 	return (start);
 }
 
-bool	ft_dlstadd_back(t_dlist **lst, t_dlist *new)
+t_bool	ft_dlstadd_back(t_dlist **lst, t_dlist *new)
 {
 	t_dlist	*counter;
 
