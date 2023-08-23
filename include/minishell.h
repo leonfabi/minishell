@@ -16,6 +16,9 @@ typedef struct s_main
 	t_bool		no_environment;
 	t_lexer		lexer;
 	t_termios	xterm;
+	int			stdin;
+	int			stdout;
+	int			stderr;
 }	t_main;
 
 #endif
