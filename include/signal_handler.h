@@ -10,6 +10,12 @@
 # include <readline/history.h>
 # include <termios.h>
 
+
+/*
+ `<summary>`:
+ Define structs to use a shorter version in the code
+ for more readability and structure.
+ */
 typedef struct sigaction	t_signal;
 typedef struct termios		t_termios;
 typedef void				t_handler(int);
