@@ -6,37 +6,42 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:09:29 by fkrug             #+#    #+#             */
-/*   Updated: 2023/08/21 15:26:50 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/08/25 22:23:30 by makurz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+inline int	print(int fd, char *str)
+{
+	return (write(fd, str, ft_strlen(str)));
+}
+
 int	echo(char **arg)
 {
-	int		count;
 	t_bool	new_line;
-	t_bool	print;
+	int		count;
+	t_bool	print_check;
 
 	count = 0;
-	print = FALSE;
+	print_check = FALSE;
 	new_line = TRUE;
 	if (arg[0] == NULL)
-		return (printf("\n"), TRUE);
-	if (ft_strcmp(arg[0],"-n") == 0)
+		return (print(STDOUT_FILENO, "\n"), TRUE);
+	if (ft_strcmp(arg[0], "-n") == 0)
 	{
 		new_line = FALSE;
 		count++;
 	}
 	while (arg[count] != NULL)
 	{
-		if (print == TRUE)
+		if (print_check == TRUE)
 			printf(" ");
-		printf("%s", arg[count]);
-		print = TRUE;
+		print(STDOUT_FILENO, arg[count]);
+		print_check = TRUE;
 		count++;
 	}
 	if (new_line == TRUE)
-		printf("\n");
+		print(STDOUT_FILENO, "\n");
 	return (TRUE);
 }

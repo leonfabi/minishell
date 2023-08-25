@@ -7,6 +7,7 @@
 # include "libft.h"
 # include "signal_handler.h"
 # include "lexer.h"
+# include "builtins.h"
 
 typedef struct s_main
 {

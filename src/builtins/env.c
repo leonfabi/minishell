@@ -10,6 +10,6 @@ int	env(t_env *env)
 		printf("%s=%s\n", env->name, env->value);
 		run = run->next;
 	}
-	set_exit_code(0);
-	return (TRUE)
+	set_exit_status(0);
+	return (TRUE);
 }

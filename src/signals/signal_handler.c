@@ -9,7 +9,7 @@ int	*get_exit_status(void)
 	return (&status);
 }
 
-void	set_exit_status(int status)
+inline void	set_exit_status(int status)
 {
 	int		*exit_status;
 

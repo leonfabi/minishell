@@ -36,4 +36,6 @@ void	cleanup_control_character(t_termios *xterm);
  */
 void	termination_handler(int signum);
 
+void	set_exit_status(int status);
+
 #endif // !SIGNALS_H
