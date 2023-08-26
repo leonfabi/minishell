@@ -13,6 +13,7 @@ int	main(int argc, char *argv[], char *envp[])
 	t_main		main;
 
 	main = (t_main){};
+	init_shell(&main, envp);
 	// while (TRUE)
 		// mainloop
 	return (EXIT_SUCCESS);

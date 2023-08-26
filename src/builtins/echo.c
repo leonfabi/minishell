@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	print(int fd, char *str)
+inline int	print(int fd, char *str)
 {
 	return (write(fd, str, ft_strlen(str)));
 }
