@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-inline int	print(int fd, char *str)
+int	print(int fd, char *str)
 {
 	return (write(fd, str, ft_strlen(str)));
 }
@@ -24,7 +24,7 @@ int	echo(char **arg)
 	while (arg[count] != NULL)
 	{
 		if (print_check == TRUE)
-			printf(" ");
+			print(STDOUT_FILENO, " ");
 		print(STDOUT_FILENO, arg[count]);
 		print_check = TRUE;
 		count++;

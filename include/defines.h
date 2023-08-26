@@ -17,6 +17,16 @@ typedef int				t_bool;
 /*
  `<summary>`:
  Predefine the main struct to use t_main in the struct definition.
+ '<struct member>':
+	char		*user;
+	t_env		*env;
+	t_path		bin_path;
+	t_bool		no_environment;
+	t_lexer		lexer;
+	t_termios	xterm;
+	int			stdin;
+	int			stdout;
+	int			stderr;
 */
 typedef struct s_main	t_main;
 
