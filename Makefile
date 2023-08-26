@@ -25,15 +25,26 @@ LIBFT = $(LIBFT_DIR)/libft.a
 HEADERS	:= -I ./include -I $(LIBFT_DIR)/include
 SRCS_LEXER	:= lexer.c lexer_token.c lexer_token_2.c
 SRCS_LEXER	:= $(addprefix lexer/, $(SRCS_LEXER))
+SRCS_BUILTIN	:= echo.c pwd.c
+SRCS_BUILTIN	:= $(addprefix builtins/, $(SRCS_BUILTIN))
 SRCS_UTIL	:= double_list.c error_mgmt.c
 SRCS_UTIL	:= $(addprefix utils/, $(SRCS_UTIL))
 SRCS_DIR	:= ./src
-SRCS	:= $(addprefix $(SRCS_DIR)/, $(SRCS_LEXER)) $(addprefix $(SRCS_DIR)/, $(SRCS_UTIL))
+SRCS	:= $(addprefix $(SRCS_DIR)/, $(SRCS_LEXER)) $(addprefix $(SRCS_DIR)/, $(SRCS_UTIL)) $(addprefix $(SRCS_DIR)/, $(SRCS_BUILTIN))
 OBJ_DIR := ./_obj
 OBJ_LEXER := $(addprefix $(OBJ_DIR)/, $(SRCS_LEXER=%.c=%.o))
+OBJ_BUILTIN := $(addprefix $(OBJ_DIR)/, $(SRCS_BUILTIN=%.c=%.o))
 OBJS	:= $(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
 
 all: $(LIBFT) $(NAME)
+
+# $(TEST): $(OBJ_LEXER)
+# 	cc ./tests/test_lexer.c $(SRCS) -lreadline $(HEADERS) -L ./libft/lib -lft -o ./tests/test_lexer
+# 	./tests/test_lexer
+
+$(TEST): $(OBJ_BUILTIN)
+	@cc ./tests/test_builtin.c $(SRCS) -lreadline $(HEADERS) -L ./libft/lib -lft -o ./src/builtins/test_builtin
+	@./src/builtins/test_builtin
 
 $(NAME): $(OBJ_LEXER)
 	cc $(SRCS) $(HEADERS) -L ./libft/lib -lft -lreadline -o $(NAME)
