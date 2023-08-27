@@ -83,37 +83,10 @@ t_bool	create_own_environment(t_main *main, t_path env)
 		return (FALSE);
 	top = new_env_entry("SHLVL=1");
 	append_variable(top, new_env_entry(ft_strjoin("PWD=", pwd)));
-	append_variable(top, new_env_entry("_=/usr/bin/printenv"));
+	append_variable(top, new_env_entry("_=/usr/bin/env"));
 	main->bin_path = NULL;
 	main->no_environment = TRUE;
 	main->user = NULL;
 	free(pwd);
 	return (TRUE);
 }
-// void	print_env(t_env *env)
-// {
-// 	t_env	*run;
-// 
-// 	if (env == NULL)
-// 		return ;
-// 	run = env;
-// 	while (NULL != run->next)
-// 	{
-// 		printf("%s=%s\n", run->name, run->value);
-// 		run = run->next;
-// 	}
-// }
-// 
-// int	main(int argc, char *argv[], char *env[])
-// {
-// 	t_main		main;
-// 
-// 	// pwd = NULL;
-// 	// pwd = getcwd(pwd, 0);
-// 	// printf("%s\n", pwd);
-// 	main = (t_main){};
-// 	init_shell(&main, env);
-// 	// print_env(main.env);
-// 	ft_arrprint((const char **)main.bin_path);
-// 	return (EXIT_SUCCESS);
-// }
