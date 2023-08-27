@@ -21,7 +21,6 @@ INC_DIRS := include $(LIBFT_DIR)/include
 SRC_DIRS := builtins init lexer signals utils
 SRC_DIRS := $(addprefix src/, $(SRC_DIRS))
 SRC_DIRS += src
-# VPATH := src src/lexer src/signal src/init
 
 vpath %.h $(INC_DIRS)
 vpath %.c $(SRC_DIRS)
