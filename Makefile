@@ -41,7 +41,7 @@ OBJS := $(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
 ########                         COMPILING                      ################
 ################################################################################
 
-CFLAGS ?= -MMD -MP $(addprefix -I, $(INC_DIRS)) # -Wextra -Wall -Werror 
+CFLAGS ?= -g -MMD -MP $(addprefix -I, $(INC_DIRS)) # -Wextra -Wall -Werror 
 LDFLAGS := -L $(LIBFT_DIR) -lft -lreadline
 
 
