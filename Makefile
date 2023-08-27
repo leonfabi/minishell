@@ -59,13 +59,13 @@ $(OBJ_DIR):
 	@mkdir -p $@
 
 $(LIBFT):
-	@make -C $(LIBFT_DIR) -B
+	@make -C $(LIBFT_DIR) -B --no-print-directory
 
 debug: CFLAGS += -g
 debug: fclean all
 
 clean:
-	@$(MAKE) -C ./libft/ clean
+	@$(MAKE) -C ./libft/ clean --no-print-directory
 	@if [ -d "$(OBJ_DIR)" ]; then \
 		$(LOG) "Cleaning $(notdir $(OBJ_DIR))"; \
 		rm -rf $(OBJ_DIR); \
@@ -74,7 +74,7 @@ clean:
 	fi
 
 fclean: clean
-	@$(MAKE) -C ./libft/ fclean
+	@$(MAKE) -C ./libft/ fclean --no-print-directory
 	@if [ -f "$(NAME)" ]; then \
 		$(LOG) "Cleaning $(notdir $(NAME))"; \
 		rm -f $(NAME); \
