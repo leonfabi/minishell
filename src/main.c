@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include "builtins.h"
 
 // main loop
 // signal_handler
@@ -14,6 +15,7 @@ int	main(int argc, char *argv[], char *envp[])
 
 	main = (t_main){};
 	init_shell(&main, envp);
+	print(STDOUT_FILENO, "HELLO");
 	// while (TRUE)
 		// mainloop
 	return (EXIT_SUCCESS);

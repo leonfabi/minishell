@@ -56,3 +56,4 @@ dkms.conf
 .ccls-cache
 *.txt
 .vscode
+minishell

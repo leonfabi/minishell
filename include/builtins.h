@@ -3,6 +3,6 @@
 
 int	echo(char **arg);
 int	pwd(char **args);
-inline int	print(int fd, char *str);
+int	print(int fd, char *str);
 
 #endif

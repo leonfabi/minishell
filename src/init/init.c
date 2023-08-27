@@ -15,9 +15,9 @@ t_path	create_bin_paths(t_path env)
 t_bool	init_shell(t_main *main, t_path env)
 {
 	set_exit_status(EXIT_SUCCESS);
-	main->stdin = dup(STDIN_FILENO);
-	main->stdout = dup(STDOUT_FILENO);
-	main->stderr = dup(STDERR_FILENO);
+	// main->stdin = dup(STDIN_FILENO);
+	// main->stdout = dup(STDOUT_FILENO);
+	// main->stderr = dup(STDERR_FILENO);
 	if (NULL != env)
 	{
 		main->env = copy_env(env);
