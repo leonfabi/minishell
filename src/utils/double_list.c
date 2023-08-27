@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   double_list.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/09 17:00:50 by fkrug             #+#    #+#             */
-/*   Updated: 2023/08/19 17:52:09 by makurz           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 t_dlist	*ft_dlstlast(t_dlist *lst)
@@ -35,7 +23,7 @@ t_dlist	*ft_dlstnew(void *content)
 	return (start);
 }
 
-int	ft_dlstadd_back(t_dlist **lst, t_dlist *new)
+t_bool	ft_dlstadd_back(t_dlist **lst, t_dlist *new)
 {
 	t_dlist	*counter;
 

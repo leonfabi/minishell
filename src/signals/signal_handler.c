@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   signal_handler.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: makurz <marvin@42.fr>                      +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/09 16:15:29 by makurz            #+#    #+#             */
-/*   Updated: 2023/08/10 16:33:13 by makurz           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "signal_handler.h"
 
 static void	universal_handler(int sig, t_handler *handler);
@@ -21,7 +9,7 @@ int	*get_exit_status(void)
 	return (&status);
 }
 
-void	set_exit_status(int status)
+inline void	set_exit_status(int status)
 {
 	int		*exit_status;
 
@@ -55,13 +43,13 @@ void	cleanup_control_character(t_termios *xterm)
 
 	tcgetattr(STDOUT_FILENO, xterm);
 	tcgetattr(STDOUT_FILENO, &local_termios);
-	local_termios.c_lflag &= ~ECHOCTL;
+	local_termios.c_lflag &= ~(ECHOCTL);
 	tcsetattr(STDOUT_FILENO, TCSAFLUSH, &local_termios);
 }
 
 void	termination_handler(int signum)
 {
-	write(STDOUT_FILENO, "\n", 2);
+	write(STDOUT_FILENO, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();

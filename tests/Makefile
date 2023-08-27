@@ -11,9 +11,9 @@ LOG := printf "[$(M)INFO$(RST)] %s\n"
 TESTS := signals lexer
 
 # define include dirs and search paths
-LIBFT_DIR := ../libft/lib
+LIBFT_DIR := ../libft
 LIBFT := $(LIBFT_DIR)/libft.a
-INC_DIRS := -I../include -I../libft/header
+INC_DIRS := -I../include -I../libft/include
 VPATH := ../src ../src/lexer ../src/signals ../src/utils
 OBJ_DIR := ./_obj
 
