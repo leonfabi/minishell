@@ -51,8 +51,14 @@ int	main(int argc, char *argv[], char *envp[])
 
 	main = (t_main){};
 	init_shell(&main, envp);
-	main.lexer = ft_lexer("cat < test.txt | grep hello | wc > out.log");
-	ft_print_token_list(&main.lexer);
+	// main.lexer = ft_lexer("cat < test.txt | grep hello | wc > out.log");
+	// ft_print_token_list(&main.lexer);
+	env(main.env);
+	ft_unset(&main.env, "USER");
+	printf("\n\n");
+	env(main.env);
+	ft_arrfree(main.bin_path);
+	free_env_list(&main.env);
 
 	return (EXIT_SUCCESS);
 }

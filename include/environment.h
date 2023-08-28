@@ -7,9 +7,9 @@ typedef struct s_env	t_env;
 
 struct s_env
 {
-	t_env	*next;
 	char	*name;
 	char	*value;
+	t_env	*next;
 };
 
 /*
@@ -74,5 +74,6 @@ t_env	*copy_env(t_path env);
  Array of strings containing the binary paths (t_path).
 */
 t_path	create_bin_paths(t_path env);
+void	free_env_list(t_env **env);
 
 #endif
