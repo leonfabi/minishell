@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-t_path	create_bin_paths(t_path env)
+static char	**create_bin_paths(char **env)
 {
-	t_path		bin_path;
+	char	**bin_path;
 
 	while (NULL != *env && ft_strncmp(*env, "PATH=", 5))
 		++env;
@@ -12,7 +12,21 @@ t_path	create_bin_paths(t_path env)
 	return (bin_path);
 }
 
-t_bool	init_shell(t_main *main, t_path env)
+static char	**copy_env(char **env)
+{
+	char	**copy;
+	char	**run;
+
+	copy = ft_calloc(ft_arrlen((const char **)env) + 1, sizeof(char *));
+	if (NULL == copy)
+		return (NULL);
+	run = copy;
+	while (NULL != *env)
+		*run++ = ft_strdup(*env++);
+	return (copy);
+}
+
+t_bool	init_shell(t_main *main, char **env)
 {
 	set_exit_status(EXIT_SUCCESS);
 	// main->stdin = dup(STDIN_FILENO);
@@ -21,69 +35,29 @@ t_bool	init_shell(t_main *main, t_path env)
 	if (NULL != env)
 	{
 		main->env = copy_env(env);
+		if (NULL == main->env)
+			return (FALSE);
 		main->user = getenv("USER");
 		main->bin_path = create_bin_paths(env);
 	}
 	else
-		create_own_environment(main, env);
+		create_own_environment(main);
 	return (TRUE);
 }
-
-t_env	*copy_env(t_path env)
+// 
+t_bool	create_own_environment(t_main *main)
 {
-	int			i;
-	t_env		*top;
+	char	**own;
+	char	*pwd;
 
-	top = new_env_entry(*env++);
-	while (NULL != *env)
-		append_variable(top, new_env_entry(*env++));
-	return (top);
-}
-
-t_bool	append_variable(t_env *top, t_env *new)
-{
-	t_env	*run;
-
-	run = top;
-	while (NULL != run->next)
-		run = run->next;
-	run->next = new;
-	return (TRUE);
-}
-
-// TODO: create better error handling
-t_env	*new_env_entry(char *value)
-{
-	t_env	*new;
-	size_t	name_len;
-
-	name_len = ft_strlen_c(value, '=');
-	new = ft_calloc(1, sizeof(t_env));
-	if (NULL == new)
-		return (NULL);
-	(*new) = (t_env){
-		.name = ft_strndup(value, name_len),
-		.value = ft_strdup((value + (name_len + 1))),
-		.next = NULL
-	};
-	return (new);
-}
-
-// TODO: Create better error handling
-
-t_bool	create_own_environment(t_main *main, t_path env)
-{
-	t_env		*top;
-	char		*pwd;
-
-	(void)env;
 	pwd = NULL;
+	own = ft_calloc(4, sizeof(char *));
 	pwd = getcwd(pwd, PATH_MAX);
-	if (NULL == pwd)
-		return (FALSE);
-	top = new_env_entry("SHLVL=1");
-	append_variable(top, new_env_entry(ft_strjoin("PWD=", pwd)));
-	append_variable(top, new_env_entry("_=/usr/bin/env"));
+	if (NULL == pwd || NULL == own)
+		return (free(pwd), free(own), FALSE);
+	own[0] = ft_strdup("SHLVL=1");
+	own[1] = ft_strjoin("PWD=", pwd);
+	own[2] = ft_strdup("_=/usr/bin/env");
 	main->bin_path = NULL;
 	main->no_environment = TRUE;
 	main->user = NULL;

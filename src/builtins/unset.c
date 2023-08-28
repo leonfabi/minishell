@@ -1,40 +1,43 @@
 #include "minishell.h"
 
-// FIX: memory leak when second element is unset
-static t_bool	freeconnect(t_env **env)
-{
-	t_env	*delete;
+// TODO: ADD update for multiple unset variables
 
-	delete = (*env)->next;
-	free(delete->name);
-	delete->name = NULL;
-	free(delete->value);
-	delete->value = NULL;
-	(*env)->next = delete->next;
-	free(delete);
-	delete = NULL;
+static t_bool	check_env_variable(char *env, char *name)
+{
+	size_t	len;
+
+	len = ft_strlen(name);
+	if (ft_strncmp(env, name, len) != 0)
+		return (FALSE);
+	if (*(env + len) == '_' || (ft_isalnum(*(env + len)) == TRUE))
+		return (FALSE);
 	return (TRUE);
 }
 
-t_bool	ft_unset(t_env **env, char *var)
+t_bool	ft_unset(char **env, char *name)
 {
-	t_env	*run;
-	t_env	*curr;
+	char	**delete;
+	char	**shift;
+	size_t	len;
 
 	set_exit_status(EXIT_SUCCESS);
-	if (*env != NULL && ft_strcmp((*env)->name, var) == 0)
-		return (*env = (*env)->next, TRUE);
-	run = (*env)->next;
-	curr = (*env);
-	while (NULL != run->next)
+	len = ft_arrlen((const char **)env);
+	if (0 == len)
+		return (FALSE);
+	delete = env;
+	while (NULL != *delete)
 	{
-		if (ft_strcmp(run->name, var) == 0)
-		{
-			freeconnect(&curr);
+		if (check_env_variable(*delete, name) == TRUE)
 			break ;
-		}
-		run = run->next;
-		curr = curr->next;
+		++delete;
 	}
+	shift = delete;
+	free(*delete);
+	while (shift < env + len)
+	{
+		*shift = *(shift + 1);
+		++shift;
+	}
+	*shift = NULL;
 	return (TRUE);
 }

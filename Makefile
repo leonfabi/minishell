@@ -27,8 +27,7 @@ vpath %.c $(SRC_DIRS)
 
 LIBFT = $(LIBFT_DIR)/libft.a
 
-SRCS := cd.c echo.c env.c exit.c export.c pwd.c unset.c
-SRCS += environment_utils.c
+SRCS := cd.c echo.c exit.c pwd.c unset.c env.c
 SRCS += init.c
 SRCS += lexer.c lexer_token.c lexer_token_2.c
 SRCS += signal_handler.c

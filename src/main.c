@@ -53,12 +53,15 @@ int	main(int argc, char *argv[], char *envp[])
 	init_shell(&main, envp);
 	// main.lexer = ft_lexer("cat < test.txt | grep hello | wc > out.log");
 	// ft_print_token_list(&main.lexer);
+	// ft_arrprint((const char **)main.env);
+	// printf("%lu\n\n", ft_arrlen((const char **)main.env));
 	env(main.env);
-	ft_unset(&main.env, "USER");
-	printf("\n\n");
+	ft_unset(main.env, "USER");
 	env(main.env);
+	// printf("%lu\n\n", ft_arrlen((const char **)main.env));
+	// ft_arrprint((const char **)main.env);
 	ft_arrfree(main.bin_path);
-	free_env_list(&main.env);
+	ft_arrfree(main.env);
 
 	return (EXIT_SUCCESS);
 }
