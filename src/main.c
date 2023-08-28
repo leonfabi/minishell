@@ -51,7 +51,7 @@ int	main(int argc, char *argv[], char *envp[])
 
 	main = (t_main){};
 	init_shell(&main, envp);
-	main.lexer = ft_lexer("cat < test.txt | grep hello | wc > out.log");
+	main.lexer = ft_lexer("cat < test.txt | grep 'hello' | wc > out.log");
 	ft_print_token_list(&main.lexer);
 
 	return (EXIT_SUCCESS);

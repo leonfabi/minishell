@@ -3,19 +3,15 @@
 
 # define TRUE 1
 # define FALSE 0
+# define WHITESPACE " \t\r\n\v"
 
-/*
- `<summary>`:
- Represents an array of strings containing paths.
-*/
+/* `<summary>`:
+ Represents an array of strings containing paths. */
 typedef char**			t_path;
-/*
- `<summary>`:
- Represents either TRUE (1) or FALSE (0).
-*/
+/* `<summary>`:
+ Represents either TRUE (1) or FALSE (0). */
 typedef int				t_bool;
-/*
- `<summary>`:
+/*`<summary>`:
  Predefine the main struct to use t_main in the struct definition.
  '<struct member>':
 	char		*user;
@@ -26,8 +22,7 @@ typedef int				t_bool;
 	t_termios	xterm;
 	int			stdin;
 	int			stdout;
-	int			stderr;
-*/
+	int			stderr;*/
 typedef struct s_main	t_main;
 
 #endif
