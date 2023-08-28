@@ -2,5 +2,5 @@
 
 int	cd(char **args)
 {
-
+	return (TRUE);
 }

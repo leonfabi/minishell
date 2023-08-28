@@ -22,13 +22,11 @@ CFLAGS_TEST := -Wall -Wextra -Werror -g
 CFLAGS := $(CFLAGS_TEST) -MMD -MP
 #TEST_FLAG := -Wno-error=unused-command-line-argument
 LDFLAGS := -L $(LIBFT_DIR) -lft -lreadline -lcriterion
-#  -lcriterion
 # define a variable to run the tests
 define run
 	$(CC) $^ $(INC_DIRS) $(LDFLAGS) -o $@ && ./$@ --verbose
 endef
 
-# $(CC) $(CFLAGS_TEST) $^ $(INC_DIRS) $(LDFLAGS) -o $@ && ./$@ --verbose
 ####################################################################
 #>>>>>>>>>>>>>>>>>>>>>>>> Individual Setup <<<<<<<<<<<<<<<<<<<<<<<<#
 ####################################################################

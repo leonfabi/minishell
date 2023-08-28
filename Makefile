@@ -1,62 +1,71 @@
 NAME := minishell
 .DEFAULT_GOAL := all
+CC := cc
 
-##############################################################################
-##############################################################################
-##############################################################################
+################################################################################
+################################################################################
+################################################################################
 
-Y := \033[33m
-C := \033[36m
-R := \033[31m
 G := \033[32m
 X := \033[0m
-C := \033[36m
-LOG := printf "[$(G)INFO$(X)] %s\n"
+BO := $(shell tput bold)
+LOG := printf "[$(BO)$(G)ⓘ INFO$(X)] %s\n"
 
-##############################################################################
-##############################################################################
-##############################################################################
+################################################################################
+###############                  DIRECTORIES                      ##############
+################################################################################
 
-VPATH := src src/lexer src/signal src/init
+OBJ_DIR := _obj
+LIBFT_DIR := libft
+INC_DIRS := include $(LIBFT_DIR)/include
+SRC_DIRS := builtins init lexer signals utils
+SRC_DIRS := $(addprefix src/, $(SRC_DIRS))
+SRC_DIRS += src
 
-CFLAGS ?= -Wextra -Wall -Werror -MMD -MP
-LIBFT_DIR = ./libft
+vpath %.h $(INC_DIRS)
+vpath %.c $(SRC_DIRS)
+
 LIBFT = $(LIBFT_DIR)/libft.a
-HEADERS	:= -I ./include -I $(LIBFT_DIR)/include
-SRCS_LEXER	:= lexer.c lexer_token.c lexer_token_2.c
-SRCS_LEXER	:= $(addprefix lexer/, $(SRCS_LEXER))
-SRCS_BUILTIN	:= echo.c pwd.c
-SRCS_BUILTIN	:= $(addprefix builtins/, $(SRCS_BUILTIN))
-SRCS_UTIL	:= double_list.c error_mgmt.c
-SRCS_UTIL	:= $(addprefix utils/, $(SRCS_UTIL))
-SRCS_DIR	:= ./src
-SRCS	:= $(addprefix $(SRCS_DIR)/, $(SRCS_LEXER)) $(addprefix $(SRCS_DIR)/, $(SRCS_UTIL)) $(addprefix $(SRCS_DIR)/, $(SRCS_BUILTIN))
-OBJ_DIR := ./_obj
-OBJ_LEXER := $(addprefix $(OBJ_DIR)/, $(SRCS_LEXER=%.c=%.o))
-OBJ_BUILTIN := $(addprefix $(OBJ_DIR)/, $(SRCS_BUILTIN=%.c=%.o))
-OBJS	:= $(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
 
-all: $(LIBFT) $(NAME)
+SRCS := cd.c echo.c env.c exit.c export.c pwd.c unset.c
+SRCS += init.c
+SRCS += lexer.c lexer_token.c lexer_token_2.c
+SRCS += signal_handler.c
+SRCS += double_list.c error_mgmt.c
+SRCS += main.c
 
-# $(TEST): $(OBJ_LEXER)
-# 	cc ./tests/test_lexer.c $(SRCS) -lreadline $(HEADERS) -L ./libft/lib -lft -o ./tests/test_lexer
-# 	./tests/test_lexer
+OBJS := $(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
 
-$(TEST): $(OBJ_BUILTIN)
-	@cc ./tests/test_builtin.c $(SRCS) -lreadline $(HEADERS) -L ./libft/lib -lft -o ./src/builtins/test_builtin
-	@./src/builtins/test_builtin
+################################################################################
+########                         COMPILING                      ################
+################################################################################
 
-$(NAME): $(OBJ_LEXER)
-	cc $(SRCS) $(HEADERS) -L ./libft/lib -lft -lreadline -o $(NAME)
+CFLAGS ?= -g -MMD -MP $(addprefix -I, $(INC_DIRS)) # -Wextra -Wall -Werror 
+LDFLAGS := -L $(LIBFT_DIR) -lft -lreadline
+
+
+all: $(NAME)
+
+$(NAME): $(OBJS) | $(LIBFT)
+	@$(LOG) "Linking object files to $@"
+	@$(CC) $^ $(LDFLAGS) -o $@
+
+$(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
+	@$(LOG) "Compiling $(notdir $@)"
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJ_DIR):
+	@$(LOG) "Creating object directory."
+	@mkdir -p $@
 
 $(LIBFT):
-	@make -C $(LIBFT_DIR) -B
+	@make -C $(LIBFT_DIR) -B --no-print-directory
 
 debug: CFLAGS += -g
 debug: fclean all
 
 clean:
-	@$(MAKE) -C ./libft/ clean
+	@$(MAKE) -C ./libft/ clean --no-print-directory
 	@if [ -d "$(OBJ_DIR)" ]; then \
 		$(LOG) "Cleaning $(notdir $(OBJ_DIR))"; \
 		rm -rf $(OBJ_DIR); \
@@ -65,7 +74,7 @@ clean:
 	fi
 
 fclean: clean
-	@$(MAKE) -C ./libft/ fclean
+	@$(MAKE) -C ./libft/ fclean --no-print-directory
 	@if [ -f "$(NAME)" ]; then \
 		$(LOG) "Cleaning $(notdir $(NAME))"; \
 		rm -f $(NAME); \
@@ -75,13 +84,6 @@ fclean: clean
 
 re: fclean all
 
-R := "\033[31m"
-G := "\033[32m"
-Y := "\033[33m"
-M := "\033[35m"
-C := "\033[36m"
-X := "\033[0m"
-
 -include $(OBJS:%.o=%.d)
 
-.PHONY: test
+.PHONY: all fclean clean re
