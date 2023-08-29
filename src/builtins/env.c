@@ -1,15 +1,15 @@
 #include "minishell.h"
 
-int	env(t_env *env)
+t_bool	env(char **env)
 {
-	t_env		*run;
+	char	**run;
 
 	run = env;
-	while (run->next != NULL)
+	while (*run != NULL)
 	{
-		if (NULL != run->value)
-			printf("%s=%s\n", run->name, run->value);
-		run = run->next;
+		if (*run + ft_strlen_c(*run, '='))
+			printf("%s\n", *run);
+		++run;
 	}
 	set_exit_status(0);
 	return (TRUE);

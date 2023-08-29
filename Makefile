@@ -18,7 +18,7 @@ LOG := printf "[$(BO)$(G)ⓘ INFO$(X)] %s\n"
 OBJ_DIR := _obj
 LIBFT_DIR := libft
 INC_DIRS := include $(LIBFT_DIR)/include
-SRC_DIRS := builtins init lexer signals utils
+SRC_DIRS := builtins init lexer signals utils environment
 SRC_DIRS := $(addprefix src/, $(SRC_DIRS))
 SRC_DIRS += src
 
@@ -27,10 +27,10 @@ vpath %.c $(SRC_DIRS)
 
 LIBFT = $(LIBFT_DIR)/libft.a
 
-SRCS := cd.c echo.c env.c exit.c export.c pwd.c unset.c
+SRCS := cd.c echo.c exit.c pwd.c unset.c env.c
 SRCS += init.c
 SRCS += lexer.c lexer_token.c lexer_token_2.c
-SRCS += signal_handler.c
+SRCS += signal_handler.c exit_status.c
 SRCS += double_list.c error_mgmt.c
 SRCS += main.c
 
