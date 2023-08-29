@@ -104,27 +104,13 @@ t_cmd	*parseredir(t_cmd *cmd, t_dlist *head)
 
 t_cmd	*parsecommand(t_cmd *cmd, t_dlist *head)
 {
-	t_command	*command_node;
-
-	command_node = NULL;
-	command_node = (t_command *)malloc(sizeof(t_command));
-	// if (command == NULL) Error handling
-	command_node->type = COMMAND;
-	command_node->red = NULL;
-	command_node->exec = NULL;
-	if (cmd == NULL)
-		cmd = (t_cmd *)command_node; // Set Command node as head
-	// else
-	// {
-
-	// }
 	while (((t_token *)head->content)->type != TOKEN_EOF && \
 	((t_token *)head->content)->type != TOKEN_PIPE)
 	{
 		if (((t_token *)head->content)->type == TOKEN_WORD || \
 		((t_token *)head->content)->type == TOKEN_QUOTE || \
 		((t_token *)head->content)->type == TOKEN_DQUOTE)
-			cmd = parsecommand(cmd, head); // Add Execcmd node
+			cmd = parseexecmd(cmd, head); // Add Execcmd node
 		else if (((t_token *)head->content)->type == TOKEN_DGREATER || \
 		((t_token *)head->content)->type == TOKEN_DLESS || \
 		((t_token *)head->content)->type == TOKEN_GREATER || \

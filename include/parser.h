@@ -7,8 +7,7 @@ typedef enum e_parscmd
 {
 	EXECUTE,
 	PIPE,
-	REDIR,
-	COMMAND
+	REDIR
 }	t_parscmd;
 
 typedef struct cmd	t_cmd;
@@ -18,18 +17,20 @@ struct cmd
 	int		type;
 };
 
+// echo -n hello world test 
+
 typedef struct execcmd
 {
 	int		type;
-	char	*bin; // echo -> builtin -> Aufruf von builtin
-	char	**argv; // echo; -n; hasdf; sadfasdf;
-	char	**envp; // environments
+	char	*bin; // echo
+	char	**argv; // echo; -n; hello; world; test -> array of strings
+	char	**envp; // environments -> übergeben von 
 }	t_execcmd;
 
 typedef struct redircmd
 {
 	int		type;
-	t_cmd	*cmd; // check what cmd pointer is
+	t_cmd	*cmd;
 	t_cmd	*next;
 	char	*file; // word token after redirect ft_strndup(token, token_len)
 	int		mode; // depends on the token before file e.g. dgreater = append
@@ -42,13 +43,6 @@ typedef struct pipecmd
 	t_cmd	*left;
 	t_cmd	*right;
 }	t_pipecmd;
-
-typedef struct command
-{
-	int			type;
-	t_cmd	*exec;
-	t_cmd	*red;
-}	t_command;
 
 
 t_cmd	*ft_parser(t_lexer *lexer);
