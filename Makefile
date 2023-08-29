@@ -18,7 +18,7 @@ LOG := printf "[$(BO)$(G)ⓘ INFO$(X)] %s\n"
 OBJ_DIR := _obj
 LIBFT_DIR := libft
 INC_DIRS := include $(LIBFT_DIR)/include
-SRC_DIRS := builtins init lexer signals utils environment
+SRC_DIRS := builtins init lexer signals utils environment parser
 SRC_DIRS := $(addprefix src/, $(SRC_DIRS))
 SRC_DIRS += src
 
@@ -33,6 +33,7 @@ SRCS += lexer.c lexer_token.c lexer_token_2.c
 SRCS += signal_handler.c exit_status.c
 SRCS += double_list.c error_mgmt.c
 SRCS += main.c
+SRCS += parser.c
 
 OBJS := $(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
 
@@ -41,7 +42,7 @@ OBJS := $(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
 ################################################################################
 
 CFLAGS ?= -g -MMD -MP $(addprefix -I, $(INC_DIRS)) # -Wextra -Wall -Werror 
-LDFLAGS := -L $(LIBFT_DIR) -lft -lreadline
+LDFLAGS := -L $(LIBFT_DIR)/lib -lft -lreadline
 
 
 all: $(NAME)

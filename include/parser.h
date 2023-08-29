@@ -3,12 +3,13 @@
 
 // int execve(const char *filename, char *const argv[], char *const envp[])
 
-typedef enum e_cmd
+typedef enum e_parscmd
 {
 	EXECUTE,
 	PIPE,
-	REDIR
-}	t_cmd;
+	REDIR,
+	COMMAND
+}	t_parscmd;
 
 typedef struct cmd	t_cmd;
 
@@ -23,7 +24,7 @@ typedef struct execcmd
 	char	*bin; // echo -> builtin -> Aufruf von builtin
 	char	**argv; // echo; -n; hasdf; sadfasdf;
 	char	**envp; // environments
-}	t_execcmd
+}	t_execcmd;
 
 typedef struct redircmd
 {
@@ -41,5 +42,15 @@ typedef struct pipecmd
 	t_cmd	*left;
 	t_cmd	*right;
 }	t_pipecmd;
+
+typedef struct command
+{
+	int			type;
+	t_cmd	*exec;
+	t_cmd	*red;
+}	t_command;
+
+
+t_cmd	*ft_parser(t_lexer *lexer);
 
 #endif
