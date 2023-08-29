@@ -1,6 +1,8 @@
 #ifndef PARSER_H
 # define PARSER_H
 
+# include "lexer.h"
+
 // int execve(const char *filename, char *const argv[], char *const envp[])
 
 typedef enum e_parscmd
@@ -31,7 +33,7 @@ typedef struct redircmd
 {
 	int		type;
 	t_cmd	*cmd;
-	t_cmd	*next;
+	t_cmd	*next; // brauchen wir nicht <----------------------
 	char	*file; // word token after redirect ft_strndup(token, token_len)
 	int		mode; // depends on the token before file e.g. dgreater = append
 	int		fd;

@@ -4,7 +4,7 @@
 # include <limits.h>
 # include "defines.h"
 # include "environment.h"
-# include "../libft/header/libft.h"
+# include "libft.h"
 # include "signal_handler.h"
 # include "lexer.h"
 # include "builtins.h"
