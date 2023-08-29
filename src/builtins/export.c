@@ -2,7 +2,6 @@
 
 // TODO: ADD support for multiple export statements
 
-
 t_bool	precheck_env_update(char *var)
 {
 	t_bool	check;
@@ -11,7 +10,7 @@ t_bool	precheck_env_update(char *var)
 	run = var;
 	check = TRUE;
 	check &= ft_isalpha(*run) | ('_' == *run);
-	while (++*run != '\0' && *run != '=')
+	while (check == TRUE && ++*run != '\0' && *run != '=')
 		check &= ft_isalnum(*run) | ('_' == *run);
 	if (check == FALSE)
 		printf("minishell: export: '%s': not a valid identifier\n", var);

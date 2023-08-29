@@ -10,7 +10,6 @@
 # include <readline/history.h>
 # include <termios.h>
 
-
 /* `<summary>`:
  Define structs to use a shorter version in the code
  for more readability and structure. */
@@ -47,14 +46,14 @@ void	termination_handler(int signum);
  Get the current exit status to correctly display it.
  `<returns>`:
  Address to a static variable.
- Located in signal_handling.c. */
-int	*get_exit_status(void);
+ Located in exit_status.c. */
+int		*get_exit_status(void);
 
 /* `<summary>`:
  Set the current exit status.
  `<parameter>`:
  `status` integer for setting the exit status according to the execution.
- Located in signal_handling.c. */
+ Located in exit_status.c. */
 void	set_exit_status(int status);
 
 #endif // !SIGNALS_H

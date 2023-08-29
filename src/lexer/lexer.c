@@ -39,7 +39,10 @@ t_token	*ft_create_token(t_type type, t_lexer *lexer)
 
 	token = (t_token *)malloc(sizeof(t_token));
 	if (token == NULL)
-		return (error_msg(lexer, "Creating token: Memory allocation failed"), NULL);
+	{
+		error_msg(lexer, "Creating token: Memory allocation failed");
+		return (NULL);
+	}
 	token->type = type;
 	token->value = lexer->start;
 	if (type == TOKEN_WORD || type == TOKEN_EOF)

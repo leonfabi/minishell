@@ -2,21 +2,6 @@
 
 static void	universal_handler(int sig, t_handler *handler);
 
-int	*get_exit_status(void)
-{
-	static int	status;
-
-	return (&status);
-}
-
-inline void	set_exit_status(int status)
-{
-	int		*exit_status;
-
-	exit_status = get_exit_status();
-	*exit_status = status;
-}
-
 int	user_signal_listener(t_termios *xterm)
 {
 	cleanup_control_character(xterm);
