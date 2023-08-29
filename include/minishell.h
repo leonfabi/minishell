@@ -8,6 +8,7 @@
 # include "signal_handler.h"
 # include "lexer.h"
 # include "builtins.h"
+# include "parser.h"
 
 typedef struct s_main
 {
@@ -16,6 +17,7 @@ typedef struct s_main
 	char		**bin_path;
 	t_bool		no_environment;
 	t_lexer		lexer;
+	struct cmd	*cmd;
 	t_termios	xterm;
 	int			stdin;
 	int			stdout;
