@@ -6,12 +6,10 @@ t_cmd	*parsepipe(t_cmd *cmd, t_dlist *head)
 	{
 		if (((t_token *)head->content)->type == TOKEN_PIPE)
 		{
-				t_lexer	lexer;
 				pipe = (t_pipecmd){
 					.type = PIPE,
-					.left = str,
-					.token_list = NULL,
-					.error_code = 0
+					.left = NULL,
+					.right = NULL
 				};
 		}
 		head = head->next;
