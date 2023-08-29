@@ -30,7 +30,7 @@ LIBFT = $(LIBFT_DIR)/libft.a
 SRCS := cd.c echo.c exit.c pwd.c unset.c env.c
 SRCS += init.c
 SRCS += lexer.c lexer_token.c lexer_token_2.c
-SRCS += signal_handler.c
+SRCS += signal_handler.c exit_status.c
 SRCS += double_list.c error_mgmt.c
 SRCS += main.c
 
