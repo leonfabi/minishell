@@ -29,7 +29,7 @@ t_bool	nullterminate(t_dlist **token)
 	t_token		*tok;
 
 	run = *token;
-	while (((t_token *)run->content)->type != TOKEN_EOF)
+	while (get_token_type(run) != TOKEN_EOF)
 	{
 		tok = get_token(run);
 		if (correct_token(tok->type) == TRUE)

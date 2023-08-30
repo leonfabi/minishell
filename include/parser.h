@@ -3,8 +3,6 @@
 
 # include "lexer.h"
 
-// int execve(const char *filename, char *const argv[], char *const envp[])
-
 typedef enum e_parscmd
 {
 	EXECUTE,
@@ -19,23 +17,18 @@ struct cmd
 	int		type;
 };
 
-// echo -n hello world test 
-
 typedef struct execcmd
 {
 	int		type;
-	char	*bin; // echo
-	char	**argv; // echo; -n; hello; world; test -> array of strings
-	char	**envp; // environments -> übergeben von 
+	char	*argv[15];
 }	t_execcmd;
 
 typedef struct redircmd
 {
 	int		type;
 	t_cmd	*cmd;
-	t_cmd	*next; // brauchen wir nicht <----------------------
-	char	*file; // word token after redirect ft_strndup(token, token_len)
-	int		mode; // depends on the token before file e.g. dgreater = append
+	char	*file;
+	int		mode;
 	int		fd;
 }	t_redircmd;
 
@@ -48,5 +41,19 @@ typedef struct pipecmd
 
 
 t_cmd	*ft_parser(t_lexer *lexer);
+
+t_token	*get_token(t_dlist *token);
+
+t_bool	nullterminate(t_dlist **token);
+
+t_cmd *execcmd(void);
+
+t_cmd *redircmd(t_cmd *subcmd, t_token *tok, int mode, int fd);
+
+t_cmd *pipecmd(t_cmd *left, t_cmd *right);
+
+t_type	get_token_type(t_dlist *token);
+
+t_cmd	*parse_command(t_dlist **token);
 
 #endif
