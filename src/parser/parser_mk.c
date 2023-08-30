@@ -13,6 +13,17 @@ t_bool	check_redirect(t_type type)
 	return (FALSE);
 }
 
+t_bool	check_arguments(t_type type)
+{
+	if (type == TOKEN_WORD)
+		return (TRUE);
+	if (type == TOKEN_DQUOTE)
+		return (TRUE);
+	if (type == TOKEN_QUOTE)
+		return (TRUE);
+	return (FALSE);
+}
+
 t_bool	check_metachars(t_type type)
 {
 	if (type == TOKEN_PIPE)
@@ -28,8 +39,7 @@ t_type	get_token_type(t_dlist *token)
 	return (tok->type);
 }
 
-t_cmd
-	*select_redirect(t_cmd *subcmd, t_token *tok)
+t_cmd	*select_redirect(t_cmd *subcmd, t_token *tok)
 {
 	if (tok->type == TOKEN_LESS)
 		return (redircmd(subcmd, tok, O_RDONLY, 0));
@@ -48,7 +58,7 @@ t_cmd	*parse_redirect(t_cmd *cmd, t_dlist **token)
 	run = *token;
 	while (check_redirect(get_token_type(run)) == TRUE)
 	{
-		if (get_token_type(run->next) != TOKEN_WORD)
+		if (check_arguments(get_token_type(run->next)) != FALSE)
 			perror("missing file"); // get exit here
 		cmd = select_redirect(cmd, get_token(run->next));
 		run = run->next->next;
