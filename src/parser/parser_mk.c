@@ -31,6 +31,14 @@ t_bool	check_metachars(t_type type)
 	return (FALSE);
 }
 
+char	*get_token_value(t_dlist *token)
+{
+	t_token		*tok;
+
+	tok = (t_token *)token->content;
+	return (tok->value);
+}
+
 t_type	get_token_type(t_dlist *token)
 {
 	t_token		*tok;
@@ -66,14 +74,6 @@ t_cmd	*parse_redirect(t_cmd *cmd, t_dlist **token)
 			perror("add something about EOF");
 	}
 	return (cmd);
-}
-
-char	*get_token_value(t_dlist *token)
-{
-	t_token		*tok;
-
-	tok = (t_token *)token->content;
-	return (tok->value);
 }
 
 t_cmd	*parse_execution(t_dlist **token)
