@@ -85,7 +85,6 @@ t_cmd	*parse_execution(t_dlist **token)
 
 	ret = execcmd();
 	cmd = (t_execcmd *)ret;
-
 	ret = parse_redirect(ret, token);
 	run = *token;
 	while (check_metachars(get_token_type(run)) == FALSE)
