@@ -94,11 +94,53 @@ void	ft_print_ast(t_cmd *cmd, char *str)
 	return ;
 }
 
+void	print_AST(t_cmd *cmd)
+{
+	t_execcmd	*ecmd;
+	t_pipecmd	*pcmd;
+	t_redircmd	*rcmd;
+	int			i;
+
+	i = -1;
+	if (cmd == NULL)
+		return ;
+	switch (cmd->type)
+	{
+		default:
+			return ;
+		case EXECUTE:
+			ecmd = (t_execcmd *)cmd;
+			while (ecmd->argv[++i] != NULL)
+			{
+				if (i == 0)
+					printf("%s: %s ", parse_types[ecmd->type], ecmd->argv[i]);
+				else
+					printf("%s ", ecmd->argv[i]);
+			}
+			printf("\n---------------------------------------------------\n");
+			break ;
+		case REDIR:
+			rcmd = (t_redircmd *)cmd;
+			printf("%s: %s\n", parse_types[rcmd->type], rcmd->file);
+			print_AST(rcmd->cmd);
+			break ;
+		case PIPE:
+			pcmd = (t_pipecmd *)cmd;
+			printf("%s: %s\n", parse_types[pcmd->type], "Node");
+			printf("---------------------------------------------------\n");
+			print_AST(pcmd->left);
+			print_AST(pcmd->right);
+			break ;
+	}
+}
+
 int	main(int argc, char *argv[], char *envp[])
 {
+	int			len;
 	t_main		main;
-	char		str[] = "< test.txt cat";
+	char		str[] = "< test.txt cat | echo hello world > out.log";
 
+	len = ft_strlen(str);
 	main = (t_main){};
 	init_shell(&main, envp);
 	// main.lexer = ft_lexer("cat < test.txt | grep hello | wc > out.log");
@@ -107,13 +149,16 @@ int	main(int argc, char *argv[], char *envp[])
 	ft_print_token_list(&main.lexer);
 	// main.cmd = ft_parser(&main.lexer);
 	main.cmd = parse_command(&main.lexer.token_list, main.env);
-	for(int i = 0; i < 15; i++) {
-        if (str[i] == '\0') {
-            printf("\\0"); // print \0 for null character
-        } else {
-            printf("%c", str[i]);
-        }
-    }
+	printf("Input: ");
+	for(int i = 0; i < len; i++) {
+		if (str[i] == '\0') {
+			printf("\\0"); // print \0 for null character
+		} else {
+			printf("%c", str[i]);
+		}
+	}
+	printf("\n");
+	print_AST(main.cmd);
 	// ft_print_ast(main.cmd, "START");
 	// ft_arrprint((const char **)main.env);
 	// printf("%lu\n\n", ft_arrlen((const char **)main.env));
