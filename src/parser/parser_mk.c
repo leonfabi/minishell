@@ -31,6 +31,14 @@ t_bool	check_metachars(t_type type)
 	return (FALSE);
 }
 
+int		get_token_length(t_dlist *token)
+{
+	t_token		*tok;
+
+	tok = (t_token *)token->content;
+	return (tok->value_length);
+}
+
 char	*get_token_value(t_dlist *token)
 {
 	t_token		*tok;
@@ -76,7 +84,7 @@ t_cmd	*parse_redirect(t_cmd *cmd, t_dlist **token)
 	return (cmd);
 }
 
-t_cmd	*parse_execution(t_dlist **token)
+t_cmd	*parse_execution(t_dlist **token, char **env)
 {
 	int			argc;
 	t_dlist		*run;
@@ -93,39 +101,39 @@ t_cmd	*parse_execution(t_dlist **token)
 			break ;
 		if (check_arguments(get_token_type(run)) != FALSE)
 			perror("Add some error handling if this is wrong");
-		cmd->argv[argc] = expand_token(get_token_value(run));
+		cmd->argv[argc] = expand_token(get_token(run), env);
 		run = run->next;
 		++argc;
 		if (argc >= 15)
-			perror("too many input arguments for the command")
+			perror("too many input arguments for the command");
 		ret = parse_redirect(ret, &run);
 	}
 	cmd->argv[argc] = NULL;
 	return (ret);
 }
 
-t_cmd	*parse_pipe(t_dlist **token)
+t_cmd	*parse_pipe(t_dlist **token, char **env)
 {
 	t_dlist		*run;
 	t_cmd		*cmd;
 
 	run = *token;
-	cmd = parse_execution(&run);
+	cmd = parse_execution(&run, env);
 	if (get_token_type(run) == TOKEN_PIPE)
 	{
 		run = run->next;
-		cmd = parse_pipe(&run);
+		cmd = parse_pipe(&run, env);
 	}
 	return (cmd);
 }
 
-t_cmd	*parse_command(t_dlist **token)
+t_cmd	*parse_command(t_dlist **token, char **env)
 {
 	t_dlist		*run;
 	t_cmd		*cmd;
 
 	run = *token;
-	cmd = parse_pipe(&run);
+	cmd = parse_pipe(&run, env);
 	if (get_token_type(run) != TOKEN_EOF)
 		perror("Did not finish parsing error");
 	nullterminate(token);

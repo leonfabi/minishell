@@ -2,10 +2,7 @@
 
 t_token	*get_token(t_dlist *token)
 {
-	t_token		*tok;
-
-	tok = (t_token *)token->content;
-	return (tok);
+	return ((t_token *)token->content);
 }
 
 static t_bool	correct_token(t_type type)
