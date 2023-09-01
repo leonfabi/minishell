@@ -80,10 +80,11 @@ int	main(int argc, char *argv[], char *envp[])
 	main = (t_main){};
 	init_shell(&main, envp);
 	// main.lexer = ft_lexer("cat < test.txt | grep hello | wc > out.log");
-	main.lexer = ft_lexer("cat");
+	// main.lexer = ft_lexer("cat");
+	main.lexer = ft_lexer("'test' < \"test\" | 'hello'");
 	ft_print_token_list(&main.lexer);
-	main.cmd = ft_parser(&main.lexer);
-	ft_print_ast(main.cmd, "START");
+	// main.cmd = ft_parser(&main.lexer);
+	// ft_print_ast(main.cmd, "START");
 	// ft_arrprint((const char **)main.env);
 	// printf("%lu\n\n", ft_arrlen((const char **)main.env));
 	// env(main.env);

@@ -15,7 +15,7 @@ t_bool	ft_quoted_token(t_lexer *lexer)
 	if (quote == 34)
 	{
 		if (ft_make_append_token(lexer, TOKEN_DQUOTE) == FALSE)
-			return (error_msg(lexer, "DQUOTEtoken failed"), FALSE);
+			return (error_msg(lexer, "DQUOTE token failed"), FALSE);
 	}
 	else if (ft_make_append_token(lexer, TOKEN_QUOTE) == FALSE)
 		return (error_msg(lexer, "QUOTE token failed"), FALSE);

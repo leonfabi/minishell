@@ -33,7 +33,7 @@ SRCS += lexer.c lexer_token.c lexer_token_2.c
 SRCS += signal_handler.c exit_status.c
 SRCS += double_list.c error_mgmt.c
 SRCS += main.c
-SRCS += parser.c
+# SRCS += 
 
 OBJS := $(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
 
@@ -42,7 +42,7 @@ OBJS := $(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
 ################################################################################
 
 CFLAGS ?= -g -MMD -MP $(addprefix -I, $(INC_DIRS)) # -Wextra -Wall -Werror 
-LDFLAGS := -L $(LIBFT_DIR)/lib -lft -lreadline
+LDFLAGS := -L $(LIBFT_DIR) -lft -lreadline
 
 
 all: $(NAME)

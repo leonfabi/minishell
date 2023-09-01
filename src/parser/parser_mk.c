@@ -68,7 +68,7 @@ t_cmd	*parse_redirect(t_cmd *cmd, t_dlist **token)
 	{
 		if (check_arguments(get_token_type(run->next)) != FALSE)
 			perror("missing file"); // get exit here
-		cmd = select_redirect(cmd, get_token(run->next));
+		cmd = select_redirect(cmd, get_token(run));
 		run = run->next->next;
 		if (NULL == run)
 			perror("add something about EOF");
@@ -91,11 +91,13 @@ t_cmd	*parse_execution(t_dlist **token)
 	{
 		if (get_token_type(run) == TOKEN_EOF)
 			break ;
-		if (get_token_type(run) != TOKEN_WORD) // add WORD DQUOTE etc here
+		if (check_arguments(get_token_type(run)) != FALSE)
 			perror("Add some error handling if this is wrong");
-		cmd->argv[argc] = get_token_value(run);
+		cmd->argv[argc] = expand_token(get_token_value(run));
 		run = run->next;
 		++argc;
+		if (argc >= 15)
+			perror("too many input arguments for the command")
 		ret = parse_redirect(ret, &run);
 	}
 	cmd->argv[argc] = NULL;
