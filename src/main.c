@@ -54,21 +54,42 @@ void	ft_print_token_list(t_lexer *lexer)
 	lexer->token_list = tmp;
 }
 
-void	ft_print_ast(t_cmd *cmd, char *str)
+void	ft_print_ast(t_cmd *cmd, char *str);
+
+void	ft_print_pipe_node(t_cmd *cmd, char *str)
 {
 	t_pipecmd	*tmp;
 
 	tmp = NULL;
+	printf("Node type: %s\n", parse_types[cmd->type]);
+	tmp = (t_pipecmd *)cmd;
+	if (tmp->left != NULL)
+		printf("Left points to: %s\n", parse_types[tmp->left->type]);
+	else
+		printf("Left points to NULL\n");
+	if (tmp->right != NULL)
+		printf("Right points to: %s\n", parse_types[tmp->right->type]);
+	else
+		printf("Right points to NULL\n");
+	ft_print_ast(tmp->left, "LEFT");
+	ft_print_ast(tmp->right, "RIGHT");
+}
+
+void	ft_print_exec_node(t_cmd *cmd, char *str)
+{
+
+}
+
+void	ft_print_ast(t_cmd *cmd, char *str)
+{
+	printf("Node type: %s\n", parse_types[cmd->type]);
 	if (cmd != NULL)
 	{
-		printf("%s\n", str);
-		printf("Node type: %s\n", parse_types[cmd->type]);
+		printf("%s\t", str);
 		if (cmd->type == PIPE)
-		{
-			tmp = (t_pipecmd *)cmd;
-			ft_print_ast(tmp->left, "LEFT");
-			ft_print_ast(tmp->right, "RIGHT");
-		}
+			ft_print_pipe_node(cmd, str);
+		if (cmd->type == EXECUTE)
+			ft_print_exec_node(cmd, str);
 	}
 	return ;
 }
@@ -76,15 +97,17 @@ void	ft_print_ast(t_cmd *cmd, char *str)
 int	main(int argc, char *argv[], char *envp[])
 {
 	t_main		main;
+	char		str[] = "a | b";
 
 	main = (t_main){};
 	init_shell(&main, envp);
 	// main.lexer = ft_lexer("cat < test.txt | grep hello | wc > out.log");
-	// main.lexer = ft_lexer("cat");
-	main.lexer = ft_lexer("'test' < \"test\" | 'hello'");
+	main.lexer = ft_lexer(str);
+	// main.lexer = ft_lexer("'test' < \"test\" | 'hello'");
 	ft_print_token_list(&main.lexer);
 	// main.cmd = ft_parser(&main.lexer);
-	// ft_print_ast(main.cmd, "START");
+	main.cmd = parse_command(&main.lexer.token_list);
+	ft_print_ast(main.cmd, "START");
 	// ft_arrprint((const char **)main.env);
 	// printf("%lu\n\n", ft_arrlen((const char **)main.env));
 	// env(main.env);

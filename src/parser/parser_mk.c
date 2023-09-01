@@ -66,7 +66,7 @@ t_cmd	*parse_redirect(t_cmd *cmd, t_dlist **token)
 	run = *token;
 	while (check_redirect(get_token_type(run)) == TRUE)
 	{
-		if (check_arguments(get_token_type(run->next)) != FALSE)
+		if (check_arguments(get_token_type(run->next)) == FALSE)
 			perror("missing file"); // get exit here
 		cmd = select_redirect(cmd, get_token(run));
 		run = run->next->next;
@@ -87,17 +87,19 @@ t_cmd	*parse_execution(t_dlist **token)
 	cmd = (t_execcmd *)ret;
 	ret = parse_redirect(ret, token);
 	run = *token;
+	argc = 0;
 	while (check_metachars(get_token_type(run)) == FALSE)
 	{
 		if (get_token_type(run) == TOKEN_EOF)
 			break ;
-		if (check_arguments(get_token_type(run)) != FALSE)
+		if (check_arguments(get_token_type(run)) == FALSE)
 			perror("Add some error handling if this is wrong");
-		cmd->argv[argc] = expand_token(get_token_value(run));
+		// cmd->argv[argc] = expand_token(get_token_value(run));
+		cmd->argv[argc] = get_token_value(run);
 		run = run->next;
 		++argc;
 		if (argc >= 15)
-			perror("too many input arguments for the command")
+			perror("too many input arguments for the command");
 		ret = parse_redirect(ret, &run);
 	}
 	cmd->argv[argc] = NULL;
@@ -114,7 +116,7 @@ t_cmd	*parse_pipe(t_dlist **token)
 	if (get_token_type(run) == TOKEN_PIPE)
 	{
 		run = run->next;
-		cmd = parse_pipe(&run);
+		cmd = pipecmd(cmd, parse_pipe(&run));
 	}
 	return (cmd);
 }
