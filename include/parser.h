@@ -54,6 +54,8 @@ t_cmd *pipecmd(t_cmd *left, t_cmd *right);
 
 t_type	get_token_type(t_dlist *token);
 
-t_cmd	*parse_command(t_dlist **token);
+t_cmd	*parse_command(t_dlist **token, char **env);
+
+char	*expand_token(t_token *tok, char **env);
 
 #endif
