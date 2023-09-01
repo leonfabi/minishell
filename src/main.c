@@ -97,7 +97,7 @@ void	ft_print_ast(t_cmd *cmd, char *str)
 int	main(int argc, char *argv[], char *envp[])
 {
 	t_main		main;
-	char		str[] = "a | b";
+	char		str[] = "< test.txt cat";
 
 	main = (t_main){};
 	init_shell(&main, envp);
@@ -106,7 +106,7 @@ int	main(int argc, char *argv[], char *envp[])
 	// main.lexer = ft_lexer("'test' < \"test\" | 'hello'");
 	ft_print_token_list(&main.lexer);
 	// main.cmd = ft_parser(&main.lexer);
-	main.cmd = parse_command(&main.lexer.token_list);
+	main.cmd = parse_command(&main.lexer.token_list, main.env);
 	ft_print_ast(main.cmd, "START");
 	// ft_arrprint((const char **)main.env);
 	// printf("%lu\n\n", ft_arrlen((const char **)main.env));

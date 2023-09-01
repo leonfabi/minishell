@@ -19,22 +19,22 @@ struct cmd
 
 typedef struct execcmd
 {
-	int		type;
-	char	*argv[15];
+	t_parscmd	type;
+	char		*argv[15];
 }	t_execcmd;
 
 typedef struct redircmd
 {
-	int		type;
-	t_cmd	*cmd;
-	char	*file;
-	int		mode;
-	int		fd;
+	t_parscmd	type;
+	t_cmd		*cmd;
+	char		*file;
+	int			mode;
+	int			fd;
 }	t_redircmd;
 
 typedef struct pipecmd
 {
-	int			type;
+	t_parscmd	type;
 	t_cmd	*left;
 	t_cmd	*right;
 }	t_pipecmd;

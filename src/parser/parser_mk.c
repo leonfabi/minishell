@@ -55,89 +55,87 @@ t_type	get_token_type(t_dlist *token)
 	return (tok->type);
 }
 
-t_cmd	*select_redirect(t_cmd *subcmd, t_token *tok)
+t_cmd	*select_redirect(t_cmd *subcmd, t_dlist *tok_list)
 {
-	if (tok->type == TOKEN_LESS)
-		return (redircmd(subcmd, tok, O_RDONLY, 0));
-	if (tok->type == TOKEN_GREATER)
-		return (redircmd(subcmd, tok, O_WRONLY | O_RDONLY, 1));
-	if (tok->type == TOKEN_DGREATER)
-		return (redircmd(subcmd, tok, O_WRONLY | O_CREAT, 1));
+	t_token		*redir;
+	t_token		*file;
+
+	redir = get_token(tok_list);
+	file = get_token(tok_list->next);
+	if (redir->type == TOKEN_LESS)
+		return (redircmd(subcmd, file, O_RDONLY, 0));
+	if (redir->type == TOKEN_GREATER)
+		return (redircmd(subcmd, file, O_WRONLY | O_RDONLY, 1));
+	if (redir->type == TOKEN_DGREATER)
+		return (redircmd(subcmd, file, O_WRONLY | O_CREAT, 1));
 	// here we have to find something for the heredoc
 	return (NULL);
 }
 
-t_cmd	*parse_redirect(t_cmd *cmd, t_dlist **token)
+t_cmd	*parse_redirect(t_cmd *cmd, t_dlist **tok)
 {
-	t_dlist		*run;
-
-	run = *token;
-	while (check_redirect(get_token_type(run)) == TRUE)
+	while (check_redirect(get_token_type(*tok)) == TRUE)
 	{
-		if (check_arguments(get_token_type(run->next)) == FALSE)
+		if (check_arguments(get_token_type((*tok)->next)) == FALSE)
 			perror("missing file"); // get exit here
-		cmd = select_redirect(cmd, get_token(run));
-		run = run->next->next;
-		if (NULL == run)
+		cmd = select_redirect(cmd, *tok);
+		*tok = (*tok)->next->next;
+		if (NULL == *tok)
 			perror("add something about EOF");
 	}
 	return (cmd);
 }
 
-t_cmd	*parse_execution(t_dlist **token, char **env)
+t_cmd	*parse_execution(t_dlist **tok, char **env)
 {
 	int			argc;
-	t_dlist		*run;
 	t_execcmd	*cmd;
 	t_cmd		*ret;
 
 	ret = execcmd();
 	cmd = (t_execcmd *)ret;
-	ret = parse_redirect(ret, token);
-	run = *token;
+	ret = parse_redirect(ret, tok);
 	argc = 0;
-	while (check_metachars(get_token_type(run)) == FALSE)
+	while (check_metachars(get_token_type(*tok)) == FALSE)
 	{
-		if (get_token_type(run) == TOKEN_EOF)
+		if (get_token_type(*tok) == TOKEN_EOF)
 			break ;
-		if (check_arguments(get_token_type(run)) == FALSE)
+		if (check_arguments(get_token_type(*tok)) == FALSE)
 			perror("Add some error handling if this is wrong");
-		// cmd->argv[argc] = expand_token(get_token_value(run));
-		cmd->argv[argc] = get_token_value(run);
-		run = run->next;
+		// cmd->argv[argc] = expand_token(get_token(*tok), env);
+		cmd->argv[argc] = get_token_value(*tok);
+		*tok = (*tok)->next;
 		++argc;
 		if (argc >= 15)
 			perror("too many input arguments for the command");
-		ret = parse_redirect(ret, &run);
+		ret = parse_redirect(ret, tok);
 	}
 	cmd->argv[argc] = NULL;
 	return (ret);
 }
 
-t_cmd	*parse_pipe(t_dlist **token, char **env)
+t_cmd	*parse_pipe(t_dlist **tok, char **env)
 {
-	t_dlist		*run;
 	t_cmd		*cmd;
 
-	run = *token;
-	cmd = parse_execution(&run, env);
-	if (get_token_type(run) == TOKEN_PIPE)
+	cmd = parse_execution(tok, env);
+	if (get_token_type(*tok) == TOKEN_PIPE)
 	{
-		run = run->next;
-		cmd = pipecmd(cmd, parse_pipe(&run));
+		*tok = (*tok)->next;
+		cmd = pipecmd(cmd, parse_pipe(tok, env));
 	}
 	return (cmd);
 }
 
-t_cmd	*parse_command(t_dlist **token, char **env)
+t_cmd	*parse_command(t_dlist **tok, char **env)
 {
-	t_dlist		*run;
+	t_dlist		*keep;
 	t_cmd		*cmd;
 
-	run = *token;
-	cmd = parse_pipe(&run, env);
-	if (get_token_type(run) != TOKEN_EOF)
+	keep = *tok;
+	cmd = parse_pipe(tok, env);
+	if (get_token_type(*tok) != TOKEN_EOF)
 		perror("Did not finish parsing error");
-	nullterminate(token);
+	nullterminate(&keep);
 	return (cmd);
 }
