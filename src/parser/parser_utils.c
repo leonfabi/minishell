@@ -20,10 +20,7 @@ static t_bool	correct_token(t_type type)
 	return (TRUE);
 }
 
-// add check for DQUOTE and QUOTE token
-// remove dquotes
-// if token == quotes -> remove start and end
-t_bool	nullterminate(t_dlist **token)
+t_bool	nulterminate(t_dlist **token)
 {
 	t_dlist		*run;
 	t_token		*tok;

@@ -136,6 +136,6 @@ t_cmd	*parse_command(t_dlist **tok, char **env)
 	cmd = parse_pipe(tok, env);
 	if (get_token_type(*tok) != TOKEN_EOF)
 		perror("Did not finish parsing error");
-	nullterminate(&keep);
+	nulterminate(&keep);
 	return (cmd);
 }

@@ -107,7 +107,14 @@ int	main(int argc, char *argv[], char *envp[])
 	ft_print_token_list(&main.lexer);
 	// main.cmd = ft_parser(&main.lexer);
 	main.cmd = parse_command(&main.lexer.token_list, main.env);
-	ft_print_ast(main.cmd, "START");
+	for(int i = 0; i < 15; i++) {
+        if (str[i] == '\0') {
+            printf("\\0"); // print \0 for null character
+        } else {
+            printf("%c", str[i]);
+        }
+    }
+	// ft_print_ast(main.cmd, "START");
 	// ft_arrprint((const char **)main.env);
 	// printf("%lu\n\n", ft_arrlen((const char **)main.env));
 	// env(main.env);

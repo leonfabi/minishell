@@ -44,7 +44,7 @@ t_cmd	*ft_parser(t_lexer *lexer);
 
 t_token	*get_token(t_dlist *token);
 
-t_bool	nullterminate(t_dlist **token);
+t_bool	nulterminate(t_dlist **token);
 
 t_cmd *execcmd(void);
 
