@@ -19,15 +19,17 @@ char	*expand_token(t_token *tok, char **env)
 
 	value = tok->value;
 	len = tok->value_length - 1;
-	if (*value != '$')
+	if (*value != '$' || tok->type == TOKEN_QUOTE)
 		return (value);
 	++value;
 	while (NULL != *env)
 	{
 		sub = check_for_expansion(*env, value, len);
-		if ( == TRUE)
-			break ;
+		if (NULL != sub)
+		{
+			return (sub);
+		}
 		++env;
 	}
-	return (value);
+	return (value + len);
 }

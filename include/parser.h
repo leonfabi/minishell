@@ -58,4 +58,8 @@ t_cmd	*parse_command(t_dlist **token, char **env);
 
 char	*expand_token(t_token *tok, char **env);
 
+void	clean_ast(t_cmd *cmd);
+
+char	*expand_token(t_token *tok, char **env);
+
 #endif

@@ -138,19 +138,20 @@ int	main(int argc, char *argv[], char *envp[])
 {
 	int			len;
 	t_main		main;
-	char		str[] = "< test.txt cat | echo hello world > out.log";
+	char		*str;
 
-	len = ft_strlen(str);
 	main = (t_main){};
 	init_shell(&main, envp);
 	// main.lexer = ft_lexer("cat < test.txt | grep hello | wc > out.log");
+	str = readline(" > ");
+	len = ft_strlen(str);
 	main.lexer = ft_lexer(str);
 	// main.lexer = ft_lexer("'test' < \"test\" | 'hello'");
 	ft_print_token_list(&main.lexer);
 	// main.cmd = ft_parser(&main.lexer);
 	main.cmd = parse_command(&main.lexer.token_list, main.env);
 	printf("Input: ");
-	for(int i = 0; i < len; i++) {
+	for(int i = 0; i <= len; i++) {
 		if (str[i] == '\0') {
 			printf("\\0"); // print \0 for null character
 		} else {
@@ -159,6 +160,10 @@ int	main(int argc, char *argv[], char *envp[])
 	}
 	printf("\n");
 	print_AST(main.cmd);
+	clean_ast(main.cmd);
+	ft_dlstclear(&main.lexer.token_list, &free);
+	ft_arrfree(main.env);
+	free(str);
 	// ft_print_ast(main.cmd, "START");
 	// ft_arrprint((const char **)main.env);
 	// printf("%lu\n\n", ft_arrlen((const char **)main.env));

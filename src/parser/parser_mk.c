@@ -102,8 +102,8 @@ t_cmd	*parse_execution(t_dlist **tok, char **env)
 			break ;
 		if (check_arguments(get_token_type(*tok)) == FALSE)
 			perror("Add some error handling if this is wrong");
-		// cmd->argv[argc] = expand_token(get_token(*tok), env);
-		cmd->argv[argc] = get_token_value(*tok);
+		cmd->argv[argc] = expand_token(get_token(*tok), env);
+		// cmd->argv[argc] = get_token_value(*tok);
 		*tok = (*tok)->next;
 		++argc;
 		if (argc >= 15)
