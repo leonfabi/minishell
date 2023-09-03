@@ -106,7 +106,7 @@ t_cmd	*parse_execution(t_dlist **tok, char **env)
 		// cmd->argv[argc] = get_token_value(*tok);
 		*tok = (*tok)->next;
 		++argc;
-		if (argc >= 15)
+		if (argc >= MAXARGS)
 			perror("too many input arguments for the command");
 		ret = parse_redirect(ret, tok);
 	}

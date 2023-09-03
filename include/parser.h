@@ -3,6 +3,8 @@
 
 # include "lexer.h"
 
+# define MAXARGS 20
+
 typedef enum e_parscmd
 {
 	EXECUTE,
@@ -20,7 +22,7 @@ struct cmd
 typedef struct execcmd
 {
 	t_parscmd	type;
-	char		*argv[15];
+	char		*argv[MAXARGS];
 }	t_execcmd;
 
 typedef struct redircmd

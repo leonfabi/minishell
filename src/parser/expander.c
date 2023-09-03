@@ -17,6 +17,11 @@ char	*expand_token(t_token *tok, char **env)
 	char	*sub;
 	int		len;
 
+	// TODO: WRITE function for getting multiple special
+	// characters 
+	// 1. Find amount of special characters
+	// 2. Create strjoin to add them together
+	// 3. Malloc each string
 	value = tok->value;
 	len = tok->value_length - 1;
 	if (*value != '$' || tok->type == TOKEN_QUOTE)
