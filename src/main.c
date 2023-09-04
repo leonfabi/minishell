@@ -141,6 +141,7 @@ int	main(int argc, char *argv[], char *envp[])
 	char		*str;
 
 	main = (t_main){};
+	set_exit_status(EXIT_SUCCESS);
 	init_shell(&main, envp);
 	// main.lexer = ft_lexer("cat < test.txt | grep hello | wc > out.log");
 	str = readline(" > ");
