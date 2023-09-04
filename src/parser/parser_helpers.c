@@ -8,6 +8,8 @@ t_bool	check_redirect(t_type type)
 		return (TRUE);
 	if (type == TOKEN_DGREATER)
 		return (TRUE);
+	if (type == TOKEN_DLESS)
+		return (TRUE);
 	return (FALSE);
 }
 
@@ -29,8 +31,6 @@ t_bool	check_metachars(t_type type)
 	return (FALSE);
 }
 
-// TODO: Not yet handling HEREDOC
-// We can fix that later.
 t_cmd	*select_redirect(t_cmd *subcmd, t_dlist *tok_list, char **env)
 {
 	t_token		*redir;
@@ -45,7 +45,7 @@ t_cmd	*select_redirect(t_cmd *subcmd, t_dlist *tok_list, char **env)
 	if (redir->type == TOKEN_DGREATER)
 		return (redircmd(subcmd, file, env));
 	if (redir->type == TOKEN_DLESS)
-		return (NULL);
+		return (redircmd(subcmd, file, env));
 	return (NULL);
 }
 

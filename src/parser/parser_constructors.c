@@ -27,9 +27,11 @@ static int	get_correct_mode(t_type type)
 	if (type == TOKEN_LESS)
 		return (O_RDONLY);
 	if (type == TOKEN_GREATER)
-		return (O_WRONLY | O_RDONLY);
+		return (O_WRONLY | O_TRUNC | O_CREAT);
 	if (type == TOKEN_DGREATER)
-		return (O_WRONLY | O_CREAT);
+		return (O_WRONLY | O_CREAT | O_APPEND);
+	if (type == TOKEN_DLESS)
+		return (O_HEREDOC);
 	return (0);
 }
 

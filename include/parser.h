@@ -5,6 +5,7 @@
 # include <fcntl.h>
 
 # define MAXARGS 20
+# define O_HEREDOC 0x0300
 
 typedef enum e_parscmd
 {
