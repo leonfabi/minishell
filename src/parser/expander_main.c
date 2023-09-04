@@ -21,14 +21,9 @@ static t_bool	check_valid_expansion(char c)
 		return (TRUE);
 	if (c == '?')
 		return (TRUE);
-	if (c == '0')
-		return (TRUE);
 	if (ft_isalnum(c) == TRUE)
 		return (TRUE);
-	if (c == '-')
-		return (TRUE);
-	if (c == '-')
-		return (TRUE);
+	return (FALSE);
 }
 
 static int	expansion_amount(t_token *tok)
@@ -40,8 +35,11 @@ static int	expansion_amount(t_token *tok)
 	amount = 0;
 	while (tok->value_length-- > 1)
 	{
-		if (*str == '$' && *(str + 1) )
+		if (check_valid_expansion(*str))
+			++amount;
+		++str;
 	}
+	return (amount);
 }
 
 char	*expand_token(t_token *tok, char **env)
@@ -49,16 +47,15 @@ char	*expand_token(t_token *tok, char **env)
 	char	*value;
 	char	*sub;
 	int		len;
+	int		amount;
 
-	// TODO: WRITE function for getting multiple special
-	// characters 
-	// 1. Find amount of special characters
-	// 2. Create strjoin to add them together
-	// 3. Malloc each string
+	if (tok->type == TOKEN_QUOTE)
+		return (ft_strndup(tok->value, tok->value_length));
+	amount = expansion_amount(tok);
+	if (amount == 0)
+		return (ft_strndup(tok->value, tok->value_length));
 	value = tok->value;
 	len = tok->value_length - 1;
-	if (*value != '$' || tok->type == TOKEN_QUOTE)
-		return (value);
 	++value;
 	while (NULL != *env)
 	{
