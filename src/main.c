@@ -54,46 +54,6 @@ void	ft_print_token_list(t_lexer *lexer)
 	lexer->token_list = tmp;
 }
 
-void	ft_print_ast(t_cmd *cmd, char *str);
-
-void	ft_print_pipe_node(t_cmd *cmd, char *str)
-{
-	t_pipecmd	*tmp;
-
-	tmp = NULL;
-	printf("Node type: %s\n", parse_types[cmd->type]);
-	tmp = (t_pipecmd *)cmd;
-	if (tmp->left != NULL)
-		printf("Left points to: %s\n", parse_types[tmp->left->type]);
-	else
-		printf("Left points to NULL\n");
-	if (tmp->right != NULL)
-		printf("Right points to: %s\n", parse_types[tmp->right->type]);
-	else
-		printf("Right points to NULL\n");
-	ft_print_ast(tmp->left, "LEFT");
-	ft_print_ast(tmp->right, "RIGHT");
-}
-
-void	ft_print_exec_node(t_cmd *cmd, char *str)
-{
-
-}
-
-void	ft_print_ast(t_cmd *cmd, char *str)
-{
-	printf("Node type: %s\n", parse_types[cmd->type]);
-	if (cmd != NULL)
-	{
-		printf("%s\t", str);
-		if (cmd->type == PIPE)
-			ft_print_pipe_node(cmd, str);
-		if (cmd->type == EXECUTE)
-			ft_print_exec_node(cmd, str);
-	}
-	return ;
-}
-
 void	print_AST(t_cmd *cmd)
 {
 	t_execcmd	*ecmd;
