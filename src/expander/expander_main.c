@@ -65,6 +65,7 @@ char	*expand_token(t_token *tok, char **env)
 	int		amount;
 
 	ft_bzero(sub, 10000);
+	value = sub;
 	if (tok->type == TOKEN_QUOTE)
 		return (ft_strndup(tok->value, tok->value_length));
 	if (expansion_amount(tok, &amount) == 0)
