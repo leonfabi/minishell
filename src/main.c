@@ -123,6 +123,7 @@ int	main(int argc, char *argv[], char *envp[])
 	clean_ast(main.cmd);
 	ft_dlstclear(&main.lexer.token_list, &free);
 	ft_arrfree(main.env);
+	ft_arrfree(main.bin_path);
 	free(str);
 	// ft_print_ast(main.cmd, "START");
 	// ft_arrprint((const char **)main.env);
