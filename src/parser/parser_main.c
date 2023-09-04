@@ -1,6 +1,5 @@
 #include "minishell.h"
 
-// FIX: On error checking we have to try to get a clean exit.
 static t_cmd	*parse_redirect(t_cmd *cmd, t_dlist **tok, char **env)
 {
 	while (check_redirect(get_token_type(*tok)) == TRUE)

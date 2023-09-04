@@ -27,13 +27,15 @@ static int	get_correct_mode(t_type type)
 	if (type == TOKEN_LESS)
 		return (O_RDONLY);
 	if (type == TOKEN_GREATER)
-		return (O_WRONLY | O_RDONLY);
+		return (O_WRONLY | O_TRUNC | O_CREAT);
 	if (type == TOKEN_DGREATER)
-		return (O_WRONLY | O_CREAT);
+		return (O_WRONLY | O_CREAT | O_APPEND);
+	if (type == TOKEN_DLESS)
+		return (O_HEREDOC);
 	return (0);
 }
 
-t_cmd	*redircmd(t_cmd *subcmd, t_token *tok, char **env)
+t_cmd	*redircmd(t_cmd *subcmd, t_token *tok, t_token *file, char **env)
 {
 	t_redircmd	*cmd;
 
@@ -43,9 +45,10 @@ t_cmd	*redircmd(t_cmd *subcmd, t_token *tok, char **env)
 	*cmd = (t_redircmd){
 		.type = REDIR,
 		.cmd = subcmd,
-		.file = expand_token(tok, env),
+		.file = expand_token(file, env),
 		.mode = get_correct_mode(tok->type),
 		.fd = get_correct_fd(tok->type),
+		.expand = (tok->type & TOKEN_QUOTE) || (tok->type & TOKEN_DQUOTE)
 	};
 	return ((t_cmd *)cmd);
 }
