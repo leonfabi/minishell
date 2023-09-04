@@ -11,6 +11,39 @@ static char	*check_for_expansion(char *env, char *name, int len)
 	return (NULL);
 }
 
+// NOTE: EXAMPLE
+// $$$?$0$
+static t_bool	check_valid_expansion(char c)
+{
+	if (c == '-')
+		return (TRUE);
+	if (c == '$')
+		return (TRUE);
+	if (c == '?')
+		return (TRUE);
+	if (c == '0')
+		return (TRUE);
+	if (ft_isalnum(c) == TRUE)
+		return (TRUE);
+	if (c == '-')
+		return (TRUE);
+	if (c == '-')
+		return (TRUE);
+}
+
+static int	expansion_amount(t_token *tok)
+{
+	int		amount;
+	char	*str;
+
+	str = tok->value;
+	amount = 0;
+	while (tok->value_length-- > 1)
+	{
+		if (*str == '$' && *(str + 1) )
+	}
+}
+
 char	*expand_token(t_token *tok, char **env)
 {
 	char	*value;
