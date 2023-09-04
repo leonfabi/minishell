@@ -32,7 +32,8 @@ SRCS += init.c
 SRCS += lexer.c lexer_token.c lexer_token_2.c
 SRCS += signal_handler.c exit_status.c
 SRCS += double_list.c error_mgmt.c cleanup.c
-SRCS += parser_mk.c constructors.c parser_utils.c expander.c
+SRCS += parser_main.c parser_constructors.c parser_helpers.c
+SRCS += parser_helpers_tok.c parser_utils.c expander.c
 SRCS += main.c
 # SRCS += 
 
