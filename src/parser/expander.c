@@ -3,7 +3,7 @@
 static char	*check_for_expansion(char *env, char *name, int len)
 {
 	char	*sub;
-	
+
 	if (ft_strncmp(env, name, len) != 0)
 		return (NULL);
 	if (*(env + len) == '=')

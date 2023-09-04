@@ -35,7 +35,7 @@ static int	get_correct_mode(t_type type)
 	return (0);
 }
 
-t_cmd	*redircmd(t_cmd *subcmd, t_token *tok, char **env)
+t_cmd	*redircmd(t_cmd *subcmd, t_token *tok, t_token *file, char **env)
 {
 	t_redircmd	*cmd;
 
@@ -45,9 +45,10 @@ t_cmd	*redircmd(t_cmd *subcmd, t_token *tok, char **env)
 	*cmd = (t_redircmd){
 		.type = REDIR,
 		.cmd = subcmd,
-		.file = expand_token(tok, env),
+		.file = expand_token(file, env),
 		.mode = get_correct_mode(tok->type),
 		.fd = get_correct_fd(tok->type),
+		.expand = (tok->type & TOKEN_QUOTE) || (tok->type & TOKEN_DQUOTE)
 	};
 	return ((t_cmd *)cmd);
 }

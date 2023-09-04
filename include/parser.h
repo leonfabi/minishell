@@ -34,6 +34,7 @@ typedef struct redircmd
 	char		*file;
 	int			mode;
 	int			fd;
+	t_bool		expand;
 }	t_redircmd;
 
 typedef struct pipecmd
@@ -57,7 +58,7 @@ t_cmd	*parse_command(t_dlist **tok, char **env);
 t_cmd	*execcmd(void);
 
 // Function for initializing a redirect node of the AST
-t_cmd	*redircmd(t_cmd *subcmd, t_token *tok, char **env);
+t_cmd	*redircmd(t_cmd *subcmd, t_token *tok, t_token *file, char **env);
 
 // Function for initializing a pipe node of the AST
 t_cmd	*pipecmd(t_cmd *left, t_cmd *right);

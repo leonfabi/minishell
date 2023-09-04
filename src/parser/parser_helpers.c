@@ -39,13 +39,13 @@ t_cmd	*select_redirect(t_cmd *subcmd, t_dlist *tok_list, char **env)
 	redir = get_token(tok_list);
 	file = get_token(tok_list->next);
 	if (redir->type == TOKEN_LESS)
-		return (redircmd(subcmd, file, env));
+		return (redircmd(subcmd, redir, file, env));
 	if (redir->type == TOKEN_GREATER)
-		return (redircmd(subcmd, file, env));
+		return (redircmd(subcmd, redir, file, env));
 	if (redir->type == TOKEN_DGREATER)
-		return (redircmd(subcmd, file, env));
+		return (redircmd(subcmd, redir, file, env));
 	if (redir->type == TOKEN_DLESS)
-		return (redircmd(subcmd, file, env));
+		return (redircmd(subcmd, redir, file, env));
 	return (NULL);
 }
 
