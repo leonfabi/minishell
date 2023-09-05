@@ -1,23 +1,13 @@
 #include "minishell.h"
 
-
-void	free_env_list(t_env **env)
+t_bool	check_env_variable(char *env, char *name)
 {
-	t_env	*tmp;
+	size_t	len;
 
-	if (NULL == env)
-		return ;
-	tmp = (*env)->next;
-	free((*env)->name);
-	free((*env)->value);
-	free(*env);
-	*env = NULL;
-	while (NULL != tmp)
-	{
-		*env = tmp;
-		tmp = tmp->next;
-		free((*env)->name);
-		free((*env)->value);
-		free(*env);
-	}
+	len = ft_strlen(name);
+	if (ft_strncmp(env, name, len) != 0)
+		return (FALSE);
+	if (*(env + len) == '_' || (ft_isalnum(*(env + len)) == TRUE))
+		return (FALSE);
+	return (TRUE);
 }

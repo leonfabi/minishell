@@ -24,4 +24,6 @@ typedef struct s_main
 	int			stderr;
 }	t_main;
 
+void	adv_free(char **to_free);
+
 #endif

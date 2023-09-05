@@ -1,104 +1,130 @@
 #include "minishell.h"
 
-static char	*check_for_expansion(char *env, char *name, int len)
-{
-	char	*sub;
-	
-	if (ft_strncmp(env, name, len) != 0)
-		return (NULL);
-	if (*(env + len) == '=')
-		return (env + len + 1);
-	return (NULL);
-}
+// static char	*get_key(char **input)
+// {
+// 	t_bool	check;
+// 	char	*var;
+// 	int		len;
+// 
+// 	len = 0;
+// 	var = *input;
+// 	check = TRUE;
+// 	if (**input != '$')
+// 		return (advance_and_copy(input, ft_strlen_c(*input, '$')));
+// 	if (*(*input + 1) == '?')
+// 		return (advance_and_copy(input, 2));
+// 	if (ft_isdigit(*(*input + 1)) == TRUE)
+// 		return (advance_and_copy(input, 2));
+// 	if (*(*input + 1) == '$')
+// 		return (advance_and_copy(input, 2));
+// 	if (*(*input + 1) == '\0')
+// 		return (advance_and_copy(input, 2));
+// 	while (check == TRUE && *(*input + len) != '\0')
+// 	{
+// 		check &= ft_isalnum(*((*input) + len)) | ('_' == *((*input) + len));
+// 		++len;
+// 	}
+// 	return (advance_and_copy(input, len));
+// }
 
-static t_bool	check_valid_expansion(char c, char n)
+static char	*get_key(char **input)
 {
-	if (c == '-')
-		return (TRUE);
-	if (c == '$')
-		return (TRUE);
-	if (c == '?')
-		return (TRUE);
-	if (ft_isalnum(c) == TRUE)
-		return (TRUE);
-	return (FALSE);
-}
-
-static int	expansion_amount(t_token *tok, int *amount)
-{
-	char	*str;
 	t_bool	check;
+	char	*var;
+	int		len;
 
+	len = 1;
+	var = *input;
 	check = TRUE;
-	str = tok->value;
-	*amount = 0;
-	while (tok->value_length-- > 1)
+	if (**input != '$')
+		return (advance_and_copy(input, ft_strlen_c(*input, '$')));
+	if (*(var + 1) == '?')
+		return (advance_and_copy(input, 2));
+	if (ft_isdigit(*(var + 1)) == TRUE)
+		return (advance_and_copy(input, 2));
+	if (*(var + 1) == '$')
+		return (advance_and_copy(input, 2));
+	if (*(var + 1) == '\0')
+		return (advance_and_copy(input, 2));
+	while (*(var + len) != '\0')
 	{
-		if (check_valid_expansion(*str, *(str + 1)))
-			++amount;
-		++str;
+		check &= ft_isalnum(*(var + len)) | ('_' == *(var + len));
+		if (check == FALSE)
+			break ;
+		++len;
 	}
-	return (*amount);
+	return (advance_and_copy(input, len));
 }
-
-char	*search_environment(char **env)
+static char	*check_whole_env(char **env, char *name)
 {
-	while (NULL != *env)
+	char	**check;
+
+	if (*name != '$')
+		return (ft_strdup(name));
+	check = env;
+	while (NULL != *check)
 	{
-		ft_strlcat(sub, check_for_expansion(*env, value, len), 10000);
-		sub = check_for_expansion(*env, value, len);
-		if (NULL != sub)
-		{
-			return (sub);
-		}
-		++env;
+		if (check_env_variable(*check, name + 1) == TRUE)
+			return (ft_strdup(*check + ft_strlen_c(*check, '=') + 1));
+		++check;
 	}
+	return (ft_strdup(""));
 }
 
-// TODO: use strlcat with strlen + 1
-// start with the empty string and call strdup at the end of the function
+static t_list	*create_keylist(char *input)
+{
+	t_list	*start;
+	char	*key;
+
+	key = NULL;
+	start = NULL;
+	while ('\0' != *input)
+	{
+		key = get_key(&input);
+		ft_lstadd_back(&start, ft_lstnew(key));
+	}
+	return (start);
+}
+
+static char	*create_expanded_string(t_list *run, char **env)
+{
+	char	*expand;
+	char	*add;
+	char	*key;
+
+	expand = ft_strdup("");
+	while (run)
+	{
+		if (ft_strlen(run->content) <= 2)
+		{
+			key = run->content;
+			add = expand_special(key);
+		}
+		else
+		{
+			key = run->content;
+			add = check_whole_env(env, key);
+		}
+		expand = ft_strjoinfree(expand, add, 'B');
+		key = NULL;
+		run = run->next;
+	}
+	return(expand);
+}
+
 char	*expand_token(t_token *tok, char **env)
 {
-	char	*value;
-	char	sub[10000];
-	int		len;
+	char	*input;
 	int		amount;
+	t_list	*keylist;
+	char	*expand;
 
-	ft_bzero(sub, 10000);
-	value = sub;
+	input = ft_strndup(tok->value, tok->len);
 	if (tok->type == TOKEN_QUOTE)
-		return (ft_strndup(tok->value, tok->value_length));
-	if (expansion_amount(tok, &amount) == 0)
-		return (ft_strndup(tok->value, tok->value_length));
-	value = tok->value;
-	len = tok->value_length - 1;
-	++value;
-	return (value + len);
+		return (input);
+	keylist = create_keylist(input);
+	expand = create_expanded_string(keylist, env);
+	adv_free(&input);
+	ft_lstclear(&keylist, &free);
+	return (expand);
 }
-
-// Handles $$, $?, $-, and $VARIABLE
-// char	*expand_token(t_token *tok, char **env)
-// {
-// 	char	*value;
-// 	char	*sub;
-// 	int		len;
-// 	int		amount;
-// 
-// 	if (tok->type == TOKEN_QUOTE)
-// 		return (ft_strndup(tok->value, tok->value_length));
-// 	if (expansion_amount(tok, &amount) == 0)
-// 		return (ft_strndup(tok->value, tok->value_length));
-// 	value = tok->value;
-// 	len = tok->value_length - 1;
-// 	++value;
-// 	while (NULL != *env)
-// 	{
-// 		sub = check_for_expansion(*env, value, len);
-// 		if (NULL != sub)
-// 		{
-// 			return (sub);
-// 		}
-// 		++env;
-// 	}
-// 	return (value + len);
-// }

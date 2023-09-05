@@ -113,32 +113,17 @@ t_cmd	*select_redirect(t_cmd *subcmd, t_dlist *tok_list, char **env);
 // Util function to nulterminate the strings on the readline string.
 t_bool	correct_token(t_type type);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// WARNING: CHECK IF WE NEED THIS FUNCTION ANYMORE???????
+// Function to nulterminate the readline string
 t_bool	nulterminate(t_dlist **token);
 
+// FIX: add cleaning the allocated strings for redir and exec nodes
 void	clean_ast(t_cmd *cmd);
 
 char	*expand_token(t_token *tok, char **env);
+
+char	*advance_and_copy(char **input, int size);
+
+char	*expand_special(char *input);
 
 #endif

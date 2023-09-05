@@ -46,16 +46,16 @@ t_token	*ft_create_token(t_type type, t_lexer *lexer)
 	token->type = type;
 	token->value = lexer->start;
 	if (type == TOKEN_WORD || type == TOKEN_EOF)
-		token->value_length = lexer->counter - lexer->start;
+		token->len = lexer->counter - lexer->start;
 	else if (type == TOKEN_DQUOTE || type == TOKEN_QUOTE)
 	{
 		token->value++;
-		token->value_length = lexer->counter - lexer->start - 1;
+		token->len = lexer->counter - lexer->start - 1;
 	}
 	else if (type == TOKEN_DLESS || type == TOKEN_DGREATER)
-		token->value_length = 2;
+		token->len = 2;
 	else
-		token->value_length = 1;
+		token->len = 1;
 	return (token);
 }
 

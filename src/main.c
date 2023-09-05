@@ -41,7 +41,7 @@ void	ft_print_token_list(t_lexer *lexer)
 	{
 		count = 0;
 		type = ((t_token *)lexer->token_list->content)->type;
-		len = ((t_token *)lexer->token_list->content)->value_length;
+		len = ((t_token *)lexer->token_list->content)->len;
 		printf("TOKEN: %s\t", types[type]);
 		while (len > count)
 		{
