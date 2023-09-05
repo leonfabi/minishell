@@ -1,32 +1,5 @@
 #include "minishell.h"
 
-// static char	*get_key(char **input)
-// {
-// 	t_bool	check;
-// 	char	*var;
-// 	int		len;
-// 
-// 	len = 0;
-// 	var = *input;
-// 	check = TRUE;
-// 	if (**input != '$')
-// 		return (advance_and_copy(input, ft_strlen_c(*input, '$')));
-// 	if (*(*input + 1) == '?')
-// 		return (advance_and_copy(input, 2));
-// 	if (ft_isdigit(*(*input + 1)) == TRUE)
-// 		return (advance_and_copy(input, 2));
-// 	if (*(*input + 1) == '$')
-// 		return (advance_and_copy(input, 2));
-// 	if (*(*input + 1) == '\0')
-// 		return (advance_and_copy(input, 2));
-// 	while (check == TRUE && *(*input + len) != '\0')
-// 	{
-// 		check &= ft_isalnum(*((*input) + len)) | ('_' == *((*input) + len));
-// 		++len;
-// 	}
-// 	return (advance_and_copy(input, len));
-// }
-
 static char	*get_key(char **input)
 {
 	t_bool	check;
@@ -45,7 +18,7 @@ static char	*get_key(char **input)
 	if (*(var + 1) == '$')
 		return (advance_and_copy(input, 2));
 	if (*(var + 1) == '\0')
-		return (advance_and_copy(input, 2));
+		return (advance_and_copy(input, 1));
 	while (*(var + len) != '\0')
 	{
 		check &= ft_isalnum(*(var + len)) | ('_' == *(var + len));
