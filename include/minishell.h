@@ -1,23 +1,27 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/14 09:31:46 by fkrug             #+#    #+#             */
-/*   Updated: 2023/08/14 12:06:53 by fkrug            ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <limits.h>
+# include "defines.h"
+# include "environment.h"
 # include "libft.h"
 # include "signal_handler.h"
 # include "lexer.h"
+# include "builtins.h"
+# include "parser.h"
 
-# define TRUE 1
-# define FALSE 0
+typedef struct s_main
+{
+	char		*user;
+	char		**env;
+	char		**bin_path;
+	t_bool		no_environment;
+	t_lexer		lexer;
+	struct cmd	*cmd;
+	t_termios	xterm;
+	int			stdin;
+	int			stdout;
+	int			stderr;
+}	t_main;
 
 #endif

@@ -1,66 +1,92 @@
 NAME := minishell
-TEST := test
 .DEFAULT_GOAL := all
+CC := cc
 
-VPATH := src src/lexer src/signal tests
+################################################################################
+################################################################################
+################################################################################
 
-CFLAGS ?= -Wextra -Wall -Werror -MMD -MP
-LIBFT_DIR = ./libft
-LIBFT = $(LIBFT_DIR)/lib/libft.a
-HEADERS	:= -I ./include -I $(LIBFT_DIR)/header
-LIBS	:= $(LIBFT)
-SRCS_LEXER	:= lexer.c lexer_token.c lexer_token_2.c
-SRCS_LEXER	:= $(addprefix lexer/, $(SRCS_LEXER))
-SRCS_UTIL	:= double_list.c error_mgmt.c
-SRCS_UTIL	:= $(addprefix utils/, $(SRCS_UTIL))
-SRCS_DIR	:= ./src
-SRCS	:= $(addprefix $(SRCS_DIR)/, $(SRCS_LEXER)) $(addprefix $(SRCS_DIR)/, $(SRCS_UTIL))
-OBJ_DIR := ./_obj
-OBJ_LEXER := $(addprefix $(OBJ_DIR)/, $(SRCS_LEXER=%.c=%.o))
-OBJS	:= $(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
+G := \033[32m
+X := \033[0m
+BO := $(shell tput bold)
+LOG := printf "[$(BO)$(G)ⓘ INFO$(X)] %s\n"
 
-all: $(LIBFT) $(NAME)
+################################################################################
+###############                  DIRECTORIES                      ##############
+################################################################################
 
-$(TEST): $(OBJ_LEXER)
-	cc ./tests/test_lexer.c $(SRCS) -lreadline $(HEADERS) -L ./libft/lib -lft -o ./tests/test_lexer
-	./tests/test_lexer
+OBJ_DIR := _obj
+LIBFT_DIR := libft
+INC_DIRS := include $(LIBFT_DIR)/include
+SRC_DIRS := builtins init lexer signals utils environment parser
+SRC_DIRS := $(addprefix src/, $(SRC_DIRS))
+SRC_DIRS += src
 
-$(NAME): $(OBJ_LEXER)
-	cc $(SRCS) $(HEADERS) -L ./libft/lib -lft -lreadline -o $(NAME)
+vpath %.h $(INC_DIRS)
+vpath %.c $(SRC_DIRS)
+
+LIBFT = $(LIBFT_DIR)/libft.a
+
+SRCS := cd.c echo.c exit.c pwd.c unset.c env.c
+SRCS += init.c
+SRCS += lexer.c lexer_token.c lexer_token_2.c
+SRCS += signal_handler.c exit_status.c
+SRCS += double_list.c error_mgmt.c cleanup.c
+SRCS += parser_main.c parser_constructors.c parser_helpers.c
+SRCS += parser_helpers_tok.c parser_utils.c expander.c
+SRCS += main.c
+# SRCS += 
+
+OBJS := $(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
+
+################################################################################
+########                         COMPILING                      ################
+################################################################################
+
+CFLAGS ?= -g -MMD -MP $(addprefix -I, $(INC_DIRS)) # -Wextra -Wall -Werror 
+LDFLAGS := -L $(LIBFT_DIR) -lft -lreadline
+
+
+all: $(NAME)
+
+$(NAME): $(OBJS) | $(LIBFT)
+	@$(LOG) "Linking object files to $@"
+	@$(CC) $^ $(LDFLAGS) -o $@
+
+$(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
+	@$(LOG) "Compiling $(notdir $@)"
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJ_DIR):
+	@$(LOG) "Creating object directory."
+	@mkdir -p $@
 
 $(LIBFT):
-	@make -C $(LIBFT_DIR) -B
+	@make -C $(LIBFT_DIR) -B --no-print-directory
 
 debug: CFLAGS += -g
 debug: fclean all
 
 clean:
-	@$(MAKE) -C ./libft/ clean
+	@$(MAKE) -C ./libft/ clean --no-print-directory
 	@if [ -d "$(OBJ_DIR)" ]; then \
-		echo $(M)Cleaning $(OBJ_DIR).$(X); \
+		$(LOG) "Cleaning $(notdir $(OBJ_DIR))"; \
 		rm -rf $(OBJ_DIR); \
 	else \
-		echo $(C)No objects to clean.$(X); \
+		$(LOG) "No objects to clean."; \
 	fi
 
 fclean: clean
-	@$(MAKE) -C ./libft/ fclean
+	@$(MAKE) -C ./libft/ fclean --no-print-directory
 	@if [ -f "$(NAME)" ]; then \
-		echo $(M)Cleaning $(NAME).$(X); \
+		$(LOG) "Cleaning $(notdir $(NAME))"; \
 		rm -f $(NAME); \
 	else \
-		echo $(C)No binary to clean.$(X); \
+		$(LOG) "No library to clean."; \
 	fi
 
 re: fclean all
 
-R := "\033[31m"
-G := "\033[32m"
-Y := "\033[33m"
-M := "\033[35m"
-C := "\033[36m"
-X := "\033[0m"
-
 -include $(OBJS:%.o=%.d)
 
-.PHONY: test
+.PHONY: all fclean clean re

@@ -11,9 +11,9 @@ LOG := printf "[$(M)INFO$(RST)] %s\n"
 TESTS := signals lexer
 
 # define include dirs and search paths
-LIBFT_DIR := ../libft/lib
+LIBFT_DIR := ../libft
 LIBFT := $(LIBFT_DIR)/libft.a
-INC_DIRS := -I../include -I../libft/header
+INC_DIRS := -I../include -I../libft/include
 VPATH := ../src ../src/lexer ../src/signals ../src/utils
 OBJ_DIR := ./_obj
 
@@ -22,13 +22,11 @@ CFLAGS_TEST := -Wall -Wextra -Werror -g
 CFLAGS := $(CFLAGS_TEST) -MMD -MP
 #TEST_FLAG := -Wno-error=unused-command-line-argument
 LDFLAGS := -L $(LIBFT_DIR) -lft -lreadline -lcriterion
-#  -lcriterion
 # define a variable to run the tests
 define run
 	$(CC) $^ $(INC_DIRS) $(LDFLAGS) -o $@ && ./$@ --verbose
 endef
 
-# $(CC) $(CFLAGS_TEST) $^ $(INC_DIRS) $(LDFLAGS) -o $@ && ./$@ --verbose
 ####################################################################
 #>>>>>>>>>>>>>>>>>>>>>>>> Individual Setup <<<<<<<<<<<<<<<<<<<<<<<<#
 ####################################################################

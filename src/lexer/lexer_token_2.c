@@ -1,18 +1,6 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   lexer_token_2.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/14 14:35:01 by fkrug             #+#    #+#             */
-/*   Updated: 2023/08/19 17:52:38 by makurz           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
-int	ft_find_more_token(t_lexer *lexer)
+t_bool	ft_find_more_token(t_lexer *lexer)
 {
 	if (*lexer->counter == '\n' && \
 	ft_make_append_token(lexer, TOKEN_NEWLINE) == FALSE)
@@ -21,7 +9,7 @@ int	ft_find_more_token(t_lexer *lexer)
 	return (TRUE);
 }
 
-int	ft_make_append_token(t_lexer *lexer, t_type type)
+t_bool	ft_make_append_token(t_lexer *lexer, t_type type)
 {
 	t_token	*token;
 
@@ -37,7 +25,7 @@ int	ft_make_append_token(t_lexer *lexer, t_type type)
 	return (TRUE);
 }
 
-int	ft_is_section(char c)
+t_bool	ft_is_section(char c)
 {
 	if (c == '|' || c == '<' || c == '>' || c == '\n' || \
 	c == '\0' || c == '\'' || c == '"')

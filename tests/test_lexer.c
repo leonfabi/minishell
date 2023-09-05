@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   test_lexer.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/09 15:39:10 by fkrug             #+#    #+#             */
-/*   Updated: 2023/08/18 16:54:59 by makurz           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -223,9 +211,9 @@ Test(multi_char, quote)
 
 	lexer = ft_lexer("'test'");
 	get_values(lexer, &type, &len, value);
-	cr_assert(eq(str, value, "'test'"));
+	cr_assert(eq(str, value, "test"));
 	cr_assert(eq(str, "TOKEN_QUOTE", types[type]));
-	cr_assert(eq(int, 6, len));
+	cr_assert(eq(int, 4, len));
 }
 
 Test(multi_char, dquote)
@@ -237,7 +225,21 @@ Test(multi_char, dquote)
 
 	lexer = ft_lexer("\"dquotes\"");
 	get_values(lexer, &type, &len, value);
-	cr_assert(eq(str, value, "\"dquotes\""));
+	cr_assert(eq(str, value, "dquotes"));
+	cr_assert(eq(str, "TOKEN_DQUOTE", types[type]));
+	cr_assert(eq(int, 7, len));
+}
+
+Test(multi_char, inner_quotes)
+{
+	int			len;
+	char		value[20];
+	t_lexer		lexer;
+	t_type		type;
+
+	lexer = ft_lexer("\"'dquotes'\"");
+	get_values(lexer, &type, &len, value);
+	cr_assert(eq(str, value, "'dquotes'"));
 	cr_assert(eq(str, "TOKEN_DQUOTE", types[type]));
 	cr_assert(eq(int, 9, len));
 }
@@ -267,9 +269,9 @@ Test(multi_char, dquote_second)
 	lexer = ft_lexer("\"dquotes\" \"hello\" echo << |");
 	n_token(&lexer, 2);
 	get_values(lexer, &type, &len, value);
-	cr_assert(eq(str, value, "\"hello\""));
+	cr_assert(eq(str, value, "hello"));
 	cr_assert(eq(str, "TOKEN_DQUOTE", types[type]));
-	cr_assert(eq(int, 7, len));
+	cr_assert(eq(int, 5, len));
 }
 
 void	ft_print_token_list(t_lexer *lexer)

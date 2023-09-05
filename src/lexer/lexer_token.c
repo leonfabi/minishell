@@ -1,18 +1,6 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   lexer_token.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: makurz <makurz@student.42heilbronn.de>     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/14 09:19:47 by fkrug             #+#    #+#             */
-/*   Updated: 2023/08/19 17:32:28 by makurz           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
-int	ft_quoted_token(t_lexer *lexer)
+t_bool	ft_quoted_token(t_lexer *lexer)
 {
 	char	quote;
 
@@ -27,14 +15,14 @@ int	ft_quoted_token(t_lexer *lexer)
 	if (quote == 34)
 	{
 		if (ft_make_append_token(lexer, TOKEN_DQUOTE) == FALSE)
-			return (error_msg(lexer, "DQUOTEtoken failed"), FALSE);
+			return (error_msg(lexer, "DQUOTE token failed"), FALSE);
 	}
 	else if (ft_make_append_token(lexer, TOKEN_QUOTE) == FALSE)
 		return (error_msg(lexer, "QUOTE token failed"), FALSE);
 	return (TRUE);
 }
 
-int	ft_redirect_token(t_lexer *lexer)
+t_bool	ft_redirect_token(t_lexer *lexer)
 {
 	if (*lexer->counter == '<')
 	{
@@ -61,7 +49,7 @@ int	ft_redirect_token(t_lexer *lexer)
 	return (TRUE);
 }
 
-int	ft_word_token(t_lexer *lexer)
+t_bool	ft_word_token(t_lexer *lexer)
 {
 	while (ft_is_section(*lexer->counter) == FALSE && \
 	ft_isspace(*lexer->counter) == FALSE)
@@ -71,7 +59,7 @@ int	ft_word_token(t_lexer *lexer)
 	return (TRUE);
 }
 
-int	ft_identify_token(t_lexer *lexer)
+t_bool	ft_identify_token(t_lexer *lexer)
 {
 	while (*lexer->counter != '\0')
 	{
@@ -98,7 +86,7 @@ int	ft_identify_token(t_lexer *lexer)
 	return (TRUE);
 }
 
-int	ft_find_token(t_lexer *lexer)
+t_bool	ft_find_token(t_lexer *lexer)
 {
 	if (ft_identify_token(lexer) == FALSE)
 		return (FALSE);
