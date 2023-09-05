@@ -17,8 +17,6 @@ static char	*get_key(char **input)
 		return (advance_and_copy(input, 2));
 	if (*(var + 1) == '$')
 		return (advance_and_copy(input, 2));
-	if (*(var + 1) == '\0')
-		return (advance_and_copy(input, 1));
 	while (*(var + len) != '\0')
 	{
 		check &= ft_isalnum(*(var + len)) | ('_' == *(var + len));
@@ -68,16 +66,11 @@ static char	*create_expanded_string(t_list *run, char **env)
 	expand = ft_strdup("");
 	while (run)
 	{
-		if (ft_strlen(run->content) <= 2)
-		{
-			key = run->content;
+		key = run->content;
+		if (ft_strlen(key) <= 2)
 			add = expand_special(key);
-		}
 		else
-		{
-			key = run->content;
 			add = check_whole_env(env, key);
-		}
 		expand = ft_strjoinfree(expand, add, 'B');
 		key = NULL;
 		run = run->next;
