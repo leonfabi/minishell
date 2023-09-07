@@ -10,7 +10,7 @@ t_bool	nulterminate(t_dlist **token)
 	{
 		tok = get_token(run);
 		if (correct_token(tok->type) == TRUE)
-			*(tok->value + tok->value_length) = '\0';
+			*(tok->value + tok->len) = '\0';
 		run = run->next;
 	}
 	return (TRUE);

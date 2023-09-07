@@ -33,7 +33,7 @@ typedef struct s_token
 {
 	t_type	type;
 	char	*value;
-	int		value_length;
+	int		len;
 }	t_token;
 
 typedef struct s_lexer

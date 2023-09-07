@@ -41,7 +41,7 @@ void	ft_print_token_list(t_lexer *lexer)
 	{
 		count = 0;
 		type = ((t_token *)lexer->token_list->content)->type;
-		len = ((t_token *)lexer->token_list->content)->value_length;
+		len = ((t_token *)lexer->token_list->content)->len;
 		printf("TOKEN: %s\t", types[type]);
 		while (len > count)
 		{
@@ -101,6 +101,7 @@ int	main(int argc, char *argv[], char *envp[])
 	char		*str;
 
 	main = (t_main){};
+	set_exit_status(EXIT_SUCCESS);
 	init_shell(&main, envp);
 	// main.lexer = ft_lexer("cat < test.txt | grep hello | wc > out.log");
 	str = readline(" > ");
