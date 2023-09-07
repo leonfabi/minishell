@@ -121,6 +121,8 @@ int	main(int argc, char *argv[], char *envp[])
 	}
 	printf("\n");
 	print_AST(main.cmd);
+	executor(main.cmd, main.env, main.bin_path);
+	// CLEANUP
 	clean_ast(main.cmd);
 	ft_dlstclear(&main.lexer.token_list, &free);
 	ft_arrfree(main.env);
