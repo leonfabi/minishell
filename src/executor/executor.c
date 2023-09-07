@@ -8,7 +8,9 @@ char	*get_exec_path(char **bin_path, char *executable)
 
 	count = -1;
 	path = NULL;
-	full_path = NULL;
+	full_path = executable;
+	if (access(full_path, X_OK) == 0)
+		return (full_path);
 	while (bin_path[++count] != NULL)
 	{
 		path = ft_strjoin(bin_path[count], "/");
@@ -34,6 +36,11 @@ void	execute_node(t_execcmd *exec, char **env, char **bin_path)
 			perror("Execve error: ");
 		free(full_path);
 	}
+}
+
+void	execute_pipe(t_pipecmd *pipe)
+{
+
 }
 
 void	executor(t_cmd *ast, char **env, char **bin_path)
