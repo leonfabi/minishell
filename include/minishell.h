@@ -9,6 +9,7 @@
 # include "lexer.h"
 # include "builtins.h"
 # include "parser.h"
+# include "executor.h"
 
 typedef struct s_main
 {

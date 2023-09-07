@@ -18,7 +18,7 @@ LOG := printf "[$(BO)$(G)ⓘ INFO$(X)] %s\n"
 OBJ_DIR := _obj
 LIBFT_DIR := libft
 INC_DIRS := include $(LIBFT_DIR)/include
-SRC_DIRS := builtins init lexer signals utils environment parser
+SRC_DIRS := builtins init lexer signals utils environment parser executor
 SRC_DIRS := $(addprefix src/, $(SRC_DIRS))
 SRC_DIRS += src
 
@@ -34,6 +34,7 @@ SRCS += signal_handler.c exit_status.c
 SRCS += double_list.c error_mgmt.c cleanup.c
 SRCS += parser_main.c parser_constructors.c parser_helpers.c
 SRCS += parser_helpers_tok.c parser_utils.c expander.c
+SRCS += executor.c
 SRCS += main.c
 # SRCS += 
 
