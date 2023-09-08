@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	cd(char **args)
+int	ft_cd(t_execcmd *cmd)
 {
-	return (TRUE);
+	return (EXIT_SUCCESS);
 }

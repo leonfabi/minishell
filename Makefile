@@ -27,7 +27,7 @@ vpath %.c $(SRC_DIRS)
 
 LIBFT = $(LIBFT_DIR)/libft.a
 
-SRCS := cd.c echo.c env.c exit.c export.c pwd.c unset.c 
+SRCS := ft_cd.c ft_echo.c ft_env.c ft_exit.c ft_export.c ft_pwd.c ft_unset.c 
 SRCS += environment_utils.c
 SRCS += expander_main.c expander_utils.c
 SRCS += init.c

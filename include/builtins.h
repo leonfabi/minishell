@@ -2,9 +2,12 @@
 # define BUILTINS_H
 
 #include "environment.h"
+#include "parser.h"
 
-int		echo(char **arg);
-int		pwd(char **args);
+int		ft_cd(t_execcmd *cmd);
+int		ft_exit(t_execcmd *cmd);
+int		ft_echo(t_execcmd *cmd);
+int		ft_pwd(char **args);
 int		print(int fd, char *str);
 
 /* `<summary>`:
@@ -13,7 +16,7 @@ int		print(int fd, char *str);
  `env`: array of strings containing the env variables;
  `<returns>`:
  Returns `TRUE` on success and `FALSE` on fail. */
-t_bool	env(char **env);
+t_bool	ft_env(char **env);
 
 /* `<summary>`:
  Removes the corresponding var from the environment variables.
@@ -22,7 +25,7 @@ t_bool	env(char **env);
  `var`: the given name to be removed;
  `<returns>`:
  Returns `TRUE` on success and `FALSE` on fail. */
-t_bool	ft_unset(char **env, char *name);
+t_bool	ft_unset(t_execcmd *cmd, char **env);
 
 /* `<summary>`:
  Checks if the given variable is a valid variable for
@@ -32,5 +35,7 @@ t_bool	ft_unset(char **env, char *name);
  `<returns>`:
  Returns `TRUE` on success and `FALSE` on fail. */
 t_bool	precheck_env_update(char *var);
+
+int		ft_export(t_execcmd *cmd, char **env);
 
 #endif

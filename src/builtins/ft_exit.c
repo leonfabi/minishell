@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	ft_exit(char **args)
+int	ft_exit(t_execcmd *cmd)
 {
 	// cmd = exit;
 
