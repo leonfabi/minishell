@@ -117,16 +117,18 @@ extern char	**environ;
 // }
 //
 
+#include <errno.h>
+
 int	main(void)
 {
 	t_execcmd	cmd;
 	char		**env;
 
 	env = ft_calloc(3, sizeof(*env));
-	env[0] = ft_strdup("USER=makurz");
-	env[1] = ft_strdup("TEST=makurz");
-	printf("%s\n", env[0]);
-	printf("%s\n", env[1]);
+	env[1] = ft_strdup("USER=makurz");
+	env[0] = ft_strdup("USERNAME=none");
+	// printf("%s\n", env[0]);
+	// printf("%s\n", env[1]);
 	cmd = (t_execcmd){};
 	cmd.argv[0] = ft_strdup("export");
 	cmd.argv[1] = ft_strdup("TEST42_=42Hello");
@@ -136,9 +138,12 @@ int	main(void)
 	// cmd.argv[2] = "42TEST=Hallo";
 
 	ft_export(&cmd, &env);
+	char *search = get_env(env, "USER");
+	ft_fprintf(STDERR_FILENO, "HELLO % %s %s\n", "TEST", "SEcond");
+	// printf("%s\n", search);
 	int	i = -1;
-	while (env[++i] != NULL)
-		printf("%s\n", env[i]);
+	// while (env[++i] != NULL)
+	// 	printf("%s\n", env[i]);
 	i = -1;
 	while (cmd.argv[++i] != NULL)
 		free(cmd.argv[i]);

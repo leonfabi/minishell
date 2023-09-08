@@ -4,7 +4,7 @@
 #include "environment.h"
 #include "parser.h"
 
-int		ft_cd(t_execcmd *cmd);
+int		ft_cd(t_execcmd *cmd, char **env);
 int		ft_exit(t_execcmd *cmd);
 int		ft_echo(t_execcmd *cmd);
 int		ft_pwd(char **args);

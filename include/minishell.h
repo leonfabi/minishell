@@ -2,6 +2,7 @@
 # define MINISHELL_H
 
 # include <limits.h>
+# include <errno.h>
 # include "defines.h"
 # include "environment.h"
 # include "libft.h"

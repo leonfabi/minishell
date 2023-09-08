@@ -14,16 +14,7 @@ static char	**create_bin_paths(char **env)
 
 static char	**copy_env(char **env)
 {
-	char	**copy;
-	char	**run;
-
-	copy = ft_calloc(ft_arrlen((const char **)env) + 1, sizeof(char *));
-	if (NULL == copy)
-		return (NULL);
-	run = copy;
-	while (NULL != *env)
-		*run++ = ft_strdup(*env++);
-	return (copy);
+	return (ft_arrdup((const char **)env));
 }
 
 t_bool	init_shell(t_main *main, char **env)

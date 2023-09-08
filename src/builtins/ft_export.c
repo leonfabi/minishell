@@ -45,7 +45,7 @@ static char	*replace_env_variable(char *env, char *var)
 	return (ft_strdup(var));
 }
 
-static char	**update_env_variables(char **env, char *var)
+char	**update_env_variables(char **env, char *var)
 {
 	char	**upd;
 	t_bool	check;
@@ -82,8 +82,7 @@ int	ft_export(t_execcmd *cmd, char ***env)
 	i = 0;
 	arrlen = ft_arrlen((const char **)cmd->argv);
 	if (arrlen == 1)
-		;;
-		// FIX: export_print;
+		printf("%s\n", "FIX ME");
 	while (++i < arrlen)
 	{
 		*env = update_env_variables(*env, cmd->argv[i]);
