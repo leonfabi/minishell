@@ -23,17 +23,17 @@ t_dlist	*ft_dlstnew(void *content)
 	return (start);
 }
 
-t_bool	ft_dlstadd_back(t_dlist **lst, t_dlist *new)
+t_bool	ft_dlstadd_back(t_dlist **lst, t_dlist *add)
 {
 	t_dlist	*counter;
 
-	if (new == NULL)
+	if (add == NULL)
 		return (FALSE);
 	counter = ft_dlstlast(*lst);
 	if (counter == NULL)
-		return (*lst = new, TRUE);
-	counter->next = new;
-	new->prev = counter;
+		return (*lst = add, TRUE);
+	counter->next = add;
+	add->prev = counter;
 	return (TRUE);
 }
 

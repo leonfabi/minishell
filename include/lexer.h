@@ -46,7 +46,7 @@ typedef struct s_lexer
 
 // UTILS
 t_dlist		*ft_dlstnew(void *content);
-t_bool		ft_dlstadd_back(t_dlist **lst, t_dlist *new);
+t_bool		ft_dlstadd_back(t_dlist **lst, t_dlist *add);
 t_bool		ft_is_section(char c);
 void		ft_skip_whitespace(t_lexer *lexer);
 void		error_msg(t_lexer *lexer, char *str);

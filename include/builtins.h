@@ -27,15 +27,6 @@ t_bool	ft_env(char **env);
  Returns `TRUE` on success and `FALSE` on fail. */
 t_bool	ft_unset(t_execcmd *cmd, char **env);
 
-/* `<summary>`:
- Checks if the given variable is a valid variable for
- an environment variable in our shell.
- `<parameter>`:
- `var`: string that represents the variable name;
- `<returns>`:
- Returns `TRUE` on success and `FALSE` on fail. */
-t_bool	precheck_env_update(char *var);
-
-int		ft_export(t_execcmd *cmd, char **env);
+int		ft_export(t_execcmd *cmd, char ***env);
 
 #endif
