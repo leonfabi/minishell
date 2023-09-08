@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-t_bool	env(char **env)
+t_bool	ft_env(char **env)
 {
 	char	**run;
 
