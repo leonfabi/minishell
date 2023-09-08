@@ -38,15 +38,24 @@ void	execute_node(t_execcmd *exec, char **env, char **bin_path)
 	}
 }
 
-void	execute_pipe(t_pipecmd *pipe)
+void	execute_redir(t_redircmd *redir, char **env, char **bin_path)
 {
+	int	fd;
 
+	fd = open(redir->file, redir->mode, 0644);
+	if (redir->fd == 1)
+		dup2(fd, STDOUT_FILENO);
+	else if (redir->fd == 0)
+		dup2(fd, STDIN_FILENO);
+	executor(redir->cmd, env, bin_path);
 }
 
 void	executor(t_cmd *ast, char **env, char **bin_path)
 {
 	if (ast->type == EXECUTE)
 		execute_node((t_execcmd *) ast, env, bin_path);
+	else if (ast->type == REDIR)
+		execute_redir((t_redircmd *) ast, env, bin_path);
 }
 
 // int main(int argc, char* argv[])

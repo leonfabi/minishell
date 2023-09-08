@@ -82,6 +82,7 @@ void	print_AST(t_cmd *cmd)
 		case REDIR:
 			rcmd = (t_redircmd *)cmd;
 			printf("%s: %s\n", parse_types[rcmd->type], rcmd->file);
+			// printf("Cmd: %s, fd: %d, mode: %d\n", parse_types[rcmd->cmd->type], rcmd->fd, rcmd->mode);
 			print_AST(rcmd->cmd);
 			break ;
 		case PIPE:
