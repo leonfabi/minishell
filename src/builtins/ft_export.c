@@ -48,7 +48,6 @@ static char	*replace_env_variable(char *env, char *var)
 char	**update_env_variables(t_main *sh, char *var)
 {
 	int		i;
-	// char	**upd;
 	t_bool	check;
 	t_bool	replace;
 	size_t	len;

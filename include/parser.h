@@ -87,4 +87,6 @@ char	*advance_and_copy(char **input, int size);
 
 char	*expand_special(char *input);
 
+t_list	*create_keylist(char *input);
+
 #endif

@@ -127,18 +127,18 @@ int	main(int argc, char *argv[], char *envp[])
 	ft_print_token_list(&sh.lexer);
 	// main.cmd = ft_parser(&main.lexer);
 	ast = parse_command(&sh.lexer.token_list, &sh);
-	printf("Input: ");
-	for(int i = 0; i <= len; i++) {
-		if (str[i] == '\0') {
-			printf("\\0"); // print \0 for null character
-		} else {
-			printf("%c", str[i]);
-		}
-	}
-	printf("\n");
+	// printf("Input: ");
+	// for(int i = 0; i <= len; i++) {
+	// 	if (str[i] == '\0') {
+	// 		printf("\\0"); // print \0 for null character
+	// 	} else {
+	// 		printf("%c", str[i]);
+	// 	}
+	// }
+	// printf("\n");
 	print_AST(ast);
-	// executor(main.cmd, main.env, main.bin_path);
-	// CLEANUP
+	// // executor(main.cmd, main.env, main.bin_path);
+	// // CLEANUP
 	clean_ast(ast);
 	ft_dlstclear(&sh.lexer.token_list, &free);
 	ft_arrfree(sh.env);
