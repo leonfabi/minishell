@@ -9,27 +9,55 @@
 # define MAXARGS 20
 # define O_HEREDOC 0x0300
 
-typedef struct s_dlist	t_dlist;
+/* `<summary>`:
+ Define structs to use a shorter version in the code
+ for more readability and structure. */
+typedef struct sigaction	t_signal;
+typedef struct termios		t_termios;
+typedef void				t_handler(int);
 
 /* `<summary>`:
- Predefine the main struct to use t_main in the struct definition.
- '<struct member>':
+ Represents either TRUE (1) or FALSE (0). */
+typedef int					t_bool;
+typedef struct s_dlist		t_dlist;
+
+struct s_dlist
+{
+	void		*content;
+	t_dlist		*next;
+	t_dlist		*prev;
+};
+
+typedef struct s_lexer
+{
+	char	*start;
+	char	*counter;
+	t_dlist	*token_list;
+	int		error_code;
+}	t_lexer;
+
+/* `<SUMMARY>`:
+ * Main struct of the shell for holding all its attributes.
+ * `<MEMBER>`
+ * char			*user;
+ * char			**env;
+ * char			**bin_path;
+ * t_lexer		lexer;
+ * t_termios	xterm;
+ * int			stdin;
+ * int			stdout;
+ */
+typedef struct s_main
+{
 	char		*user;
 	char		**env;
 	char		**bin_path;
-	t_bool		no_environment;
 	t_lexer		lexer;
 	t_termios	xterm;
 	int			stdin;
 	int			stdout;
-	int			stderr; */
-typedef struct s_main	t_main;
-typedef struct cmd	t_cmd;
-
-/* `<summary>`:
- Represents either TRUE (1) or FALSE (0). */
-typedef int				t_bool;
-
+	int			stderr;
+}	t_main;
 
 typedef enum e_parscmd
 {
@@ -38,10 +66,10 @@ typedef enum e_parscmd
 	REDIR
 }	t_parscmd;
 
-struct cmd
+typedef struct s_cmd
 {
 	int		type;
-};
+}	t_cmd;
 
 typedef struct execcmd
 {
@@ -64,10 +92,9 @@ typedef struct redircmd
 typedef struct pipecmd
 {
 	t_parscmd	type;
-	t_cmd	*left;
-	t_cmd	*right;
+	t_cmd		*left;
+	t_cmd		*right;
 }	t_pipecmd;
-
 
 typedef enum e_type
 {
@@ -84,45 +111,11 @@ typedef enum e_type
 	TOKEN_NEWLINE
 }	t_type;
 
-typedef struct s_dlist
-{
-	void	*content;
-	t_dlist	*next;
-	t_dlist	*prev;
-}	t_dlist;
-
 typedef struct s_token
 {
 	t_type	type;
 	char	*value;
 	int		len;
 }	t_token;
-
-typedef struct s_lexer
-{
-	char	*start;
-	char	*counter;
-	t_dlist	*token_list;
-	int		error_code;
-}	t_lexer;
-
-/* `<summary>`:
- Define structs to use a shorter version in the code
- for more readability and structure. */
-typedef struct sigaction	t_signal;
-typedef struct termios		t_termios;
-typedef void				t_handler(int);
-
-typedef struct s_main
-{
-	char		*user;
-	char		**env;
-	char		**bin_path;
-	t_lexer		lexer;
-	t_termios	xterm;
-	int			stdin;
-	int			stdout;
-	int			stderr;
-}	t_main;
 
 #endif
