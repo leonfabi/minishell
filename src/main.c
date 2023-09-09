@@ -7,10 +7,10 @@
 // parser -> expander
 // executer
 // readline
+#include <math.h>
 
 char* types[] = {
 	"TOKEN_WORD",
-	"TOKEN_FLAG",
 	"TOKEN_PIPE",
 	"TOKEN_LESS",
 	"TOKEN_GREATER",
@@ -21,6 +21,14 @@ char* types[] = {
 	"TOKEN_DQUOTE",
 	"TOKEN_NEWLINE"
 };
+
+const char *get_token_name(t_type tok)
+{
+	int		index;
+
+	index = log2(tok);
+	return (types[index]);
+}
 
 char* parse_types[] = {
 	"EXECUTE",
@@ -42,7 +50,7 @@ void	ft_print_token_list(t_lexer *lexer)
 		count = 0;
 		type = ((t_token *)lexer->token_list->content)->type;
 		len = ((t_token *)lexer->token_list->content)->len;
-		printf("TOKEN: %s\t", types[type]);
+		printf("TOKEN: %s\t", get_token_name(type));
 		while (len > count)
 		{
 			printf("%c", ((t_token *)lexer->token_list->content)->value[count]);

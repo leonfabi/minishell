@@ -96,19 +96,32 @@ typedef struct pipecmd
 	t_cmd		*right;
 }	t_pipecmd;
 
+// typedef enum e_type
+// {
+// 	TOKEN_WORD,
+// 	TOKEN_PIPE,
+// 	TOKEN_LESS,
+// 	TOKEN_GREATER,
+// 	TOKEN_DLESS,
+// 	TOKEN_DGREATER,
+// 	TOKEN_EOF,
+// 	TOKEN_QUOTE,
+// 	TOKEN_DQUOTE,
+// 	TOKEN_NEWLINE
+// }	t_type;
+
 typedef enum e_type
 {
-	TOKEN_WORD,
-	TOKEN_FLAG,
-	TOKEN_PIPE,
-	TOKEN_LESS,
-	TOKEN_GREATER,
-	TOKEN_DLESS,
-	TOKEN_DGREATER,
-	TOKEN_EOF,
-	TOKEN_QUOTE,
-	TOKEN_DQUOTE,
-	TOKEN_NEWLINE
+	TOKEN_WORD = 1 << 0,
+	TOKEN_PIPE = 1 << 1,
+	TOKEN_LESS = 1 << 2,
+	TOKEN_GREATER = 1 << 3,
+	TOKEN_DLESS = 1 << 4,
+	TOKEN_DGREATER = 1 << 5,
+	TOKEN_EOF = 1 << 6,
+	TOKEN_QUOTE = 1 << 7,
+	TOKEN_DQUOTE = 1 << 8,
+	TOKEN_NEWLINE = 1 << 9
 }	t_type;
 
 typedef struct s_token

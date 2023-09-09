@@ -126,9 +126,12 @@ int	main(void)
 	t_main		sh;
 
 
-	env = ft_calloc(3, sizeof(*env));
-	env[0] = ft_strdup("USERNAME=none");
+	env = ft_calloc(6, sizeof(*env));
+	env[0] = ft_strdup("_USERNAME=none");
 	env[1] = ft_strdup("USER=makurz");
+	env[2] = ft_strdup("TEST=42Hello");
+	env[3] = ft_strdup("USER=fkrug");
+	env[4] = ft_strdup("VERRUCKT=");
 	init_shell(&sh, env);
 	printf("%s\n", env[0]);
 	printf("%s\n", env[1]);
@@ -137,17 +140,20 @@ int	main(void)
 	cmd.argv[1] = ft_strdup("TEST42_=42Hello");
 	cmd.argv[2] = ft_strdup("42TEST=42Hello");
 	cmd.argv[5] = ft_strdup("#WRONG");
-	cmd.argv[3] = ft_strdup("USER=fkrug");
-	cmd.argv[4] = ft_strdup("VERRUCKT");
+	cmd.argv[6] = ft_strdup("NOTHING");
+	// cmd.argv[3] = ft_strdup("USER=fkrug");
+	// cmd.argv[4] = ft_strdup("VERRUCKT");
 	cmd.sh = &sh;
 	// cmd.argv[2] = "42TEST=Hallo";
 	printf("\n");
 	ft_export(&cmd);
 	int	i = -1;
+	printf("\n");
 	ft_arrprint((const char **)cmd.sh->env);
-	i = -1;
 	while (cmd.argv[++i] != NULL)
 		free(cmd.argv[i]);
 	ft_arrfree(env);
+	ft_arrfree(sh.env);
+	printf("\nExit Status: %d\n", *get_exit_status());
 	return (0);
 }

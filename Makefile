@@ -27,7 +27,8 @@ vpath %.c $(SRC_DIRS)
 
 LIBFT = $(LIBFT_DIR)/libft.a
 
-SRCS := ft_cd.c ft_echo.c ft_env.c ft_exit.c ft_export.c ft_pwd.c ft_unset.c 
+SRCS := ft_cd.c ft_echo.c ft_env.c ft_exit.c ft_pwd.c ft_unset.c 
+SRCS += ft_export.c ft_export_utils.c
 SRCS += environment_utils.c
 SRCS += expander_main.c expander_utils.c
 SRCS += init.c
@@ -48,6 +49,8 @@ OBJS := $(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
 
 CFLAGS ?= -g -MMD -MP $(addprefix -I, $(INC_DIRS)) # -Wextra -Wall -Werror 
 LDFLAGS := -L $(LIBFT_DIR) -lft -lreadline
+# ONLY FOR TESTING PURPOSES
+LDFLAGS += -lm
 
 
 all: $(NAME)

@@ -1,27 +1,5 @@
 #include "minishell.h"
 
-/* `<summary>`:
- Checks if the given variable is a valid variable for
- an environment variable in our shell.
- `<parameter>`:
- `var`: string that represents the variable name;
- `<returns>`:
- Returns `TRUE` on success and `FALSE` on fail. */
-static t_bool	precheck_env_update(char *var)
-{
-	t_bool	check;
-	char	*run;
-
-	run = var;
-	check = TRUE;
-	check &= ft_isalpha(*run) | ('_' == *run);
-	while (check == TRUE && *(++run) != '\0' && *run != '=')
-		check &= ft_isalnum(*run) | ('_' == *run);
-	if (check == FALSE)
-		printf("minishell: export: '%s': not a valid identifier\n", var);
-	return (check);
-}
-
 static char	**append_env_variable(char **env, char *var)
 {
 	int		arrlen;
@@ -82,10 +60,13 @@ int	ft_export(t_execcmd *cmd)
 	i = 0;
 	arrlen = ft_arrlen((const char **)cmd->argv);
 	if (arrlen == 1)
-		printf("%s\n", "FIX ME");
+		declare_x(cmd->sh->env);
 	while (++i < arrlen)
 	{
 		cmd->sh->env = update_env_variables(cmd->sh, cmd->argv[i]);
 	}
+	if (*get_exit_status() == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	set_exit_status(EXIT_SUCCESS);
 	return (EXIT_SUCCESS);
 }

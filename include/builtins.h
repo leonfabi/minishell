@@ -9,23 +9,36 @@ int		ft_echo(t_execcmd *cmd);
 int		ft_pwd(char **args);
 int		print(int fd, char *str);
 
-/* `<summary>`:
+/* `<SUMMARY>`:
  Print all name and value pairs of the environment variable.
- `<parameter>`:
+ `<PARAM>`:
  `env`: array of strings containing the env variables;
- `<returns>`:
- Returns `TRUE` on success and `FALSE` on fail. */
-t_bool	ft_env(char **env);
+ `<RETURN>`:
+ Returns `EXIT_SUCCESS` on success. */
+int		ft_env(char **env);
 
-/* `<summary>`:
+/* `<SUMMARY>`:
  Removes the corresponding var from the environment variables.
- `<parameter>`:
+ `<PARAM>`:
  `env`: array of strings containing the env variables;
  `var`: the given name to be removed;
- `<returns>`:
+ `<RETURN>`:
  Returns `TRUE` on success and `FALSE` on fail. */
 t_bool	ft_unset(t_execcmd *cmd, char **env);
 
 int		ft_export(t_execcmd *cmd);
+
+char	**sort_array(char **arr);
+
+/* `<SUMMARY>`:
+ Checks if the given variable is a valid variable for
+ an environment variable in our shell.
+ `<PARAM>`:
+ `var`: string that represents the variable name;
+ `<RETURN>`:
+ Returns `TRUE` on success and `FALSE` on fail. */
+t_bool	precheck_env_update(char *var);
+
+void	declare_x(char **env);
 
 #endif
