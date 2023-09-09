@@ -95,23 +95,38 @@ void	print_AST(t_cmd *cmd)
 	}
 }
 
+// int	main(int argc, char *argv[], char *envp[])
+// {
+// 	t_main	sh;
+// 	t_cmd	*ast;
+// 	char	*str;
+// 
+// 	sh = (t_main){};
+// 	init_shell(&sh, envp);
+// 	str = readline(" > ");
+// 	sh.lexer = ft_lexer(str);
+// 	ast = parse_command(&sh.lexer.token_list, &sh);
+// 	print_AST(ast);
+// }
+
 int	main(int argc, char *argv[], char *envp[])
 {
 	int			len;
-	t_main		main;
+	t_main		sh;
 	char		*str;
+	t_cmd	*ast;
 
-	main = (t_main){};
+	sh = (t_main){};
 	set_exit_status(EXIT_SUCCESS);
-	init_shell(&main, envp);
+	init_shell(&sh, envp);
 	// main.lexer = ft_lexer("cat < test.txt | grep hello | wc > out.log");
 	str = readline(" > ");
 	len = ft_strlen(str);
-	main.lexer = ft_lexer(str);
+	sh.lexer = ft_lexer(str);
 	// main.lexer = ft_lexer("'test' < \"test\" | 'hello'");
-	ft_print_token_list(&main.lexer);
+	ft_print_token_list(&sh.lexer);
 	// main.cmd = ft_parser(&main.lexer);
-	main.cmd = parse_command(&main.lexer.token_list, main.env);
+	ast = parse_command(&sh.lexer.token_list, &sh);
 	printf("Input: ");
 	for(int i = 0; i <= len; i++) {
 		if (str[i] == '\0') {
@@ -121,13 +136,13 @@ int	main(int argc, char *argv[], char *envp[])
 		}
 	}
 	printf("\n");
-	print_AST(main.cmd);
-	executor(main.cmd, main.env, main.bin_path);
+	print_AST(ast);
+	// executor(main.cmd, main.env, main.bin_path);
 	// CLEANUP
-	clean_ast(main.cmd);
-	ft_dlstclear(&main.lexer.token_list, &free);
-	ft_arrfree(main.env);
-	ft_arrfree(main.bin_path);
+	clean_ast(ast);
+	ft_dlstclear(&sh.lexer.token_list, &free);
+	ft_arrfree(sh.env);
+	ft_arrfree(sh.bin_path);
 	free(str);
 	// ft_print_ast(main.cmd, "START");
 	// ft_arrprint((const char **)main.env);

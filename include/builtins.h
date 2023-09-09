@@ -1,10 +1,9 @@
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
-#include "environment.h"
-#include "parser.h"
+# include "defines.h"
 
-int		ft_cd(t_execcmd *cmd, char **env);
+int		ft_cd(t_execcmd *cmd);
 int		ft_exit(t_execcmd *cmd);
 int		ft_echo(t_execcmd *cmd);
 int		ft_pwd(char **args);
@@ -27,6 +26,6 @@ t_bool	ft_env(char **env);
  Returns `TRUE` on success and `FALSE` on fail. */
 t_bool	ft_unset(t_execcmd *cmd, char **env);
 
-int		ft_export(t_execcmd *cmd, char ***env);
+int		ft_export(t_execcmd *cmd);
 
 #endif

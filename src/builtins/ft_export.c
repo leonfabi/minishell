@@ -45,9 +45,10 @@ static char	*replace_env_variable(char *env, char *var)
 	return (ft_strdup(var));
 }
 
-char	**update_env_variables(char **env, char *var)
+char	**update_env_variables(t_main *sh, char *var)
 {
-	char	**upd;
+	int		i;
+	// char	**upd;
 	t_bool	check;
 	t_bool	replace;
 	size_t	len;
@@ -55,26 +56,26 @@ char	**update_env_variables(char **env, char *var)
 	check = precheck_env_update(var);
 	replace = FALSE;
 	if (check == FALSE)
-		return (env);
-	upd = env;
+		return (sh->env);
+	i = 0;
 	len = ft_strlen_c(var, '=');
-	while (NULL != *upd)
+	while (NULL != sh->env[i])
 	{
-		if (ft_strncmp(*upd, var, len) == 0)
+		if (ft_strncmp(sh->env[i], var, len) == 0 && sh->env[i][len] == '=')
 		{
 			replace = TRUE;
 			break ;
 		}
-		++upd;
+		++i;
 	}
 	if (replace == TRUE)
-		*upd = replace_env_variable(*upd, var);
+		sh->env[i] = replace_env_variable(sh->env[i], var);
 	else
-		env = append_env_variable(env, var);
-	return (env);
+		sh->env = append_env_variable(sh->env, var);
+	return (sh->env);
 }
 
-int	ft_export(t_execcmd *cmd, char ***env)
+int	ft_export(t_execcmd *cmd)
 {
 	int		arrlen;
 	int		i;
@@ -85,7 +86,7 @@ int	ft_export(t_execcmd *cmd, char ***env)
 		printf("%s\n", "FIX ME");
 	while (++i < arrlen)
 	{
-		*env = update_env_variables(*env, cmd->argv[i]);
+		cmd->sh->env = update_env_variables(cmd->sh, cmd->argv[i]);
 	}
 	return (EXIT_SUCCESS);
 }

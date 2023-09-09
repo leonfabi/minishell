@@ -6,6 +6,8 @@ static char	**create_bin_paths(char **env)
 
 	while (NULL != *env && ft_strncmp(*env, "PATH=", 5))
 		++env;
+	if (NULL == *env)
+		return (NULL);
 	bin_path = ft_split((*env) + 5, ':');
 	if (NULL == bin_path)
 		return (NULL);
@@ -47,7 +49,6 @@ t_bool	create_own_environment(t_main *main)
 	own[1] = ft_strjoin("PWD=", pwd);
 	own[2] = ft_strdup("_=/usr/bin/env");
 	main->bin_path = NULL;
-	main->no_environment = TRUE;
 	main->user = NULL;
 	free(pwd);
 	return (TRUE);

@@ -1,13 +1,17 @@
 #include "minishell.h"
 
-t_cmd	*execcmd(void)
+t_cmd	*execcmd(t_main *sh)
 {
 	t_execcmd	*cmd;
 
 	cmd = ft_calloc(1, sizeof(*cmd));
 	if (NULL == cmd)
 		return (NULL);
-	cmd->type = EXECUTE;
+	*cmd = (t_execcmd){
+		.type = EXECUTE,
+		.bin = NULL,
+		.sh = sh
+	};
 	return ((t_cmd *)cmd);
 }
 

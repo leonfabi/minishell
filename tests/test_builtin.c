@@ -123,27 +123,28 @@ int	main(void)
 {
 	t_execcmd	cmd;
 	char		**env;
+	t_main		sh;
+
 
 	env = ft_calloc(3, sizeof(*env));
-	env[1] = ft_strdup("USER=makurz");
 	env[0] = ft_strdup("USERNAME=none");
-	// printf("%s\n", env[0]);
-	// printf("%s\n", env[1]);
+	env[1] = ft_strdup("USER=makurz");
+	init_shell(&sh, env);
+	printf("%s\n", env[0]);
+	printf("%s\n", env[1]);
 	cmd = (t_execcmd){};
 	cmd.argv[0] = ft_strdup("export");
 	cmd.argv[1] = ft_strdup("TEST42_=42Hello");
 	cmd.argv[2] = ft_strdup("42TEST=42Hello");
+	cmd.argv[5] = ft_strdup("#WRONG");
 	cmd.argv[3] = ft_strdup("USER=fkrug");
 	cmd.argv[4] = ft_strdup("VERRUCKT");
+	cmd.sh = &sh;
 	// cmd.argv[2] = "42TEST=Hallo";
-
-	ft_export(&cmd, &env);
-	char *search = get_env(env, "USER");
-	ft_fprintf(STDERR_FILENO, "HELLO % %s %s\n", "TEST", "SEcond");
-	// printf("%s\n", search);
+	printf("\n");
+	ft_export(&cmd);
 	int	i = -1;
-	// while (env[++i] != NULL)
-	// 	printf("%s\n", env[i]);
+	ft_arrprint((const char **)cmd.sh->env);
 	i = -1;
 	while (cmd.argv[++i] != NULL)
 		free(cmd.argv[i]);
