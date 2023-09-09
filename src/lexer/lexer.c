@@ -66,6 +66,9 @@ t_lexer	ft_lexer(char *str)
 	lexer = (t_lexer){};
 	lexer = ft_init_lexer(str);
 	if (ft_find_token(&lexer) == FALSE)
-		return (lexer.error_code--, lexer);
+	{
+		lexer.error_code = -1;
+		return (lexer);
+	}
 	return (lexer);
 }
