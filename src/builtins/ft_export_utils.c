@@ -12,7 +12,7 @@ t_bool	precheck_env_update(char *var)
 		check &= ft_isalnum(*run) | ('_' == *run);
 	if (check == FALSE)
 	{
-		printf("minishell: export: '%s': not a valid identifier\n", var);
+		ft_fprintf(2, "minishell: export: '%s': not a valid identifier\n", var);
 		set_exit_status(EXIT_FAILURE);
 	}
 	return (check);
