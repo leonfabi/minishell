@@ -14,9 +14,9 @@ char	*get_exec_path(char **bin_path, char *executable)
 	while (bin_path[++count] != NULL)
 	{
 		path = ft_strjoin(bin_path[count], "/");
-		full_path = ft_strjoin(path, executable);
-		// full_path = ft_strjoinfree(path, executable, 'L');
-		free(path);
+		// full_path = ft_strjoin(path, executable);
+		full_path = ft_strjoinfree(path, executable, 'L');
+		// free(path);
 		if (access(full_path, X_OK) == 0)
 			return (full_path);
 		free(full_path);
@@ -24,42 +24,41 @@ char	*get_exec_path(char **bin_path, char *executable)
 	return (NULL);
 }
 
-void	execute_node(t_execcmd *exec, char **env, char **bin_path)
+void	execute_node(t_execcmd *exec)
 {
-	char	*full_path;
 
 // Is builtin
-	full_path = get_exec_path(bin_path, exec->argv[0]);
-	if (full_path == NULL)
+	exec->bin = get_exec_path(exec->sh->bin_path, exec->argv[0]);
+	if (exec->bin == NULL)
 		printf("minishell: command not found: %s\n", exec->argv[0]);
 	else
 	{
-		if (execve(full_path, exec->argv, env) == -1)
+		if (execve(exec->bin, exec->argv, exec->sh->env) == -1)
 			perror("Execve error: ");
-		free(full_path);
+		free(exec->bin);
 	}
 }
 
-void	execute_heredoc(t_redircmd *redir, char **env, char **bin_path)
+void	execute_heredoc(t_redircmd *redir)
 {
 
 }
 
-void	execute_redir(t_redircmd *redir, char **env, char **bin_path)
+void	execute_redir(t_redircmd *redir)
 {
 	int	fd;
 
 	if (redir->type == O_HEREDOC)
-		return (execute_heredoc(redir, env, bin_path));
+		return (execute_heredoc(redir));
 	fd = open(redir->file, redir->mode, 0644);
 	if (redir->fd == 1)
 		dup2(fd, STDOUT_FILENO);
 	else if (redir->fd == 0)
 		dup2(fd, STDIN_FILENO);
-	executor(redir->cmd, env, bin_path);
+	executor(redir->cmd);
 }
 
-void	execute_pipe(t_pipecmd *pcmd, char **env, char **bin_path)
+void	execute_pipe(t_pipecmd *pcmd)
 {
 	int		pipe_fd[2];
 	pid_t	id;
@@ -74,25 +73,25 @@ void	execute_pipe(t_pipecmd *pcmd, char **env, char **bin_path)
 		close(pipe_fd[0]);
 		dup2(pipe_fd[1], STDOUT_FILENO);
 		close(pipe_fd[1]);
-		executor(pcmd->left, env, bin_path);
+		executor(pcmd->left);
 	}
 	else
 	{
 		close(pipe_fd[1]);
 		dup2(pipe_fd[0], STDIN_FILENO);
 		close(pipe_fd[0]);
-		executor(pcmd->right, env, bin_path);
+		executor(pcmd->right);
 	}
 }
 
-void	executor(t_cmd *ast, char **env, char **bin_path)
+void	executor(t_cmd *ast)
 {
 	if (ast->type == EXECUTE)
-		execute_node((t_execcmd *) ast, env, bin_path);
+		execute_node((t_execcmd *) ast);
 	else if (ast->type == REDIR)
-		execute_redir((t_redircmd *) ast, env, bin_path);
+		execute_redir((t_redircmd *) ast);
 	else if (ast->type == PIPE)
-		execute_pipe((t_pipecmd *) ast, env, bin_path);
+		execute_pipe((t_pipecmd *) ast);
 }
 
 // int main(int argc, char* argv[])
