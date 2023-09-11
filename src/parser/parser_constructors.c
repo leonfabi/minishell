@@ -52,7 +52,7 @@ t_cmd	*redircmd(t_cmd *subcmd, t_token *tok, t_token *file, char **env)
 		.file = expand_token(file, env),
 		.mode = get_correct_mode(tok->type),
 		.fd = get_correct_fd(tok->type),
-		.expand = (tok->type & ~(TOKEN_QUOTE)) && (tok->type & ~(TOKEN_DQUOTE))
+		.expand = file->type & TOKEN_WORD
 	};
 	return ((t_cmd *)cmd);
 }
