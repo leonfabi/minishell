@@ -27,6 +27,7 @@ void	execute_node(t_execcmd *exec, char **env, char **bin_path)
 {
 	char	*full_path;
 
+// Is builtin
 	full_path = get_exec_path(bin_path, exec->argv[0]);
 	if (full_path == NULL)
 		printf("minishell: command not found: %s\n", exec->argv[0]);
@@ -38,10 +39,17 @@ void	execute_node(t_execcmd *exec, char **env, char **bin_path)
 	}
 }
 
+void	execute_heredoc(t_redircmd *redir, char **env, char **bin_path)
+{
+
+}
+
 void	execute_redir(t_redircmd *redir, char **env, char **bin_path)
 {
 	int	fd;
 
+	if (redir->type == O_HEREDOC)
+		return (execute_heredoc(redir, env, bin_path));
 	fd = open(redir->file, redir->mode, 0644);
 	if (redir->fd == 1)
 		dup2(fd, STDOUT_FILENO);
@@ -50,12 +58,40 @@ void	execute_redir(t_redircmd *redir, char **env, char **bin_path)
 	executor(redir->cmd, env, bin_path);
 }
 
+void	execute_pipe(t_pipecmd *pcmd, char **env, char **bin_path)
+{
+	int		pipe_fd[2];
+	pid_t	id;
+
+	if (pipe(pipe_fd) == -1)
+		perror("Pipe error");
+	id = fork();
+	if (id == -1)
+		perror("Fork error");
+	if (id == 0)
+	{
+		close(pipe_fd[0]);
+		dup2(pipe_fd[1], STDOUT_FILENO);
+		close(pipe_fd[1]);
+		executor(pcmd->left, env, bin_path);
+	}
+	else
+	{
+		close(pipe_fd[1]);
+		dup2(pipe_fd[0], STDIN_FILENO);
+		close(pipe_fd[0]);
+		executor(pcmd->right, env, bin_path);
+	}
+}
+
 void	executor(t_cmd *ast, char **env, char **bin_path)
 {
 	if (ast->type == EXECUTE)
 		execute_node((t_execcmd *) ast, env, bin_path);
 	else if (ast->type == REDIR)
 		execute_redir((t_redircmd *) ast, env, bin_path);
+	else if (ast->type == PIPE)
+		execute_pipe((t_pipecmd *) ast, env, bin_path);
 }
 
 // int main(int argc, char* argv[])
