@@ -14,12 +14,31 @@ static t_cmd	*parse_redirect(t_cmd *cmd, t_dlist **tok, t_main *sh)
 	return (cmd);
 }
 
-static char	*connect_tokens(t_dlist **tok)
+static char	*connect_tokens(t_dlist **list, char **env)
 {
-	char	*value;
+	char	*expand;
+	t_token	*tok;
 
-	
-	return (value);
+	expand = expand_token(get_token(*list), env);
+	tok = get_token(*list);
+	if (check_tok_connection(tok) == FALSE)
+	{
+		*list = (*list)->next;
+		return (expand);
+	}
+	*list = (*list)->next;
+	while (get_token_type(*list) & (TOKEN_WORD | TOKEN_DQUOTE | TOKEN_QUOTE))
+	{
+		tok = get_token(*list);
+		expand = ft_strjoinfree(expand, expand_token(tok, env), 'B');
+		if (check_tok_connection(tok) == FALSE)
+		{
+			*list = (*list)->next;
+			return (expand);
+		}
+		*list = (*list)->next;
+	}
+	return (expand);
 }
 
 static t_cmd	*parse_execution(t_dlist **tok, t_main *sh)
@@ -38,8 +57,7 @@ static t_cmd	*parse_execution(t_dlist **tok, t_main *sh)
 			break ;
 		if (check_arguments(get_token_type(*tok)) == FALSE)
 			perror("Add some error handling if this is wrong");
-		cmd->argv[argc] = expand_token(get_token(*tok), sh->env);
-		*tok = (*tok)->next;
+		cmd->argv[argc] = connect_tokens(tok, sh->env);
 		++argc;
 		if (argc >= MAXARGS)
 			perror("too many input arguments for the command");
@@ -71,6 +89,6 @@ t_cmd	*parse_command(t_dlist **tok, t_main *sh)
 	cmd = parse_pipe(tok, sh);
 	if (get_token_type(*tok) != TOKEN_EOF)
 		perror("Did not finish parsing error");
-	nulterminate(&keep);
+	// nulterminate(&keep);
 	return (cmd);
 }

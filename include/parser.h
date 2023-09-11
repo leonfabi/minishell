@@ -74,6 +74,8 @@ t_cmd	*select_redirect(t_cmd *subcmd, t_dlist *tok_list, char **env);
 // Util function to nulterminate the strings on the readline string.
 t_bool	correct_token(t_type type);
 
+t_bool	check_tok_connection(t_token *tok);
+
 // WARNING: CHECK IF WE NEED THIS FUNCTION ANYMORE???????
 // Function to nulterminate the readline string
 t_bool	nulterminate(t_dlist **token);
