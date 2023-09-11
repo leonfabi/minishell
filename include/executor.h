@@ -3,6 +3,6 @@
 
 # include "defines.h"
 
-void	executor(t_cmd *ast, char **env, char **bin_path);
+void	executor(t_cmd *ast);
 
 #endif
