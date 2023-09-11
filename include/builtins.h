@@ -6,7 +6,7 @@
 int		ft_cd(t_execcmd *cmd);
 int		ft_exit(t_execcmd *cmd);
 int		ft_echo(t_execcmd *cmd);
-int		ft_pwd(char **args);
+int		ft_pwd(t_execcmd *cmd);
 int		print(int fd, char *str);
 
 /* `<SUMMARY>`:
