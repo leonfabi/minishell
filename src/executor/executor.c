@@ -26,17 +26,26 @@ char	*get_exec_path(char **bin_path, char *executable)
 
 void	execute_node(t_execcmd *exec)
 {
-
+	pid_t	id;
+	int		status;
 // Is builtin
-	exec->bin = get_exec_path(exec->sh->bin_path, exec->argv[0]);
-	if (exec->bin == NULL)
-		printf("minishell: command not found: %s\n", exec->argv[0]);
-	else
+	id = fork();
+	if (id == 0)
 	{
-		if (execve(exec->bin, exec->argv, exec->sh->env) == -1)
-			perror("Execve error: ");
-		free(exec->bin);
+		exec->bin = get_exec_path(exec->sh->bin_path, exec->argv[0]);
+		if (exec->bin == NULL)
+			printf("minishell: command not found: %s\n", exec->argv[0]);
+		else
+		{
+			if (execve(exec->bin, exec->argv, exec->sh->env) == -1)
+				perror("Execve error: ");
+			free(exec->bin);
+			exit(0);
+		}
 	}
+	waitpid(id, &status, 0);
+	if (WIFEXITED(status) == TRUE)
+		set_exit_status(WEXITSTATUS(status));
 }
 
 void	execute_heredoc(t_redircmd *redir)
@@ -95,52 +104,3 @@ void	executor(t_cmd *ast)
 	else if (ast->type == PIPE)
 		execute_pipe((t_pipecmd *) ast);
 }
-
-// int main(int argc, char* argv[])
-// {
-// 	int	fd[2];
-// 	// fd[0] read; fd[1] write
-// 	if (pipe(fd) == -1)
-// 	{
-// 		printf("An error ocurred with opening the pipe\n");
-// 		return (1);
-// 	}
-// 	int	id = fork();
-// 	if (id == 0)
-// 	{
-// 		close(fd[0]);
-// 		int	x;
-// 		printf("Input a number to the child process: ");
-// 		scanf("%d", &x);
-// 		write(fd[1], &x, sizeof(int));
-// 		close(fd[1]);
-// 	}
-// 	else
-// 	{
-// 		close(fd[1]);
-// 		int	y;
-// 		read(fd[0], &y, sizeof(int));
-// 		close(fd[0]);
-// 		printf("Parent print number from child: %d\n", y);
-// 	}
-// 	// int	id = fork();
-// 	// int	n;
-// 	// int	i;
-// 	// if (id == 0)
-// 	// 	n = 1;
-// 	// else
-// 	// 	n = 6;
-// 	// printf("Current id: %d, parent id: %d\n", getpid(), getppid());
-// 	// if (id != 0)
-// 	// 	wait(NULL);
-// 	// for (i = n; i < n + 5; i++)
-// 	// {
-// 	// 	printf("%d", i);
-// 	// 	fflush(stdout);
-// 	// }
-// 	// if (id == 0)
-// 	// 	printf("Hello from child process\n");
-// 	// else
-// 	// 	printf("Hello from the main process\n");
-// 	return 0;
-// }
