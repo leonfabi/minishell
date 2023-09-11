@@ -10,7 +10,6 @@ void	ft_print_token_list(t_lexer *lexer);
 
 char* types[] = {
 	"TOKEN_WORD",
-	"TOKEN_FLAG",
 	"TOKEN_PIPE",
 	"TOKEN_LESS",
 	"TOKEN_GREATER",

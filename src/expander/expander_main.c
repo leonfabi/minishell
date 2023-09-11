@@ -1,31 +1,5 @@
 #include "minishell.h"
 
-static char	*get_key(char **input)
-{
-	t_bool	check;
-	char	*var;
-	int		len;
-
-	len = 1;
-	var = *input;
-	check = TRUE;
-	if (**input != '$')
-		return (advance_and_copy(input, ft_strlen_c(*input, '$')));
-	if (*(var + 1) == '?')
-		return (advance_and_copy(input, 2));
-	if (ft_isdigit(*(var + 1)) == TRUE)
-		return (advance_and_copy(input, 2));
-	if (*(var + 1) == '$')
-		return (advance_and_copy(input, 2));
-	while (*(var + len) != '\0')
-	{
-		check &= ft_isalnum(*(var + len)) | ('_' == *(var + len));
-		if (check == FALSE)
-			break ;
-		++len;
-	}
-	return (advance_and_copy(input, len));
-}
 static char	*check_whole_env(char **env, char *name)
 {
 	char	**check;
@@ -40,21 +14,6 @@ static char	*check_whole_env(char **env, char *name)
 		++check;
 	}
 	return (ft_strdup(""));
-}
-
-static t_list	*create_keylist(char *input)
-{
-	t_list	*start;
-	char	*key;
-
-	key = NULL;
-	start = NULL;
-	while ('\0' != *input)
-	{
-		key = get_key(&input);
-		ft_lstadd_back(&start, ft_lstnew(key));
-	}
-	return (start);
 }
 
 static char	*create_expanded_string(t_list *run, char **env)
@@ -75,7 +34,7 @@ static char	*create_expanded_string(t_list *run, char **env)
 		key = NULL;
 		run = run->next;
 	}
-	return(expand);
+	return (expand);
 }
 
 char	*expand_token(t_token *tok, char **env)

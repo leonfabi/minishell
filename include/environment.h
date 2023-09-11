@@ -31,4 +31,8 @@ environment array of strings.
  `TRUE` on success and `FALSE` on fail. */
 t_bool	check_env_variable(char *env, char *name);
 
+char	*get_env(char **env, char *search);
+
+char	**update_env_variables(t_main *sh, char *var);
+
 #endif

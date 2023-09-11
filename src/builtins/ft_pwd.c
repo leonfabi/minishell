@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	pwd(char **args)
+int	ft_pwd(char **args)
 {
 	char	buffer[PATH_MAX];
 

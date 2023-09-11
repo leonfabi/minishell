@@ -15,6 +15,7 @@ char	*get_exec_path(char **bin_path, char *executable)
 	{
 		path = ft_strjoin(bin_path[count], "/");
 		full_path = ft_strjoin(path, executable);
+		// full_path = ft_strjoinfree(path, executable, 'L');
 		free(path);
 		if (access(full_path, X_OK) == 0)
 			return (full_path);
