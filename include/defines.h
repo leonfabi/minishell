@@ -1,26 +1,134 @@
 #ifndef DEFINES_H
 # define DEFINES_H
 
+# include <termios.h>
+
 # define TRUE 1
 # define FALSE 0
 # define WHITESPACE " \t\r\n\v"
+# define MAXARGS 20
+# define O_HEREDOC 0x0300
+
+/* `<summary>`:
+ Define structs to use a shorter version in the code
+ for more readability and structure. */
+typedef struct sigaction	t_signal;
+typedef struct termios		t_termios;
+typedef void				t_handler(int);
 
 /* `<summary>`:
  Represents either TRUE (1) or FALSE (0). */
-typedef int				t_bool;
+typedef int					t_bool;
+typedef struct s_dlist		t_dlist;
 
-/* `<summary>`:
- Predefine the main struct to use t_main in the struct definition.
- '<struct member>':
+struct s_dlist
+{
+	void		*content;
+	t_dlist		*next;
+	t_dlist		*prev;
+};
+
+typedef struct s_lexer
+{
+	char	*start;
+	char	*counter;
+	t_dlist	*token_list;
+	int		error_code;
+}	t_lexer;
+
+/* `<SUMMARY>`:
+ * Main struct of the shell for holding all its attributes.
+ * `<MEMBER>`
+ * char			*user;
+ * char			**env;
+ * char			**bin_path;
+ * t_lexer		lexer;
+ * t_termios	xterm;
+ * int			stdin;
+ * int			stdout;
+ */
+typedef struct s_main
+{
 	char		*user;
 	char		**env;
 	char		**bin_path;
-	t_bool		no_environment;
 	t_lexer		lexer;
 	t_termios	xterm;
 	int			stdin;
 	int			stdout;
-	int			stderr; */
-typedef struct s_main	t_main;
+	int			stderr;
+}	t_main;
+
+typedef enum e_parscmd
+{
+	EXECUTE,
+	PIPE,
+	REDIR
+}	t_parscmd;
+
+typedef struct s_cmd
+{
+	int		type;
+}	t_cmd;
+
+typedef struct execcmd
+{
+	t_parscmd	type;
+	char		*bin;
+	char		*argv[MAXARGS];
+	t_main		*sh;
+}	t_execcmd;
+
+typedef struct redircmd
+{
+	t_parscmd	type;
+	t_cmd		*cmd;
+	char		*file;
+	int			mode;
+	int			fd;
+	t_bool		expand;
+}	t_redircmd;
+
+typedef struct pipecmd
+{
+	t_parscmd	type;
+	t_cmd		*left;
+	t_cmd		*right;
+}	t_pipecmd;
+
+// typedef enum e_type
+// {
+// 	TOKEN_WORD,
+// 	TOKEN_PIPE,
+// 	TOKEN_LESS,
+// 	TOKEN_GREATER,
+// 	TOKEN_DLESS,
+// 	TOKEN_DGREATER,
+// 	TOKEN_EOF,
+// 	TOKEN_QUOTE,
+// 	TOKEN_DQUOTE,
+// 	TOKEN_NEWLINE
+// }	t_type;
+
+typedef enum e_type
+{
+	TOKEN_WORD = 1 << 0,
+	TOKEN_PIPE = 1 << 1,
+	TOKEN_LESS = 1 << 2,
+	TOKEN_GREATER = 1 << 3,
+	TOKEN_DLESS = 1 << 4,
+	TOKEN_DGREATER = 1 << 5,
+	TOKEN_EOF = 1 << 6,
+	TOKEN_QUOTE = 1 << 7,
+	TOKEN_DQUOTE = 1 << 8,
+	TOKEN_NEWLINE = 1 << 9
+}	t_type;
+
+typedef struct s_token
+{
+	t_type	type;
+	char	*value;
+	int		len;
+}	t_token;
 
 #endif

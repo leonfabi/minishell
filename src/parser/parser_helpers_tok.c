@@ -5,7 +5,7 @@ int	get_token_length(t_dlist *token)
 	t_token		*tok;
 
 	tok = (t_token *)token->content;
-	return (tok->value_length);
+	return (tok->len);
 }
 
 char	*get_token_value(t_dlist *token)

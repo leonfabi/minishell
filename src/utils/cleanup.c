@@ -5,8 +5,15 @@ void	clean_ast(t_cmd *cmd);
 static void	clean_ecmd(t_cmd *cmd)
 {
 	t_execcmd	*ecmd;
+	char		**args;
 
 	ecmd = (t_execcmd *)cmd;
+	args = ecmd->argv;
+	while (NULL != *args)
+	{
+		free(*args);
+		++args;
+	}
 	free(ecmd);
 }
 
@@ -16,6 +23,8 @@ static void	clean_rcmd(t_cmd *cmd)
 
 	rcmd = (t_redircmd *)cmd;
 	clean_ast(rcmd->cmd);
+	free(rcmd->file);
+	rcmd->file = NULL;
 	free(rcmd);
 }
 

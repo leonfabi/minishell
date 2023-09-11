@@ -21,4 +21,18 @@ t_bool	init_shell(t_main *main, char **env);
  `TRUE` on success and `FALSE` on fail. */
 t_bool	create_own_environment(t_main *main);
 
+/* `<summary>`:
+Checks if the variable `name` is a variable in the
+environment array of strings.
+ `<parameter>`:
+ `env`: string member of the array of strings of the environment;
+ `name`: variable name to check against;
+ `<returns>`:
+ `TRUE` on success and `FALSE` on fail. */
+t_bool	check_env_variable(char *env, char *name);
+
+char	*get_env(char **env, char *search);
+
+char	**update_env_variables(t_main *sh, char *var);
+
 #endif

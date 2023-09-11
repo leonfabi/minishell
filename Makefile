@@ -18,7 +18,7 @@ LOG := printf "[$(BO)$(G)ⓘ INFO$(X)] %s\n"
 OBJ_DIR := _obj
 LIBFT_DIR := libft
 INC_DIRS := include $(LIBFT_DIR)/include
-SRC_DIRS := builtins init lexer signals utils environment parser
+SRC_DIRS := builtins environment expander init lexer parser signals utils executor
 SRC_DIRS := $(addprefix src/, $(SRC_DIRS))
 SRC_DIRS += src
 
@@ -27,13 +27,17 @@ vpath %.c $(SRC_DIRS)
 
 LIBFT = $(LIBFT_DIR)/libft.a
 
-SRCS := cd.c echo.c exit.c pwd.c unset.c env.c
+SRCS := ft_cd.c ft_echo.c ft_env.c ft_exit.c ft_pwd.c ft_unset.c 
+SRCS += ft_export.c ft_export_utils.c
+SRCS += environment_utils.c
+SRCS += expander_main.c expander_utils.c
 SRCS += init.c
 SRCS += lexer.c lexer_token.c lexer_token_2.c
-SRCS += signal_handler.c exit_status.c
-SRCS += double_list.c error_mgmt.c cleanup.c
-SRCS += parser_main.c parser_constructors.c parser_helpers.c
-SRCS += parser_helpers_tok.c parser_utils.c expander.c
+SRCS += parser_constructors.c parser_helpers.c parser_helpers_tok.c
+SRCS += parser_main.c parser_utils.c
+SRCS += exit_status.c signal_handler.c
+SRCS += executor.c
+SRCS += clean_utils.c cleanup.c double_list.c error_mgmt.c
 SRCS += main.c
 # SRCS += 
 
@@ -45,6 +49,8 @@ OBJS := $(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
 
 CFLAGS ?= -g -MMD -MP $(addprefix -I, $(INC_DIRS)) # -Wextra -Wall -Werror 
 LDFLAGS := -L $(LIBFT_DIR) -lft -lreadline
+# ONLY FOR TESTING PURPOSES
+LDFLAGS += -lm
 
 
 all: $(NAME)
