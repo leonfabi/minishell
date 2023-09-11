@@ -51,6 +51,8 @@ void	execute_redir(t_redircmd *redir)
 	if (redir->type == O_HEREDOC)
 		return (execute_heredoc(redir));
 	fd = open(redir->file, redir->mode, 0644);
+	if (fd == -1)
+		perror("minishell: ");
 	if (redir->fd == 1)
 		dup2(fd, STDOUT_FILENO);
 	else if (redir->fd == 0)
