@@ -14,6 +14,14 @@ static t_cmd	*parse_redirect(t_cmd *cmd, t_dlist **tok, t_main *sh)
 	return (cmd);
 }
 
+static char	*connect_tokens(t_dlist **tok)
+{
+	char	*value;
+
+	
+	return (value);
+}
+
 static t_cmd	*parse_execution(t_dlist **tok, t_main *sh)
 {
 	int			argc;
