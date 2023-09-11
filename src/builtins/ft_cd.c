@@ -17,15 +17,39 @@ static void	update_pwd(t_main *sh)
 static int	ft_chdir(t_main *sh, char *dir)
 {
 	int		exit_code;
-
-	if (chdir(dir) == -1)
+	
+	exit_code = EXIT_SUCCESS;
+	if (dir == NULL)
+		exit_code = EXIT_FAILURE;
+	else if (chdir(dir) == -1)
 	{
 		ft_fprintf(2, "minishell: cd: '%s': %s\n", dir, strerror(errno));
 		exit_code = EXIT_FAILURE;
 	}
 	else
 		update_pwd(sh);
+	return (exit_code);
+}
+
+static int	dir_specials(t_main *sh, char *dir)
+{
+	char	*replace;
+	char	*tmp;
+	int		exit_code;
+
 	exit_code = EXIT_SUCCESS;
+	replace = NULL;
+	if (*dir == '-')
+		replace = get_env(sh->env, "OLDPWD");
+	else if (*dir == '~')
+		replace = get_env(sh->env, "HOME");
+	if (*dir == '-' && NULL == replace)
+		print(2, "minishell: cd: OLDPWD not set\n");
+	else if (*dir == '~' && NULL == replace)
+		print(2, "minishell: cd: HOME not set\n");
+	exit_code = ft_chdir(sh, replace);
+	if (NULL != replace)
+		free(replace);
 	return (exit_code);
 }
 
@@ -49,6 +73,15 @@ static int	ft_cd_home(t_main *sh)
 	return (exit_code);
 }
 
+t_bool	symbol_verify(char *str)
+{
+	if (*str == '-' && *(str + 1) == '\0')
+		return (TRUE);
+	if (*str == '~' && *(str + 1) == '\0')
+		return (TRUE);
+	return (FALSE);
+}
+
 int	ft_cd(t_execcmd *cmd)
 {
 	int		arrlen;
@@ -57,6 +90,8 @@ int	ft_cd(t_execcmd *cmd)
 	arrlen = ft_arrlen((const char **)cmd->argv);
 	if (arrlen == 1)
 		exit_code = ft_cd_home(cmd->sh);
+	else if (symbol_verify(cmd->argv[1]) == TRUE && arrlen == 2)
+		exit_code = dir_specials(cmd->sh, cmd->argv[1]);
 	else if (arrlen == 2)
 		exit_code = ft_chdir(cmd->sh, cmd->argv[1]);
 	else
