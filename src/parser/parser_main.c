@@ -6,15 +6,14 @@ static t_cmd	*parse_redirect(t_cmd *cmd, t_dlist **tok, t_main *sh)
 	{
 		if (check_arguments(get_token_type((*tok)->next)) == FALSE)
 			perror("missing file");
-		cmd = select_redirect(cmd, *tok, sh->env);
-		*tok = (*tok)->next->next;
+		cmd = select_redirect(cmd, tok, sh->env);
 		if (NULL == *tok)
 			perror("add something about EOF");
 	}
 	return (cmd);
 }
 
-static char	*connect_tokens(t_dlist **list, char **env)
+char	*connect_tokens(t_dlist **list, char **env)
 {
 	char	*expand;
 	t_token	*tok;
@@ -89,6 +88,5 @@ t_cmd	*parse_command(t_dlist **tok, t_main *sh)
 	cmd = parse_pipe(tok, sh);
 	if (get_token_type(*tok) != TOKEN_EOF)
 		perror("Did not finish parsing error");
-	// nulterminate(&keep);
 	return (cmd);
 }

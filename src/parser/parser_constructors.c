@@ -66,7 +66,7 @@ t_cmd	*adjust_redir(t_cmd *subcmd, t_redircmd *cmd)
 	return ((t_cmd *)subcmd);
 }
 
-t_cmd	*redircmd(t_cmd *subcmd, t_token *tok, t_token *file, char **env)
+t_cmd	*redircmd(t_cmd *subcmd, t_token *tok, t_dlist **file, char **env)
 {
 	t_redircmd	*cmd;
 
@@ -76,11 +76,11 @@ t_cmd	*redircmd(t_cmd *subcmd, t_token *tok, t_token *file, char **env)
 	*cmd = (t_redircmd){
 		.type = REDIR,
 		.cmd = subcmd,
-		.file = expand_token(file, env),
+		.expand = get_token_type(*file) & TOKEN_WORD,
 		.mode = get_correct_mode(tok->type),
-		.fd = get_correct_fd(tok->type),
-		.expand = file->type & TOKEN_WORD
+		.fd = get_correct_fd(tok->type)
 	};
+	cmd->file = connect_tokens(file, env);
 	if (subcmd->type == REDIR)
 		return (adjust_redir(subcmd, cmd));
 	return ((t_cmd *)cmd);
