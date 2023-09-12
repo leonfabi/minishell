@@ -25,9 +25,9 @@ char	*get_exec_path(char **bin_path, char *executable)
 t_builtin_p	is_builtin(t_execcmd *exec)
 {
 	int					id;
-	const char			*ft_builtin_name[] = {"cd", "echo", "env", "exit", "export", \
+	static const char			*ft_builtin_name[] = {"cd", "echo", "env", "exit", "export", \
 	"pwd", "unset"};
-	const t_builtin_p	ft_builtin_p[] = {&ft_cd, &ft_echo, &ft_env, &ft_exit, \
+	static const t_builtin_p	ft_builtin_p[] = {&ft_cd, &ft_echo, &ft_env, &ft_exit, \
 	&ft_export, &ft_pwd, &ft_unset};
 
 	id = 0;
