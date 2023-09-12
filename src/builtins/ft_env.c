@@ -1,10 +1,10 @@
 #include "minishell.h"
 
-int	ft_env(char **env)
+int	ft_env(t_execcmd *cmd)
 {
 	char	**run;
 
-	run = env;
+	run = ((t_main *)cmd->sh)->env;
 	while (*run != NULL)
 	{
 		// if (*run + ft_strlen_c(*run, '='))

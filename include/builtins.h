@@ -3,6 +3,8 @@
 
 # include "defines.h"
 
+typedef int	(*t_builtin_p)(t_execcmd *);
+
 int		ft_cd(t_execcmd *cmd);
 int		ft_exit(t_execcmd *cmd);
 int		ft_echo(t_execcmd *cmd);
@@ -15,7 +17,7 @@ int		print(int fd, char *str);
  `env`: array of strings containing the env variables;
  `<RETURN>`:
  Returns `EXIT_SUCCESS` on success. */
-int		ft_env(char **env);
+int		ft_env(t_execcmd *cmd);
 
 /* `<SUMMARY>`:
  * Removes the corresponding var from the environment variables.

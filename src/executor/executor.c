@@ -1,4 +1,4 @@
-# include "minishell.h"
+#include "minishell.h"
 
 char	*get_exec_path(char **bin_path, char *executable)
 {
@@ -14,9 +14,7 @@ char	*get_exec_path(char **bin_path, char *executable)
 	while (bin_path[++count] != NULL)
 	{
 		path = ft_strjoin(bin_path[count], "/");
-		// full_path = ft_strjoin(path, executable);
 		full_path = ft_strjoinfree(path, executable, 'L');
-		// free(path);
 		if (access(full_path, X_OK) == 0)
 			return (full_path);
 		free(full_path);
@@ -24,11 +22,33 @@ char	*get_exec_path(char **bin_path, char *executable)
 	return (NULL);
 }
 
-void	execute_node(t_execcmd *exec)
+t_builtin_p	is_builtin(t_execcmd *exec)
 {
-	pid_t	id;
-	int		status;
-// Is builtin
+	int					id;
+	const char			*ft_builtin_name[] = {"cd", "echo", "env", "exit", "export", \
+	"pwd", "unset"};
+	const t_builtin_p	ft_builtin_p[] = {&ft_cd, &ft_echo, &ft_env, &ft_exit, \
+	&ft_export, &ft_pwd, &ft_unset};
+
+	id = 0;
+	while (ft_builtin_name[id])
+	{
+		if (ft_strcmp(exec->argv[0],ft_builtin_name[id]) == 0)
+			return (ft_builtin_p[id]);
+		id++;
+	}
+	return (NULL);
+}
+
+int	execute_node(t_execcmd *exec)
+{
+	pid_t		id;
+	int			status;
+	t_builtin_p	builtin;
+
+	builtin = is_builtin(exec);
+	if (builtin != NULL)
+		return (builtin((t_execcmd *)exec));
 	id = fork();
 	if (id == 0)
 	{
@@ -46,6 +66,7 @@ void	execute_node(t_execcmd *exec)
 	waitpid(id, &status, 0);
 	if (WIFEXITED(status) == TRUE)
 		set_exit_status(WEXITSTATUS(status));
+	return (0);
 }
 
 void	execute_heredoc(t_redircmd *redir)
