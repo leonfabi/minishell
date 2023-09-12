@@ -3,6 +3,8 @@
 
 # include "defines.h"
 
+typedef int	(*t_builtin_p)(t_execcmd *);
+
 int		ft_cd(t_execcmd *cmd);
 int		ft_exit(t_execcmd *cmd);
 int		ft_echo(t_execcmd *cmd);

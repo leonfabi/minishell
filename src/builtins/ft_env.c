@@ -7,7 +7,6 @@ int	ft_env(t_execcmd *cmd)
 	run = cmd->sh->env;
 	while (*run != NULL)
 	{
-		// if (*run + ft_strlen_c(*run, '='))
 		printf("%s\n", *run);
 		++run;
 	}
