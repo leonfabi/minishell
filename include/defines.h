@@ -10,7 +10,7 @@
 # define FALSE 0
 # define WHITESPACE " \t\r\n\v"
 # define MAXARGS 20
-# define O_HEREDOC 0x0300
+# define O_HEREDOC 04000
 
 /* `<summary>`:
  Define structs to use a shorter version in the code
@@ -98,20 +98,6 @@ typedef struct pipecmd
 	t_cmd		*left;
 	t_cmd		*right;
 }	t_pipecmd;
-
-// typedef enum e_type
-// {
-// 	TOKEN_WORD,
-// 	TOKEN_PIPE,
-// 	TOKEN_LESS,
-// 	TOKEN_GREATER,
-// 	TOKEN_DLESS,
-// 	TOKEN_DGREATER,
-// 	TOKEN_EOF,
-// 	TOKEN_QUOTE,
-// 	TOKEN_DQUOTE,
-// 	TOKEN_NEWLINE
-// }	t_type;
 
 typedef enum e_type
 {
