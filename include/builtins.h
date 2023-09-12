@@ -6,7 +6,7 @@
 int		ft_cd(t_execcmd *cmd);
 int		ft_exit(t_execcmd *cmd);
 int		ft_echo(t_execcmd *cmd);
-int		ft_pwd(char **args);
+int		ft_pwd(t_execcmd *cmd);
 int		print(int fd, char *str);
 
 /* `<SUMMARY>`:
@@ -18,13 +18,12 @@ int		print(int fd, char *str);
 int		ft_env(char **env);
 
 /* `<SUMMARY>`:
- Removes the corresponding var from the environment variables.
- `<PARAM>`:
- `env`: array of strings containing the env variables;
- `var`: the given name to be removed;
- `<RETURN>`:
- Returns `TRUE` on success and `FALSE` on fail. */
-t_bool	ft_unset(t_execcmd *cmd, char **env);
+ * Removes the corresponding var from the environment variables.
+ * `<PARAM>`:
+ * `cmd`: execute node of the AST;
+ * `<RETURN>`:
+ * Returns the exit status of the unset function (always true)*/
+int	ft_unset(t_execcmd *cmd);
 
 int		ft_export(t_execcmd *cmd);
 

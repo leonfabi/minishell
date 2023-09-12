@@ -122,16 +122,16 @@ extern char	**environ;
 int	main(void)
 {
 	t_execcmd	cmd;
+	t_execcmd	cmd1;
 	char		**env;
 	t_main		sh;
 
 
-	env = ft_calloc(6, sizeof(*env));
+	env = ft_calloc(5, sizeof(*env));
 	env[0] = ft_strdup("_USERNAME=none");
 	env[1] = ft_strdup("USER=makurz");
 	env[2] = ft_strdup("TEST=42Hello");
-	env[3] = ft_strdup("USER=fkrug");
-	env[4] = ft_strdup("VERRUCKT=");
+	env[3] = ft_strdup("VERRUCKT=");
 	init_shell(&sh, env);
 	printf("%s\n", env[0]);
 	printf("%s\n", env[1]);
@@ -139,8 +139,11 @@ int	main(void)
 	cmd.argv[0] = ft_strdup("export");
 	cmd.argv[1] = ft_strdup("TEST42_=42Hello");
 	cmd.argv[2] = ft_strdup("42TEST=42Hello");
-	cmd.argv[5] = ft_strdup("#WRONG");
-	cmd.argv[6] = ft_strdup("NOTHING");
+	cmd.argv[3] = ft_strdup("USER=fkrug");
+	cmd.argv[4] = ft_strdup("#WRONG");
+	cmd.argv[5] = ft_strdup("NOTHING");
+	printf("\n");
+	ft_arrprint((const char **)cmd.argv);
 	// cmd.argv[3] = ft_strdup("USER=fkrug");
 	// cmd.argv[4] = ft_strdup("VERRUCKT");
 	cmd.sh = &sh;
@@ -149,6 +152,13 @@ int	main(void)
 	ft_export(&cmd);
 	int	i = -1;
 	printf("\n");
+	ft_arrprint((const char **)cmd.sh->env);
+	cmd1 = (t_execcmd){};
+	cmd1.argv[0] = ft_strdup("unset");
+	cmd1.argv[1] = ft_strdup("TEST42_");
+	cmd1.sh = &sh;
+	ft_unset(&cmd1);
+	printf("\n\n\n");
 	ft_arrprint((const char **)cmd.sh->env);
 	while (cmd.argv[++i] != NULL)
 		free(cmd.argv[i]);

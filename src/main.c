@@ -145,7 +145,7 @@ int	main(int argc, char *argv[], char *envp[])
 	// }
 	// printf("\n");
 	print_AST(ast);
-	// // executor(main.cmd, main.env, main.bin_path);
+	executor(ast);
 	// // CLEANUP
 	clean_ast(ast);
 	ft_dlstclear(&sh.lexer.token_list, &free);

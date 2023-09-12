@@ -1,15 +1,15 @@
 #include "minishell.h"
 
-static t_bool	run_unset(char **env, char *name)
+static t_bool	run_unset(t_main *sh, char *name)
 {
 	char	**delete;
 	char	**shift;
 	size_t	len;
 
-	len = ft_arrlen((const char **)env);
+	len = ft_arrlen((const char **)sh->env);
 	if (0 == len)
 		return (FALSE);
-	delete = env;
+	delete = sh->env;
 	while (NULL != *delete)
 	{
 		if (check_env_variable(*delete, name) == TRUE)
@@ -18,7 +18,7 @@ static t_bool	run_unset(char **env, char *name)
 	}
 	shift = delete;
 	free(*delete);
-	while (shift < env + len)
+	while (shift < sh->env + len)
 	{
 		*shift = *(shift + 1);
 		++shift;
@@ -27,7 +27,7 @@ static t_bool	run_unset(char **env, char *name)
 	return (TRUE);
 }
 
-int	ft_unset(t_execcmd *cmd, char **env)
+int	ft_unset(t_execcmd *cmd)
 {
 	int		arrlen;
 	int		i;
@@ -37,7 +37,7 @@ int	ft_unset(t_execcmd *cmd, char **env)
 	arrlen = ft_arrlen((const char **)cmd->argv);
 	if (NULL == cmd->argv[1])
 		return (EXIT_SUCCESS);
-	while (NULL == cmd->argv[++i])
-		run_unset(env, cmd->argv[i]);
+	while (NULL != cmd->argv[++i])
+		run_unset(cmd->sh, cmd->argv[i]);
 	return (EXIT_SUCCESS);
 }

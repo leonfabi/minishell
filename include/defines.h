@@ -1,7 +1,10 @@
 #ifndef DEFINES_H
 # define DEFINES_H
 
+# include "libft.h"
 # include <termios.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 
 # define TRUE 1
 # define FALSE 0

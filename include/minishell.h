@@ -5,7 +5,6 @@
 # include <errno.h>
 # include "defines.h"
 # include "environment.h"
-# include "libft.h"
 # include "signal_handler.h"
 # include "lexer.h"
 # include "builtins.h"

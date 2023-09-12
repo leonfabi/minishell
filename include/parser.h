@@ -19,7 +19,7 @@ t_cmd	*parse_command(t_dlist **tok, t_main *sh);
 t_cmd	*execcmd(t_main *sh);
 
 // Function for initializing a redirect node of the AST
-t_cmd	*redircmd(t_cmd *subcmd, t_token *tok, t_token *file, char **env);
+t_cmd	*redircmd(t_cmd *subcmd, t_token *tok, t_dlist **file, char **env);
 
 // Function for initializing a pipe node of the AST
 t_cmd	*pipecmd(t_cmd *left, t_cmd *right);
@@ -69,10 +69,14 @@ t_bool	check_metachars(t_type type);
 
 // Helper function to get the correct redirection for the
 // redirection node of the AST.
-t_cmd	*select_redirect(t_cmd *subcmd, t_dlist *tok_list, char **env);
+t_cmd	*select_redirect(t_cmd *subcmd, t_dlist **list, char **env);
 
 // Util function to nulterminate the strings on the readline string.
 t_bool	correct_token(t_type type);
+
+char	*connect_tokens(t_dlist **list, char **env);
+
+t_bool	check_tok_connection(t_token *tok);
 
 // WARNING: CHECK IF WE NEED THIS FUNCTION ANYMORE???????
 // Function to nulterminate the readline string

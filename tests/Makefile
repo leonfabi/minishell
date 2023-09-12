@@ -43,7 +43,7 @@ OBJS_LEXER := $(addprefix $(OBJ_DIR)/, $(SRC_LEXER:%.c=%.o))
 
 # Source files for builtins
 SRC_BUILTIN := ft_cd.c ft_echo.c ft_env.c ft_exit.c ft_export.c ft_pwd.c ft_unset.c
-SRC_BUILTIN += exit_status.c environment_utils.c init.c
+SRC_BUILTIN += exit_status.c environment_utils.c init.c ft_export_utils.c
 OBJS_BUILTIN := $(addprefix $(OBJ_DIR)/, $(SRC_BUILTIN:%.c=%.o))
 
 ####################################################################
