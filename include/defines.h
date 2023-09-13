@@ -9,7 +9,6 @@
 
 # define TRUE 1
 # define FALSE 0
-# define SPACE " \t\r\n\v"
 # define MAXARGS 20
 # define O_HEREDOC 04000
 

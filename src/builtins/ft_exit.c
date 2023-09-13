@@ -15,6 +15,6 @@ int	ft_exit(t_execcmd *cmd)
 
 	// Send SIGINT signal
 	// FIX: create a cleaupt at exit routine
-	clean_ast(cmd->sh->ast_root);
+	// clean_ast(cmd->sh->ast_root);
 	exit(exit_code);
 }

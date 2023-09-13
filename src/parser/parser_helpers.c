@@ -5,11 +5,11 @@ t_bool	check_tok_connection(t_token *tok)
 	t_type		type;
 
 	type = tok->type;
-	if (tok->type == TOKEN_WORD && ft_strchr(SPACE, *(tok->value + tok->len)))
+	if (tok->type & TOKEN_WORD & ft_isspace(*(tok->value + tok->len)) == 0)
 		return (TRUE);
 	else if (tok->type & (TOKEN_DQUOTE | TOKEN_QUOTE))
 	{
-		if (ft_strchr(SPACE, *(tok->value + tok->len + 1)))
+		if (ft_isspace(*(tok->value + tok->len + 1)) == 0)
 			return (TRUE);
 	}
 	return (FALSE);

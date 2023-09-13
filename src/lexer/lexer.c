@@ -47,7 +47,7 @@ t_lexer	ft_lexer(char *str)
 	lexer = ft_init_lexer(str);
 	if (ft_find_token(&lexer) == FALSE)
 	{
-		print(2, "minishell: lexing: error during lexing\n");
+		// print(2, "minishell: lexing: error during lexing\n");
 		lexer.error_code = -1;
 		return (lexer);
 	}

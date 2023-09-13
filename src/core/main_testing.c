@@ -29,6 +29,13 @@ char* parse_types[] = {
 	"REDIR"
 };
 
+const char *get_node_name(t_parscmd type)
+{
+	int		index;
+
+	index = log2(type);
+	return (parse_types[index]);
+}
 void	ft_print_token_list(t_lexer *lexer)
 {
 	int		len;
@@ -74,7 +81,7 @@ void	print_AST(t_cmd *cmd)
 			while (ecmd->argv[++i] != NULL)
 			{
 				if (i == 0)
-					printf("%s: %s ", parse_types[ecmd->type], ecmd->argv[i]);
+					printf("%s: %s ", get_node_name(ecmd->type), ecmd->argv[i]);
 				else
 					printf("%s ", ecmd->argv[i]);
 			}
@@ -82,13 +89,13 @@ void	print_AST(t_cmd *cmd)
 			break ;
 		case REDIR:
 			rcmd = (t_redircmd *)cmd;
-			printf("%s: %s\n", parse_types[rcmd->type], rcmd->file);
+			printf("%s: %s\n", get_node_name(ecmd->type), rcmd->file);
 			// printf("Cmd: %s, fd: %d, mode: %d\n", parse_types[rcmd->cmd->type], rcmd->fd, rcmd->mode);
 			print_AST(rcmd->cmd);
 			break ;
 		case PIPE:
 			pcmd = (t_pipecmd *)cmd;
-			printf("%s: %s\n", parse_types[pcmd->type], "Node");
+			printf("%s: %s\n", get_node_name(ecmd->type), "Node");
 			printf("---------------------------------------------------\n");
 			print_AST(pcmd->left);
 			print_AST(pcmd->right);
@@ -96,68 +103,69 @@ void	print_AST(t_cmd *cmd)
 	}
 }
 
-int	main(int argc, char *argv[], char *envp[])
-{
-	t_main	sh;
-	t_cmd	*ast;
-	char	*str;
-
-	sh = (t_main){};
-	ast = NULL;
-	str = NULL;
-	init_shell(&sh, envp);
-	str = readline(" > ");
-	sh.lexer = ft_lexer(str);
-	ast = parse_command(&sh.lexer.token_list, &sh);
-	sh.ast_root = ast;
-	print_AST(ast);
-}
-
 // int	main(int argc, char *argv[], char *envp[])
 // {
-// 	int			len;
-// 	t_main		sh;
-// 	char		*str;
+// 	t_main	sh;
 // 	t_cmd	*ast;
+// 	char	*str;
 // 
 // 	sh = (t_main){};
-// 	set_exit_status(EXIT_SUCCESS);
+// 	ast = NULL;
+// 	str = NULL;
 // 	init_shell(&sh, envp);
-// 	// main.lexer = ft_lexer("cat < test.txt | grep hello | wc > out.log");
 // 	str = readline(" > ");
-// 	len = ft_strlen(str);
 // 	sh.lexer = ft_lexer(str);
-// 	// main.lexer = ft_lexer("'test' < \"test\" | 'hello'");
-// 	ft_print_token_list(&sh.lexer);
-// 	// main.cmd = ft_parser(&main.lexer);
 // 	ast = parse_command(&sh.lexer.token_list, &sh);
-// 	// printf("Input: ");
-// 	// for(int i = 0; i <= len; i++) {
-// 	// 	if (str[i] == '\0') {
-// 	// 		printf("\\0"); // print \0 for null character
-// 	// 	} else {
-// 	// 		printf("%c", str[i]);
-// 	// 	}
-// 	// }
-// 	// printf("\n");
+// 	sh.ast_root = ast;
 // 	print_AST(ast);
-// 	executor(ast);
-// 	// // CLEANUP
-// 	clean_ast(ast);
-// 	ft_dlstclear(&sh.lexer.token_list, &free);
-// 	ft_arrfree(sh.env);
-// 	ft_arrfree(sh.bin_path);
-// 	free(str);
-// 	// ft_print_ast(main.cmd, "START");
-// 	// ft_arrprint((const char **)main.env);
-// 	// printf("%lu\n\n", ft_arrlen((const char **)main.env));
-// 	// env(main.env);
-// 	// ft_unset(main.env, "USER");
-// 	// env(main.env);
-// 	// // printf("%lu\n\n", ft_arrlen((const char **)main.env));
-// 	// // ft_arrprint((const char **)main.env);
-// 	// ft_arrfree(main.bin_path);
-// 	// ft_arrfree(main.env);
-// 
-// 	return (EXIT_SUCCESS);
 // }
+
+int	main(int argc, char *argv[], char *envp[])
+{
+	int			len;
+	t_main		sh;
+	char		*str;
+	t_cmd	*ast;
+
+	sh = (t_main){};
+	set_exit_status(EXIT_SUCCESS);
+	init_shell(&sh, envp);
+	// main.lexer = ft_lexer("cat < test.txt | grep hello | wc > out.log");
+	str = readline(" > ");
+	len = ft_strlen(str);
+	sh.lexer = ft_lexer(str);
+	// main.lexer = ft_lexer("'test' < \"test\" | 'hello'");
+	ft_print_token_list(&sh.lexer);
+	// main.cmd = ft_parser(&main.lexer);
+	ast = parse_command(&sh.lexer.token_list, &sh);
+	// printf("Input: ");
+	// for(int i = 0; i <= len; i++) {
+	// 	if (str[i] == '\0') {
+	// 		printf("\\0"); // print \0 for null character
+	// 	} else {
+	// 		printf("%c", str[i]);
+	// 	}
+	// }
+	// printf("\n");
+	print_AST(ast);
+	executor(ast);
+	// // CLEANUP
+	clean_ast(ast);
+	if (sh.lexer.error_code != -1)
+		ft_dlstclear(&sh.lexer.token_list, &free);
+	ft_arrfree(sh.env);
+	ft_arrfree(sh.bin_path);
+	free(str);
+	// ft_print_ast(main.cmd, "START");
+	// ft_arrprint((const char **)main.env);
+	// printf("%lu\n\n", ft_arrlen((const char **)main.env));
+	// env(main.env);
+	// ft_unset(main.env, "USER");
+	// env(main.env);
+	// // printf("%lu\n\n", ft_arrlen((const char **)main.env));
+	// // ft_arrprint((const char **)main.env);
+	// ft_arrfree(main.bin_path);
+	// ft_arrfree(main.env);
+
+	return (EXIT_SUCCESS);
+}
