@@ -26,8 +26,16 @@ void	cleanup_control_character(t_termios *xterm)
 {
 	t_termios	local_termios;
 
-	tcgetattr(STDOUT_FILENO, xterm);
-	tcgetattr(STDOUT_FILENO, &local_termios);
+	if (tcgetattr(STDOUT_FILENO, xterm) == -1)
+	{
+		ft_fprintf(2, "minishell: cleanup: %s\n", strerror(errno));
+		return ;
+	}
+	if (tcgetattr(STDOUT_FILENO, &local_termios) == -1)
+	{
+		ft_fprintf(2, "minishell: cleanup: %s\n", strerror(errno));
+		return ;
+	}
 	local_termios.c_lflag &= ~(ECHOCTL);
 	tcsetattr(STDOUT_FILENO, TCSAFLUSH, &local_termios);
 }

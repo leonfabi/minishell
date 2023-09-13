@@ -3,6 +3,7 @@
 
 # include "libft.h"
 # include <termios.h>
+# include <errno.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 
@@ -58,7 +59,7 @@ typedef struct s_main
 	char		**bin_path;
 	t_lexer		lexer;
 	t_termios	xterm;
-	t_cmd		*ast_root;
+	// t_cmd		*ast_root;
 	int			stdin;
 	int			stdout;
 	int			stderr;

@@ -2,7 +2,6 @@
 # define MINISHELL_H
 
 # include <limits.h>
-# include <errno.h>
 # include "defines.h"
 # include "expander.h"
 # include "environment.h"

@@ -118,6 +118,8 @@ void	execute_pipe(t_pipecmd *pcmd)
 
 void	executor(t_cmd *ast)
 {
+	if (ast == NULL)
+		return ;
 	if (ast->type == EXECUTE)
 		execute_node((t_execcmd *) ast);
 	else if (ast->type == REDIR)
