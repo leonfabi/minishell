@@ -1,24 +1,4 @@
 #include "minishell.h"
-// int	ft_check_quotes(char *str)
-// {
-// 	int	count;
-// 	int	quote_double;
-// 	int	quote_single;
-
-// 	count = -1;
-// 	quote_double = 0;
-// 	quote_single = 0;
-// 	while (str[++count] != '\0')
-// 	{
-// 		if (str[count] == 34)
-// 			quote_double++;
-// 		else if (str[count] == 39)
-// 			quote_single++;
-// 	}
-// 	if (quote_double % 2 == 0 && quote_single % 2 == 0)
-// 		return (0);
-// 	return (1);
-// }
 
 t_lexer	ft_init_lexer(char *str)
 {
@@ -67,6 +47,7 @@ t_lexer	ft_lexer(char *str)
 	lexer = ft_init_lexer(str);
 	if (ft_find_token(&lexer) == FALSE)
 	{
+		print(2, "minishell: lexing: error during lexing\n");
 		lexer.error_code = -1;
 		return (lexer);
 	}

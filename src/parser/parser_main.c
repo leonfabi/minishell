@@ -108,9 +108,13 @@ t_cmd	*parse_command(t_dlist **tok, t_main *sh)
 
 	keep = *tok;
 	if (sh->lexer.error_code == -1)
+	{
 		return (NULL);
+	}
 	cmd = parse_pipe(tok, sh);
 	if (get_token_type(*tok) != TOKEN_EOF)
-		perror("Did not finish parsing error");
+	{
+		print(2, "minishell: parsing: could not finish parsing\n");
+	}
 	return (cmd);
 }

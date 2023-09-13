@@ -5,7 +5,7 @@
 # include "defines.h"
 # include "expander.h"
 # include "environment.h"
-# include "signal_handler.h"
+# include "signals.h"
 # include "lexer.h"
 # include "builtins.h"
 # include "parser.h"

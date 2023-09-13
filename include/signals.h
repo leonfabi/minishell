@@ -1,5 +1,5 @@
-#ifndef SIGNAL_HANDLER_H
-# define SIGNAL_HANDLER_H
+#ifndef SIGNALS_H
+# define SIGNALS_H
 
 # include "defines.h"
 # include <signal.h>

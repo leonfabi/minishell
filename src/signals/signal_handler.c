@@ -1,4 +1,4 @@
-#include "signal_handler.h"
+#include "signals.h"
 
 static void	universal_handler(int sig, t_handler *handler);
 
