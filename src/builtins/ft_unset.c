@@ -1,5 +1,14 @@
 #include "minishell.h"
 
+/* `<SUMMARY>`:
+ * .Function to unset the given `key` from the environment array
+ * of strings.
+ * `<PARAM>`:
+ * `sh`: main struct containing also the environment;
+ * `name`: variable to remove from the environment;
+ * `<RETURN>`:
+ * False if environment length is 0, `TRUE` after removing the
+ * given key=value pairs. */
 static t_bool	run_unset(t_main *sh, char *name)
 {
 	char	**delete;

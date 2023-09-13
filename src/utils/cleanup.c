@@ -2,6 +2,14 @@
 
 void	clean_ast(t_cmd *cmd);
 
+/* `<SUMMARY>`:
+ * Function for cleaning an execution command. An execution
+ * node is always the last node in a branch of the AST and
+ * therefore does not call the `clean_ast` function again.
+ * `<PARAM>`:
+ * `cmd`: execution node of the AST;
+ * `<RETURN>`:
+ * NOTHING. */
 static void	clean_ecmd(t_cmd *cmd)
 {
 	t_execcmd	*ecmd;
@@ -17,6 +25,13 @@ static void	clean_ecmd(t_cmd *cmd)
 	free(ecmd);
 }
 
+/* `<SUMMARY>`:
+ * Function for cleaning a redirect command. It calls the `clean_ast`
+ * function again for the subcmd of the redirect node.
+ * `<PARAM>`:
+ * `cmd`: redirect node of the AST;
+ * `<RETURN>`:
+ * NOTHING. */
 static void	clean_rcmd(t_cmd *cmd)
 {
 	t_redircmd	*rcmd;
@@ -28,6 +43,14 @@ static void	clean_rcmd(t_cmd *cmd)
 	free(rcmd);
 }
 
+/* `<SUMMARY>`:
+ * Function for cleaning a pipe command. It recursively calls the
+ * `clean_ast` command of the left and right branch of the pipe node.
+ * Subsequently frees the pipe node.
+ * `<PARAM>`:
+ * `cmd`: pipe node of the AST;
+ * `<RETURN>`:
+ * NOTHING. */
 static void	clean_pcmd(t_cmd *cmd)
 {
 	t_pipecmd	*pcmd;

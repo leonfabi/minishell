@@ -1,5 +1,14 @@
 #include "minishell.h"
 
+/* `<SUMMARY>`:
+ * Function to append a new environment variable to the environment
+ * array of strings. If variable is given without a `=`, minishell will
+ * use an empty string as value.
+ * `<PARAM>`:
+ * `env`: array of strings of the environment;
+ * `var`: variable string to append to the environment;
+ * `<RETURN>`:
+ * Updated environment array of string. */
 static char	**append_env_variable(char **env, char *var)
 {
 	int		arrlen;
@@ -15,6 +24,15 @@ static char	**append_env_variable(char **env, char *var)
 	return (new_env);
 }
 
+/* `<SUMMARY>`:
+ * Checks if the `key` present in `var` already exists in the
+ * environment. if yes, it will return the found env string, otherwise
+ * it will return a freeable copy of the given `key=value` pair.
+ * `<PARAM>`:
+ * `env`: string member of the array of strings of the environment;
+ * `var`: variable name to search for;
+ * `<RETURN>`:
+ * Either the found environment string or a freeable copy of the var. */
 static char	*replace_env_variable(char *env, char *var)
 {
 	if (ft_strncmp(env, var, ft_strlen_c(var, '=') + 1) != 0)

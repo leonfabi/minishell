@@ -8,7 +8,7 @@
 
 # define TRUE 1
 # define FALSE 0
-# define WHITESPACE " \t\r\n\v"
+# define SPACE " \t\r\n\v"
 # define MAXARGS 20
 # define O_HEREDOC 04000
 
@@ -18,6 +18,7 @@
 typedef struct sigaction	t_signal;
 typedef struct termios		t_termios;
 typedef void				t_handler(int);
+typedef struct s_cmd		t_cmd;
 
 /* `<summary>`:
  Represents either TRUE (1) or FALSE (0). */
@@ -57,6 +58,7 @@ typedef struct s_main
 	char		**bin_path;
 	t_lexer		lexer;
 	t_termios	xterm;
+	t_cmd		*ast_root;
 	int			stdin;
 	int			stdout;
 	int			stderr;
@@ -64,9 +66,9 @@ typedef struct s_main
 
 typedef enum e_parscmd
 {
-	EXECUTE,
-	PIPE,
-	REDIR
+	EXECUTE = 1 << 0,
+	PIPE = 1 << 1,
+	REDIR = 1 << 2
 }	t_parscmd;
 
 typedef struct s_cmd

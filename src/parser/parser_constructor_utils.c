@@ -22,16 +22,6 @@ int	get_correct_mode(t_type type)
 	return (0);
 }
 
-// void	print_redir(t_cmd *cmd)
-// {
-// 	if (cmd->type != REDIR)
-// 		printf("Not the expected type\n");
-// 	else
-// 	{
-// 		printf("Node: %p, rcmd file: %s, redir points to: %p\n", cmd, ((t_redircmd *)cmd)->file, ((t_redircmd *)cmd)->cmd);
-// 	}
-// }
-
 t_cmd	*adjust_redir(t_cmd *subcmd, t_redircmd *cmd)
 {
 	t_cmd	*tmp;

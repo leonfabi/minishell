@@ -109,6 +109,7 @@ int	main(int argc, char *argv[], char *envp[])
 	str = readline(" > ");
 	sh.lexer = ft_lexer(str);
 	ast = parse_command(&sh.lexer.token_list, &sh);
+	sh.ast_root = ast;
 	print_AST(ast);
 }
 

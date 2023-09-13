@@ -1,5 +1,12 @@
 #include "minishell.h"
 
+/* `<SUMMARY>`:
+ * Updates the PWD and OLDPWD environment variable after changing the
+ * directory.
+ * `<PARAM>`:
+ * `sh`: main struct containing the environment variable array of strings;
+ * `<RETURN>`:
+ * Nothing. */
 static void	update_pwd(t_main *sh)
 {
 	char	*update;
@@ -14,6 +21,13 @@ static void	update_pwd(t_main *sh)
 	free(update);
 }
 
+/* `<SUMMARY>`:
+ * Changes the directory to the given `dir` variable.
+ * `<PARAM>`:
+ * `sh`: main struct containing the environment variable array of strings;
+ * `dir`: string of directory the user wants to change to;
+ * `<RETURN>`:
+ * Returns `exit_code` respective to if the cd succeeded or failed. */
 static int	ft_chdir(t_main *sh, char *dir)
 {
 	int		exit_code;
@@ -31,6 +45,14 @@ static int	ft_chdir(t_main *sh, char *dir)
 	return (exit_code);
 }
 
+/* `<SUMMARY>`:
+ * Function for `-` and `~` input for the cd command.
+ * Changes directory to OLDPWD or HOME, accordingly.
+ * `<PARAM>`:
+ * `sh`: main struct containing the environment variable array of strings;
+ * `dir`: string of directory the user wants to change to;
+ * `<RETURN>`:
+ * Returns `exit_code` respective to if the cd succeeded or failed. */
 static int	dir_specials(t_main *sh, char *dir)
 {
 	char	*replace;
@@ -53,6 +75,12 @@ static int	dir_specials(t_main *sh, char *dir)
 	return (exit_code);
 }
 
+/* `<SUMMARY>`:
+ * Function for changing the directory to HOME.
+ * `<PARAM>`:
+ * `sh`: main struct containing the environment variable array of strings;
+ * `<RETURN>`:
+ * Returns `exit_code` respective to if the cd succeeded or failed. */
 static int	ft_cd_home(t_main *sh)
 {
 	char	*home;
@@ -73,11 +101,18 @@ static int	ft_cd_home(t_main *sh)
 	return (exit_code);
 }
 
-t_bool	symbol_verify(char *str)
+/* `<SUMMARY>`:
+ * Function to verify if the given special character is given
+ * correctly to the cd command. Checks for `-` and `~`.
+ * `<PARAM>`:
+ * `dir`: string with special symbol for the cd command;
+ * `<RETURN>`:
+ * `TRUE` if symbol is verified, otherwise `FALSE`. */
+static t_bool	symbol_verify(char *dir)
 {
-	if (*str == '-' && *(str + 1) == '\0')
+	if (*dir == '-' && *(dir + 1) == '\0')
 		return (TRUE);
-	if (*str == '~' && *(str + 1) == '\0')
+	if (*dir == '~' && *(dir + 1) == '\0')
 		return (TRUE);
 	return (FALSE);
 }

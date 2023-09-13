@@ -2,6 +2,10 @@
 
 int	ft_exit(t_execcmd *cmd)
 {
+	int		exit_code;
+
+	set_exit_status(ft_atoi(cmd->argv[1]));
+	exit_code = *get_exit_status();
 	// cmd = exit;
 
 	// cmd == "exit" => TRUE
@@ -10,5 +14,7 @@ int	ft_exit(t_execcmd *cmd)
 	// exit(0);
 
 	// Send SIGINT signal
-	return (TRUE);
+	// FIX: create a cleaupt at exit routine
+	clean_ast(cmd->sh->ast_root);
+	exit(exit_code);
 }

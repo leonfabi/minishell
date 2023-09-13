@@ -84,26 +84,70 @@ t_type	get_token_type(t_dlist *token);
  * Returns the token length of the current token. */
 int		get_token_length(t_dlist *token);
 
-// Helper function to check if the token is a redirect token.
+/* `<SUMMARY>`:
+ * Helper function to check if the token is a redirect token.
+ * `<PARAM>`:
+ * `type`: type of the current token;
+ * `<RETURN>`:
+ * `TRUE` if token is a redirection token, otherwise `FALSE`. */
 t_bool	check_redirect(t_type type);
 
-// Helper function to check if the token is either of type
-// 'TOKEN_WORD', 'TOKEN_DQUOTE', or 'TOKEN_QUOTE' to handle 
-// them accordingly.
+/* `<SUMMARY>`:
+ * Helper function to check if the token is either of type
+ * 'TOKEN_WORD', 'TOKEN_DQUOTE', or 'TOKEN_QUOTE' to handle 
+ * them accordingly.
+ * `<PARAM>`:
+ * `type`: type of the current token;
+ * `<RETURN>`:
+ * `TRUE` if token is WORD, QUOTE, or DQUOTE token, otherwise `FALSE`. */
 t_bool	check_arguments(t_type type);
 
-// Helper function to check for 'TOKEN_PIPE' tokens.
+/* `<SUMMARY>`:
+ * Helper function to check for 'TOKEN_PIPE' tokens.
+ * `<PARAM>`:
+ * `type`: type of the current token;
+ * `<RETURN>`:
+ * `TRUE` if token is pipe token, otherwise `FALSE`. */
 t_bool	check_metachars(t_type type);
 
-// Helper function to get the correct redirection for the
-// redirection node of the AST.
+/* `<SUMMARY>`:
+ * Helper function to get the correct redirection for the
+ * redirection node of the AST.
+ * `<PARAM>`:
+ * `subcmd`: command that is getting attached to the redir command;
+ * `list`: double linked list of the tokens;
+ * `env`: environment array of strings;
+ * `<RETURN>`:
+ * Either the selected redirect node or NULL if failure. */
 t_cmd	*select_redirect(t_cmd *subcmd, t_dlist **list, char **env);
 
-char	*connect_tokens(t_dlist **list, char **env);
-
+/* `<SUMMARY>`:
+ * Helper function to check if the current token needs to be
+ * connected to the following token.
+ * `<PARAM>`:
+ * `tok`: token to be checked;
+ * `<RETURN>`:
+ * `TRUE` if token needs to be connected, otherwise `FALSE`. */
 t_bool	check_tok_connection(t_token *tok);
 
-// FIX: add cleaning the allocated strings for redir and exec nodes
+/* `<SUMMARY>`:
+ * Entry function for connecting tokens not divided by whitespaces.
+ * `<PARAM>`:
+ * `list`: double linked list of the tokens;
+ * `env`: environment array of strings;
+ * `<RETURN>`:
+ * The connected and expanded string from the tokens. If it does not
+ * need to connect or expand anything, it will just return the given
+ * token value. */
+char	*connect_tokens(t_dlist **list, char **env);
+
+
+/* `<SUMMARY>`:
+ * Cleanup function for the AST.
+ * `<PARAM>`:
+ * `cmd`: Head root of the abstract syntax tree;
+ * `<RETURN>`:
+ * Nothing */
 void	clean_ast(t_cmd *cmd);
 
 #endif

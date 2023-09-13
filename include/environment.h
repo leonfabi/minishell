@@ -34,7 +34,7 @@ char	*get_env(char **env, char *search);
 /* `<SUMMARY>`:
  * Updates the environment array of strings in the main sh struct
  * with the given `var`. If found, it will replace it, else it will
- * append the string to the array..
+ * append the string to the array.
  * `<PARAM>`:
  * `sh`: main struct containing also the environment;
  * `var`: variable to update the environment with;

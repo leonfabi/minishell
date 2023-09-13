@@ -1,5 +1,13 @@
 #include "minishell.h"
 
+/* `<SUMMARY>`:
+ * Main function for parsing a redirect token.
+ * `<PARAM>`:
+ * `cmd`: command node of a redirection node;
+ * `tok`: double linked list of the tokens;
+ * `sh`: Main struct holding all the attributes of the shell;
+ * `<RETURN>`:
+ * Returns a initialized redirect node. */
 static t_cmd	*parse_redirect(t_cmd *cmd, t_dlist **tok, t_main *sh)
 {
 	while (check_redirect(get_token_type(*tok)) == TRUE)
@@ -40,6 +48,13 @@ char	*connect_tokens(t_dlist **list, char **env)
 	return (expand);
 }
 
+/* `<SUMMARY>`:
+ * Main function for parsing a execution token.
+ * `<PARAM>`:
+ * `tok`: double linked list of the tokens;
+ * `sh`: Main struct holding all the attributes of the shell;
+ * `<RETURN>`:
+ * Returns a initialized execution node. */
 static t_cmd	*parse_execution(t_dlist **tok, t_main *sh)
 {
 	int			argc;
@@ -66,6 +81,13 @@ static t_cmd	*parse_execution(t_dlist **tok, t_main *sh)
 	return (ret);
 }
 
+/* `<SUMMARY>`:
+ * Main function for parsing a pipe token.
+ * `<PARAM>`:
+ * `tok`: double linked list of the tokens;
+ * `sh`: Main struct holding all the attributes of the shell;
+ * `<RETURN>`:
+ * Returns a initialized pipe node. */
 static t_cmd	*parse_pipe(t_dlist **tok, t_main *sh)
 {
 	t_cmd		*cmd;
