@@ -13,7 +13,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       with:
         submodules: 'recursive'
 
@@ -27,7 +27,7 @@ jobs:
         scan-build make
 
     - name: Upload scan-build results
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: scan-build-results
         path: /tmp/scan-build*
