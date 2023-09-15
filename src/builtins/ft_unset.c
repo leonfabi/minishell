@@ -38,12 +38,10 @@ static t_bool	run_unset(t_main *sh, char *name)
 
 int	ft_unset(t_execcmd *cmd)
 {
-	int		arrlen;
 	int		i;
 
 	i = 0;
 	set_exit_status(EXIT_SUCCESS);
-	arrlen = ft_arrlen((const char **)cmd->argv);
 	if (NULL == cmd->argv[1])
 		return (EXIT_SUCCESS);
 	while (NULL != cmd->argv[++i])

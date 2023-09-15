@@ -103,10 +103,11 @@ static t_cmd	*parse_pipe(t_dlist **tok, t_main *sh)
 
 t_cmd	*parse_command(t_dlist **tok, t_main *sh)
 {
-	t_dlist		*keep;
+	// t_dlist		*keep;
 	t_cmd		*cmd;
 
-	keep = *tok;
+	// BUG: ?? check if keep is still needed for cleaning
+	// keep = *tok;
 	if (sh->lexer.error_code == -1)
 	{
 		return (NULL);
