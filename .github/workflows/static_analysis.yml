@@ -25,3 +25,9 @@ jobs:
     - name: Run clang static analyzer
       run: |
         scan-build make
+
+    - name: Upload scan-build results
+      uses: actions/upload-artifact@v2
+      with:
+        name: scan-build-results
+        path: /tmp/scan-build*
