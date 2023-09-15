@@ -22,4 +22,4 @@ jobs:
 
     - name: Run clang static analyzer
       run: |
-        scan-build make -j4
+        scan-build make
