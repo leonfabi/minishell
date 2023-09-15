@@ -31,7 +31,7 @@ t_cmd	*pipecmd(t_cmd *left, t_cmd *right);
  * `type`: type of the redirect token;
  * `<RETURN>`:
  * File descriptor 1 or 0 for stdout or stdin. */
-int	get_correct_fd(t_type type);
+int		get_correct_fd(t_type type);
 
 /* `<SUMMARY>`:
  * Function to determine the correct file open mode for the
@@ -40,7 +40,7 @@ int	get_correct_fd(t_type type);
  * `type`: type of the redirect token;
  * `<RETURN>`:
  * Bit masks to get the correct open mode for a file. */
-int	get_correct_mode(t_type type);
+int		get_correct_mode(t_type type);
 
 /* `<SUMMARY>`:
  * Function for adjusting the AST when multiple redirects are set.
@@ -140,7 +140,6 @@ t_bool	check_tok_connection(t_token *tok);
  * need to connect or expand anything, it will just return the given
  * token value. */
 char	*connect_tokens(t_dlist **list, char **env);
-
 
 /* `<SUMMARY>`:
  * Cleanup function for the AST.

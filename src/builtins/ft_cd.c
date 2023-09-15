@@ -31,7 +31,7 @@ static void	update_pwd(t_main *sh)
 static int	ft_chdir(t_main *sh, char *dir)
 {
 	int		exit_code;
-	
+
 	exit_code = EXIT_SUCCESS;
 	if (dir == NULL)
 		exit_code = EXIT_FAILURE;

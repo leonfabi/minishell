@@ -58,7 +58,6 @@ typedef struct s_main
 	char		**bin_path;
 	t_lexer		lexer;
 	t_termios	xterm;
-	// t_cmd		*ast_root;
 	int			stdin;
 	int			stdout;
 	int			stderr;

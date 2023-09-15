@@ -63,7 +63,6 @@ static void	clean_pcmd(t_cmd *cmd)
 
 void	clean_ast(t_cmd *cmd)
 {
-
 	if (NULL == cmd)
 		return ;
 	if (cmd->type == EXECUTE)
