@@ -2,10 +2,25 @@
 # define DEFINES_H
 
 # include "libft.h"
-# include <termios.h>
+
+// Standard Library Function Headers
 # include <errno.h>
+# include <limits.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+
+// System Calls and OS-specific interfaces
+# include <fcntl.h>
+# include <signal.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <termios.h>
+# include <unistd.h>
+
+// Used for interactive input editing and history
+# include <readline/history.h>
+# include <readline/readline.h>
 
 # define TRUE 1
 # define FALSE 0

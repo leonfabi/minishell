@@ -22,3 +22,17 @@ void	child_exit_status(int status)
 	if (WIFSIGNALED(status))
 		set_exit_status(WTERMSIG(status));
 }
+
+int	*get_child_pid(void)
+{
+	static pid_t	child_pid;
+
+	return (&child_pid);
+}
+
+void	set_child_pid(int pid)
+{
+	pid_t	*child_pid;
+	child_pid = get_child_pid();
+	*child_pid = pid;
+}

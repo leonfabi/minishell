@@ -3,7 +3,6 @@
 
 # include "defines.h"
 # include "lexer.h"
-# include <fcntl.h>
 
 /* `<SUMMARY>`:
  * Main entrance point for the parsing routine, and beginning

@@ -2,8 +2,6 @@
 # define LEXER_H
 
 # include "defines.h"
-# include <string.h>
-# include <stdio.h>
 
 // UTILS
 t_dlist		*ft_dlstnew(void *content);

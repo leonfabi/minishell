@@ -64,6 +64,7 @@ static t_bool	create_own_environment(t_main *main)
 t_bool	init_shell(t_main *main, char **env)
 {
 	set_exit_status(EXIT_SUCCESS);
+	set_child_pid(-1);
 	main->stdin = STDIN_FILENO;
 	main->stdout = STDOUT_FILENO;
 	main->stderr = STDERR_FILENO;
