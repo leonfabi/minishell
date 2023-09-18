@@ -1,27 +1,6 @@
 #include "minishell.h"
 
 /* `<SUMMARY>`:
- * Updates the PWD and OLDPWD environment variable after changing the
- * directory.
- * `<PARAM>`:
- * `sh`: main struct containing the environment variable array of strings;
- * `<RETURN>`:
- * Nothing. */
-static void	update_pwd(t_main *sh)
-{
-	char	*update;
-
-	update = NULL;
-	update = ft_strjoinfree("OLDPWD=", get_env(sh->env, "PWD"), 'R');
-	sh->env = update_env_variables(sh, update);
-	free(update);
-	update = NULL;
-	update = ft_strjoinfree("PWD=", getcwd(NULL, 0), 'R');
-	sh->env = update_env_variables(sh, update);
-	free(update);
-}
-
-/* `<SUMMARY>`:
  * Changes the directory to the given `dir` variable.
  * `<PARAM>`:
  * `sh`: main struct containing the environment variable array of strings;

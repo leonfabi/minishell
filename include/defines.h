@@ -29,7 +29,7 @@
 # define CHILD_FORK 0
 
 /* `<summary>`:
- Define structs to use a shorter version in the code
+ Typedefs to use a shorter version in the code
  for more readability and structure. */
 typedef struct sigaction	t_signal;
 typedef struct termios		t_termios;
@@ -39,7 +39,6 @@ typedef struct s_execcmd	t_execcmd;
 typedef struct s_pipecmd	t_pipecmd;
 typedef struct s_redircmd	t_redircmd;
 typedef int					(*t_builtin_p)(t_execcmd *);
-typedef unsigned char		t_byte;
 
 /* `<summary>`:
  Represents either TRUE (1) or FALSE (0). */
@@ -142,10 +141,11 @@ typedef struct s_token
 	int		len;
 }	t_token;
 
+// FIX: check where to use error and quit
 typedef struct s_context {
 	int		fd[2];
 	int		fd_close;
-	t_byte	exit_code;
+	int		exit_code;
 	t_bool	error;
 	t_bool	quit;
 	t_bool	pipeline;

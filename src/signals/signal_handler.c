@@ -24,7 +24,7 @@ static void	cleanup_control_character(t_termios *xterm)
 	tcsetattr(STDOUT_FILENO, TCSAFLUSH, &local_termios);
 }
 
-static void	handle_last_child()
+static void	handle_childs()
 {
 	while (waitpid(-1, NULL, WNOHANG) > 0);
 }
@@ -60,7 +60,7 @@ int	user_signal_listener(t_termios *xterm)
 {
 	cleanup_control_character(xterm);
 	universal_handler(SIGINT, termination_handler);
-	universal_handler(SIGCHLD, handle_last_child);
+	universal_handler(SIGCHLD, handle_childs);
 	universal_handler(SIGQUIT, SIG_IGN);
 	return (EXIT_SUCCESS);
 }

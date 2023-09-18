@@ -42,4 +42,13 @@ char	*get_env(char **env, char *search);
  * Updated environment array of strings. */
 char	**update_env_variables(t_main *sh, char *var);
 
+/* `<SUMMARY>`:
+ * Updates the PWD and OLDPWD environment variable after changing the
+ * directory.
+ * `<PARAM>`:
+ * `sh`: main struct containing the environment variable array of strings;
+ * `<RETURN>`:
+ * Nothing. */
+void	update_pwd(t_main *sh);
+
 #endif

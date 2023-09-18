@@ -115,6 +115,7 @@ t_cmd	*parse_command(t_dlist **tok, t_main *sh)
 		print(2, "minishell: parsing: could not finish parsing\n");
 	}
 	ft_dlstclear(get_lexer_root(), &free);
+	set_lexer_root(NULL);
 	set_ast_root(cmd);
 	return (cmd);
 }

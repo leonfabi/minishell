@@ -1,6 +1,26 @@
 #include "minishell.h"
-static void	spawn_process(char **argv, t_context *ctx);
-static void	run_executable(t_execcmd *exec, t_context *ctx);
+
+static void	create_child_process(t_execcmd *exec, t_context *ctx)
+{
+	int			pid;
+
+	pid = adv_fork();
+	if (CHILD_FORK == pid)
+	{
+		dup2(ctx->fd[STDIN_FILENO], STDIN_FILENO);
+		dup2(ctx->fd[STDOUT_FILENO], STDOUT_FILENO);
+		if (ctx->fd_close >= 0)
+			close(ctx->fd_close);
+		execve(exec->bin, exec->argv, exec->sh->env);
+		msh_cleanup(exec->sh);
+		exit(EXIT_FAILURE);
+	}
+	if (ctx->fd[STDIN_FILENO] != STDIN_FILENO)
+		close(ctx->fd[STDIN_FILENO]);
+	if (ctx->fd[STDOUT_FILENO] != STDOUT_FILENO)
+		close(ctx->fd[STDOUT_FILENO]);
+	set_child_pid(pid);
+}
 
 static char	*get_exec_path(char **bin_path, char *executable)
 {
@@ -24,6 +44,35 @@ static char	*get_exec_path(char **bin_path, char *executable)
 	return (NULL);
 }
 
+static void	run_executable(t_execcmd *exec, t_context *ctx)
+{
+	exec->bin = get_exec_path(exec->sh->bin_path, exec->argv[0]);
+	if (exec->bin)
+		create_child_process(exec, ctx);
+	else
+	{
+		ft_fprintf(2, "minishell: %s: command not found\n", exec->argv[0]);
+		ctx->exit_code = 127;
+	}
+}
+
+static t_bool	check_executable(char *bin, t_context *ctx)
+{
+	if (access(bin, F_OK) != 0)
+	{
+		ft_fprintf(2, "minishell: %s: %s\n", bin, strerror(2));
+		ctx->exit_code = 127;
+		return (FALSE);
+	}
+	if (access(bin, X_OK) != 0)
+	{
+		ft_fprintf(2, "minishell: %s: %s\n", bin, strerror(13));
+		ctx->exit_code = 126;
+		return (FALSE);
+	}
+	return (TRUE);
+}
+
 void	execute_command(t_execcmd *exec, t_context *ctx)
 {
 	if (ft_strchr(exec->argv[0], '/') == NULL)
@@ -31,48 +80,7 @@ void	execute_command(t_execcmd *exec, t_context *ctx)
 		if (execute_builtin(exec, ctx) == FALSE)
 			run_executable(exec, ctx);
 	}
-	else if (is_executable(argv[0], ctx))
-		spawn_process(argv, ctx);
+	else if (check_executable(exec->argv[0], ctx))
+		create_child_process(exec, ctx);
 	set_exit_status(ctx->exit_code);
-}
-
-static void	run_executable(t_execcmd *exec, t_context *ctx)
-{
-	char	*fullpath;
-
-	fullpath = search_path(argv[0]);
-	if (fullpath)
-	{
-		free(argv[0]);
-		argv[0] = fullpath;
-		spawn_process(argv, ctx);
-	}
-	else
-	{
-		msh_error(argv[0], "command not found", 0);
-		ctx->retcode = 127;
-	}
-}
-
-static void	spawn_process(char **argv, t_context *ctx)
-{
-	int			pid;
-	extern char	**environ;
-
-	wait_child_signals();
-	pid = pfork();
-	if (pid == FORKED_CHILD)
-	{
-		dup2(ctx->fd[STDIN_FILENO], STDIN_FILENO);
-		dup2(ctx->fd[STDOUT_FILENO], STDOUT_FILENO);
-		if (ctx->fd_close >= 0)
-			close(ctx->fd_close);
-		execve(argv[0], argv, environ);
-		exit(EXIT_FAILURE);
-	}
-	if (ctx->fd[STDIN_FILENO] != STDIN_FILENO)
-		close(ctx->fd[STDIN_FILENO]);
-	if (ctx->fd[STDOUT_FILENO] != STDOUT_FILENO)
-		close(ctx->fd[STDOUT_FILENO]);
-	enqueue(pid, ctx);
 }

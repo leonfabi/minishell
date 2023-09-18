@@ -1,6 +1,13 @@
 #include "minishell.h"
 
-static void	fork_builtin(t_execcmd *exec, t_builtin_p fn_builtin, t_context *ctx)
+/* `<SUMMARY>`:
+ * Function to execute the builtin command within a child because it
+ * is part of a pipe.
+ * `<PARAM>`:
+ * `exec`: execution node of the AST;
+ * `builtin`: function pointer to the correct builtin function;
+ * `ctx`: context for handling the correct redirection;*/
+static void	fork_builtin(t_execcmd *exec, t_builtin_p builtin, t_context *ctx)
 {
 	pid_t	pid;
 
@@ -11,8 +18,8 @@ static void	fork_builtin(t_execcmd *exec, t_builtin_p fn_builtin, t_context *ctx
 		dup2(ctx->fd[STDIN_FILENO], STDIN_FILENO);
 		if (ctx->fd_close >= 0)
 			close(ctx->fd_close);
-		ctx->exit_code = fn_builtin(exec);
-		// FIX: CLEANUP shell here!!!!!!!!
+		ctx->exit_code = builtin(exec);
+		msh_cleanup(exec->sh);
 		close(ctx->fd[STDIN_FILENO]);
 		close(ctx->fd[STDOUT_FILENO]);
 		exit(ctx->exit_code);
@@ -24,13 +31,19 @@ static void	fork_builtin(t_execcmd *exec, t_builtin_p fn_builtin, t_context *ctx
 	set_child_pid(pid);
 }
 
+/* `<SUMMARY>`:
+ * Function to find the corresponding builtin for exec->argv[0].
+ * `<PARAM>`:
+ * `exec`: execution node of the AST;
+ * `<RETURN>`:
+ * Returns the function pointer to the correct builtin or NULL. */
 static t_builtin_p	is_builtin(t_execcmd *exec)
 {
 	int					id;
-	static const char			*ft_builtin_name[] = {"cd", "echo", "env", "exit", "export", \
-	"pwd", "unset"};
-	static const t_builtin_p	ft_builtin_p[] = {&ft_cd, &ft_echo, &ft_env, &ft_exit, \
-	&ft_export, &ft_pwd, &ft_unset};
+	static const char			*ft_builtin_name[] = {"cd", "echo", "env",\
+		"exit", "export", "pwd", "unset"};
+	static const t_builtin_p	ft_builtin_p[] = {&ft_cd, &ft_echo, &ft_env,\
+		&ft_exit, &ft_export, &ft_pwd, &ft_unset};
 
 	id = 0;
 	while (ft_builtin_name[id])
@@ -49,12 +62,13 @@ t_bool	execute_builtin(t_execcmd *exec, t_context *ctx)
 
 	check = FALSE;
 	fn_builtin = is_builtin(exec);
+	if (ft_strncmp(exec->argv[0], "exit", 4) == 0)
+		ctx->quit = TRUE;
 	if (fn_builtin != NULL)
 	{
 		check = TRUE;
 		if (ctx->pipeline == TRUE)
-			printf("TEST");
-			// fork_builtin
+			fork_builtin(exec, fn_builtin, ctx);
 		else
 			ctx->exit_code = fn_builtin(exec);
 	}

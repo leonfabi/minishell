@@ -147,12 +147,10 @@ int	main(int argc, char *argv[], char *envp[])
 	// 	}
 	// }
 	// printf("\n");
-	print_AST(ast);
-	executor(ast);
+	// print_AST(ast);
+	//executor(ast);
+	executor_main(ast);
 	// // CLEANUP
-	clean_ast(ast);
-	if (sh.lexer.error_code != -1)
-		ft_dlstclear(&sh.lexer.token_list, &free);
 	ft_arrfree(sh.env);
 	ft_arrfree(sh.bin_path);
 	free(str);

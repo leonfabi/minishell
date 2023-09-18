@@ -75,5 +75,4 @@ void	msh_cleanup(t_main *sh)
 	clean_ast(*get_ast_root());
 	ft_arrfree(sh->bin_path);
 	ft_arrfree(sh->env);
-	free(sh->user);
 }
