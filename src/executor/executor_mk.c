@@ -40,56 +40,25 @@ t_builtin_p	is_builtin(t_execcmd *exec)
 	return (NULL);
 }
 
-int	execute_node(t_execcmd *exec, int fd)
-{
-	pid_t		id;
-	int			status;
-
-	id = fork();
-	if (id == 0)
-	{
-		if (fd != STDIN_FILENO)
-		{
-			dup2(fd, STDIN_FILENO);
-			close(fd);
-		}
-		exec->bin = get_exec_path(exec->sh->bin_path, exec->argv[0]);
-		if (NULL == exec->bin)
-		{
-			print(2, "minishell: exec: command not found");
-			exit(127);
-		}
-		else
-		{
-			if (execve(exec->bin, exec->argv, exec->sh->env) == -1)
-				perror("Execve error: ");
-			free(exec->bin);
-			exit(0);
-		}
-	}
-	else
-	{
-		if (fd != STDIN_FILENO)
-			close(fd);
-	}
-	return (0);
-}
-
-// int	execute_node(t_execcmd *exec, int fd)
+// int	execute_node(t_execcmd *exec, t_context *ctx)
 // {
 // 	pid_t		id;
 // 	int			status;
-// 	t_builtin_p	builtin;
 // 
-// 	builtin = is_builtin(exec);
-// 	if (builtin != NULL)
-// 		return (builtin((t_execcmd *)exec));
 // 	id = fork();
 // 	if (id == 0)
 // 	{
+// 		if (fd != STDIN_FILENO)
+// 		{
+// 			dup2(fd, STDIN_FILENO);
+// 			close(fd);
+// 		}
 // 		exec->bin = get_exec_path(exec->sh->bin_path, exec->argv[0]);
-// 		if (exec->bin == NULL)
-// 			printf("minishell: command not found: %s\n", exec->argv[0]);
+// 		if (NULL == exec->bin)
+// 		{
+// 			print(2, "minishell: exec: command not found");
+// 			exit(127);
+// 		}
 // 		else
 // 		{
 // 			if (execve(exec->bin, exec->argv, exec->sh->env) == -1)
@@ -98,18 +67,29 @@ int	execute_node(t_execcmd *exec, int fd)
 // 			exit(0);
 // 		}
 // 	}
-// 	waitpid(id, &status, 0);
-// 	if (WIFEXITED(status) == TRUE)
-// 		set_exit_status(WEXITSTATUS(status));
+// 	else
+// 	{
+// 		if (fd != STDIN_FILENO)
+// 			close(fd);
+// 	}
 // 	return (0);
 // }
+
+void	execute_node(t_execcmd *exec, t_context *ctx)
+{
+	if (exec->argv[0][0] != '/')
+	{
+
+	}
+	set_exit_status(ctx->exit_code);
+}
 
 void	execute_heredoc(t_redircmd *redir)
 {
 
 }
 
-void	execute_redir(t_redircmd *redir, int fd)
+void	execute_redir(t_redircmd *redir, t_context *ctx)
 {
 	int	fd;
 
@@ -122,30 +102,53 @@ void	execute_redir(t_redircmd *redir, int fd)
 		dup2(fd, STDOUT_FILENO);
 	else if (redir->fd == 0)
 		dup2(fd, STDIN_FILENO);
-	executor(redir->cmd, fd);
+	executor_mk(redir->cmd, ctx);
 }
 
-void	execute_pipe(t_pipecmd *pcmd, int fd)
+void	execute_pipe(t_pipecmd *pcmd, t_context *ctx)
 {
-	int		pipe_fd[2];
+	t_context	next_ctx;
+	int			pipe_fd[2];
 
+	ctx->pipeline = TRUE;
+	// FIX: ERROR handling
 	if (pipe(pipe_fd) == -1)
 		perror("Pipe error");
-	executor_mk(pcmd->left, fd);
-	close(pipe_fd[1]);
-	executor_mk(pcmd->right, pipe_fd[0]);
-	close(pipe_fd[0]);
+	next_ctx = *ctx;
+	next_ctx.fd[STDOUT_FILENO] = pipe_fd[STDOUT_FILENO];
+	next_ctx.fd_close = pipe_fd[STDIN_FILENO];
+	executor_mk(pcmd->left, &next_ctx);
+	next_ctx = *ctx;
+	next_ctx.fd[STDIN_FILENO] = pipe_fd[STDIN_FILENO];
+	next_ctx.fd_close = pipe_fd[STDOUT_FILENO];
+	executor_mk(pcmd->right, &next_ctx);
+	close(pipe_fd[STDIN_FILENO]);
+	close(pipe_fd[STDOUT_FILENO]);
 }
 
-void	executor_mk(t_cmd *ast, int fd)
+void	executor_main(t_cmd *ast)
+{
+	t_context	ctx;
+
+	ctx = (t_context){};
+	ctx.fd[STDIN_FILENO] = STDIN_FILENO;
+	ctx.fd[STDOUT_FILENO] = STDOUT_FILENO;
+	ctx.fd_close = -1;
+	ctx.exit_code = *get_exit_status();
+	// FIX: save AST ROOT here
+	executor_mk(ast, &ctx);
+	set_exit_status(ctx.exit_code);
+}
+
+void	executor_mk(t_cmd *ast, t_context *ctx)
 {
 	if (ast == NULL)
 		return ;
 	if (ast->type == EXECUTE)
-		execute_node((t_execcmd *) ast, fd);
+		execute_node((t_execcmd *) ast, ctx);
 	else if (ast->type == REDIR)
-		execute_redir((t_redircmd *) ast, fd);
+		execute_redir((t_redircmd *) ast, ctx);
 	else if (ast->type == PIPE)
-		execute_pipe((t_pipecmd *) ast, fd);
+		execute_pipe((t_pipecmd *) ast, ctx);
 }
 

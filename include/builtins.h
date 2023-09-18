@@ -3,8 +3,6 @@
 
 # include "defines.h"
 
-typedef int	(*t_builtin_p)(t_execcmd *);
-
 /* `<SUMMARY>`:
  * Builtin function to change the directory.
  * `<PARAM>`:

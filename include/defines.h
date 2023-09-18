@@ -34,6 +34,11 @@ typedef struct sigaction	t_signal;
 typedef struct termios		t_termios;
 typedef void				t_handler(int);
 typedef struct s_cmd		t_cmd;
+typedef struct s_execcmd	t_execcmd;
+typedef struct s_pipecmd	t_pipecmd;
+typedef struct s_redircmd	t_redircmd;
+typedef int					(*t_builtin_p)(t_execcmd *);
+typedef unsigned char		t_byte;
 
 /* `<summary>`:
  Represents either TRUE (1) or FALSE (0). */
@@ -85,20 +90,20 @@ typedef enum e_parscmd
 	REDIR = 1 << 2
 }	t_parscmd;
 
-typedef struct s_cmd
+struct s_cmd
 {
 	int		type;
-}	t_cmd;
+};
 
-typedef struct execcmd
+struct s_execcmd
 {
 	t_parscmd	type;
 	char		*bin;
 	char		*argv[MAXARGS];
 	t_main		*sh;
-}	t_execcmd;
+};
 
-typedef struct redircmd
+struct s_redircmd
 {
 	t_parscmd	type;
 	t_cmd		*cmd;
@@ -106,14 +111,14 @@ typedef struct redircmd
 	int			mode;
 	int			fd;
 	t_bool		expand;
-}	t_redircmd;
+};
 
-typedef struct pipecmd
+struct s_pipecmd
 {
 	t_parscmd	type;
 	t_cmd		*left;
 	t_cmd		*right;
-}	t_pipecmd;
+};
 
 typedef enum e_type
 {
@@ -135,5 +140,14 @@ typedef struct s_token
 	char	*value;
 	int		len;
 }	t_token;
+
+typedef struct s_context {
+	int		fd[2];
+	int		fd_close;
+	t_byte	exit_code;
+	t_bool	error;
+	t_bool	quit;
+	t_bool	pipeline;
+}	t_context;
 
 #endif
