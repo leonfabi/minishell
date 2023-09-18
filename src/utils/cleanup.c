@@ -1,7 +1,5 @@
 #include "minishell.h"
 
-void	clean_ast(t_cmd *cmd);
-
 /* `<SUMMARY>`:
  * Function for cleaning an execution command. An execution
  * node is always the last node in a branch of the AST and
@@ -70,4 +68,12 @@ void	clean_ast(t_cmd *cmd)
 	else if (cmd->type == REDIR)
 		return (clean_rcmd(cmd));
 	return (clean_pcmd(cmd));
+}
+
+void	msh_cleanup(t_main *sh)
+{
+	clean_ast(*get_ast_root());
+	ft_arrfree(sh->bin_path);
+	ft_arrfree(sh->env);
+	free(sh->user);
 }

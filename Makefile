@@ -39,7 +39,7 @@ SRCS += lexer.c lexer_token.c lexer_token_2.c
 SRCS += parser_constructor_utils.c parser_constructors.c 
 SRCS += parser_helpers.c parser_helpers_tok.c parser_main.c
 SRCS += exit_status.c signal_handler.c
-SRCS += clean_utils.c cleanup.c double_list.c error_mgmt.c
+SRCS += adv_utils.c cleanup_ast.c double_list.c encapsulation.c  error_mgmt.c
 SRCS += main_testing.c
 
 OBJS := $(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))

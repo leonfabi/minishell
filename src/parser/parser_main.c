@@ -103,11 +103,8 @@ static t_cmd	*parse_pipe(t_dlist **tok, t_main *sh)
 
 t_cmd	*parse_command(t_dlist **tok, t_main *sh)
 {
-	// t_dlist		*keep;
 	t_cmd		*cmd;
 
-	// BUG: ?? check if keep is still needed for cleaning
-	// keep = *tok;
 	if (sh->lexer.error_code == -1)
 	{
 		return (NULL);
@@ -117,5 +114,7 @@ t_cmd	*parse_command(t_dlist **tok, t_main *sh)
 	{
 		print(2, "minishell: parsing: could not finish parsing\n");
 	}
+	ft_dlstclear(get_lexer_root(), &free);
+	set_ast_root(cmd);
 	return (cmd);
 }

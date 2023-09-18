@@ -14,12 +14,12 @@ int	main(int argc, char *argv[], char *envp[])
 	{
 		user_signal_listener(&sh.xterm);
 		line = readline(" ˃ ");
-		add_history(line);
+		if (line != NULL)
+			add_history(line);
 		sh.lexer = ft_lexer(line);
 		ast = parse_command(&sh.lexer.token_list, &sh);
-		executor(ast);
+		executor_main(ast);
 		clean_ast(ast);
-		ft_dlstclear(&sh.lexer.token_list, &free);
 		free(line);
 		line = NULL;
 	}

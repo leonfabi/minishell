@@ -26,6 +26,7 @@
 # define FALSE 0
 # define MAXARGS 20
 # define O_HEREDOC 04000
+# define CHILD_FORK 0
 
 /* `<summary>`:
  Define structs to use a shorter version in the code

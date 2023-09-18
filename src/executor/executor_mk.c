@@ -1,45 +1,5 @@
 #include "minishell.h"
 
-static char	*get_exec_path(char **bin_path, char *executable)
-{
-	int		count;
-	char	*path;
-	char	*full_path;
-
-	count = -1;
-	path = NULL;
-	full_path = executable;
-	if (access(full_path, X_OK) == 0)
-		return (full_path);
-	while (bin_path[++count] != NULL)
-	{
-		path = ft_strjoin(bin_path[count], "/");
-		full_path = ft_strjoinfree(path, executable, 'L');
-		if (access(full_path, X_OK) == 0)
-			return (full_path);
-		free(full_path);
-	}
-	return (NULL);
-}
-
-t_builtin_p	is_builtin(t_execcmd *exec)
-{
-	int					id;
-	static const char			*ft_builtin_name[] = {"cd", "echo", "env", "exit", "export", \
-	"pwd", "unset"};
-	static const t_builtin_p	ft_builtin_p[] = {&ft_cd, &ft_echo, &ft_env, &ft_exit, \
-	&ft_export, &ft_pwd, &ft_unset};
-
-	id = 0;
-	while (ft_builtin_name[id])
-	{
-		if (ft_strcmp(exec->argv[0],ft_builtin_name[id]) == 0)
-			return (ft_builtin_p[id]);
-		id++;
-	}
-	return (NULL);
-}
-
 // int	execute_node(t_execcmd *exec, t_context *ctx)
 // {
 // 	pid_t		id;
@@ -75,15 +35,6 @@ t_builtin_p	is_builtin(t_execcmd *exec)
 // 	return (0);
 // }
 
-void	execute_node(t_execcmd *exec, t_context *ctx)
-{
-	if (exec->argv[0][0] != '/')
-	{
-
-	}
-	set_exit_status(ctx->exit_code);
-}
-
 void	execute_heredoc(t_redircmd *redir)
 {
 
@@ -102,7 +53,7 @@ void	execute_redir(t_redircmd *redir, t_context *ctx)
 		dup2(fd, STDOUT_FILENO);
 	else if (redir->fd == 0)
 		dup2(fd, STDIN_FILENO);
-	executor_mk(redir->cmd, ctx);
+	exec_ast(redir->cmd, ctx);
 }
 
 void	execute_pipe(t_pipecmd *pcmd, t_context *ctx)
@@ -117,11 +68,11 @@ void	execute_pipe(t_pipecmd *pcmd, t_context *ctx)
 	next_ctx = *ctx;
 	next_ctx.fd[STDOUT_FILENO] = pipe_fd[STDOUT_FILENO];
 	next_ctx.fd_close = pipe_fd[STDIN_FILENO];
-	executor_mk(pcmd->left, &next_ctx);
+	exec_ast(pcmd->left, &next_ctx);
 	next_ctx = *ctx;
 	next_ctx.fd[STDIN_FILENO] = pipe_fd[STDIN_FILENO];
 	next_ctx.fd_close = pipe_fd[STDOUT_FILENO];
-	executor_mk(pcmd->right, &next_ctx);
+	exec_ast(pcmd->right, &next_ctx);
 	close(pipe_fd[STDIN_FILENO]);
 	close(pipe_fd[STDOUT_FILENO]);
 }
@@ -129,23 +80,30 @@ void	execute_pipe(t_pipecmd *pcmd, t_context *ctx)
 void	executor_main(t_cmd *ast)
 {
 	t_context	ctx;
+	int			status;
 
 	ctx = (t_context){};
 	ctx.fd[STDIN_FILENO] = STDIN_FILENO;
 	ctx.fd[STDOUT_FILENO] = STDOUT_FILENO;
 	ctx.fd_close = -1;
 	ctx.exit_code = *get_exit_status();
-	// FIX: save AST ROOT here
-	executor_mk(ast, &ctx);
+	exec_ast(ast, &ctx);
 	set_exit_status(ctx.exit_code);
+	if (*get_child_pid() != -1)
+	{
+		waitpid(*get_child_pid(), &status, 0);
+		child_exit_status(status);
+	}
+	clean_ast(*get_ast_root());
+	set_child_pid(-1);
 }
 
-void	executor_mk(t_cmd *ast, t_context *ctx)
+void	exec_ast(t_cmd *ast, t_context *ctx)
 {
 	if (ast == NULL)
 		return ;
 	if (ast->type == EXECUTE)
-		execute_node((t_execcmd *) ast, ctx);
+		execute_command((t_execcmd *) ast, ctx);
 	else if (ast->type == REDIR)
 		execute_redir((t_redircmd *) ast, ctx);
 	else if (ast->type == PIPE)

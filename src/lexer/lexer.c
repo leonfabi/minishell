@@ -50,5 +50,6 @@ t_lexer	ft_lexer(char *str)
 		lexer.error_code = -1;
 		return (lexer);
 	}
+	set_lexer_root(lexer.token_list);
 	return (lexer);
 }
