@@ -17,6 +17,7 @@ void	set_exit_status(int status)
 
 void	child_exit_status(int status)
 {
+	printf("EXIT: %d\n", *get_exit_status());
 	if (WIFEXITED(status))
 		set_exit_status(WEXITSTATUS(status));
 	if (WIFSIGNALED(status))

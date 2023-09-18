@@ -1,10 +1,5 @@
 #include "minishell.h"
 
-// void	execute_heredoc(t_redircmd *redir)
-// {
-// 
-// }
-
 void	execute_redir(t_redircmd *redir, t_context *ctx)
 {
 	int	fd;
@@ -54,6 +49,7 @@ t_bool	executor_main(t_cmd *ast)
 	t_context	ctx;
 	int			status;
 
+	status = EXIT_SUCCESS;
 	ctx = (t_context){};
 	ctx.fd[STDIN_FILENO] = STDIN_FILENO;
 	ctx.fd[STDOUT_FILENO] = STDOUT_FILENO;

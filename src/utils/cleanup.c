@@ -14,6 +14,7 @@ static void	clean_ecmd(t_cmd *cmd)
 	char		**args;
 
 	ecmd = (t_execcmd *)cmd;
+	free(ecmd->bin);
 	args = ecmd->argv;
 	while (NULL != *args)
 	{

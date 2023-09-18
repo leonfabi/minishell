@@ -41,12 +41,12 @@ static t_builtin_p	is_builtin(t_execcmd *exec)
 {
 	int					id;
 	static const char			*ft_builtin_name[] = {"cd", "echo", "env",\
-		"exit", "export", "pwd", "unset"};
+		"exit", "export", "pwd", "unset", NULL};
 	static const t_builtin_p	ft_builtin_p[] = {&ft_cd, &ft_echo, &ft_env,\
-		&ft_exit, &ft_export, &ft_pwd, &ft_unset};
+		&ft_exit, &ft_export, &ft_pwd, &ft_unset, NULL};
 
 	id = 0;
-	while (ft_builtin_name[id])
+	while (NULL != ft_builtin_name[id])
 	{
 		if (ft_strcmp(exec->argv[0],ft_builtin_name[id]) == 0)
 			return (ft_builtin_p[id]);
