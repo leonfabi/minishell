@@ -8,6 +8,7 @@ static void	msh_loop(t_main *sh)
 	t_cmd	*ast;
 	char	*line;
 	t_bool	quit;
+
 	while (TRUE)
 	{
 		user_signal_listener(&sh->xterm);
@@ -17,6 +18,8 @@ static void	msh_loop(t_main *sh)
 			line = readline(RED_PROMPT);
 		if (line == NULL)
 			break ;
+		if (ft_strlen(line) == 0)
+			continue ;
 		add_history(line);
 		sh->lexer = ft_lexer(line);
 		ast = parse_command(&sh->lexer.token_list, sh);
@@ -25,6 +28,8 @@ static void	msh_loop(t_main *sh)
 		line = NULL;
 		if (quit == TRUE)
 			break ;
+		dup2(sh->stdin, STDIN_FILENO);
+		dup2(sh->stdout, STDOUT_FILENO);
 	}
 }
 

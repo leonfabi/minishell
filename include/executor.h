@@ -38,4 +38,16 @@ void	execute_command(t_execcmd *exec, t_context *ctx);
  * Returns TRUE if it is a builtin and FALSE otherwise. */
 t_bool	execute_builtin(t_execcmd *exec, t_context *ctx);
 
+/* `<SUMMARY>`:
+ * copy_context copies the necessary variables during the
+ * execution of the AST from the left and right side of the
+ * pipe. Furthermore, it appends the newly created PIDs to
+ * the array.
+ * `<PARAM>`:
+ * `ast`: current node of the AST;
+ * `ctx`: context for handling the correct redirection;
+ * `<RETURN>`:
+ * Returns TRUE if it is a builtin and FALSE otherwise. */
+void	copy_context(t_context *ctx, t_context next_ctx);
+
 #endif

@@ -28,6 +28,7 @@
 # define MAXARGS 20
 # define O_HEREDOC 04000
 # define CHILD_FORK 0
+# define MAX_CHILDS 1024
 
 /* `<summary>`:
  Typedefs to use a shorter version in the code
@@ -142,11 +143,12 @@ typedef struct s_token
 	int		len;
 }	t_token;
 
-// FIX: check where to use error and quit
 typedef struct s_context {
 	int		fd[2];
 	int		fd_close;
 	int		exit_code;
+	pid_t	pids[MAX_CHILDS];
+	int		child;
 	t_bool	error;
 	t_bool	quit;
 	t_bool	pipeline;

@@ -28,7 +28,6 @@ static void	fork_builtin(t_execcmd *exec, t_builtin_p builtin, t_context *ctx)
 		close(ctx->fd[STDIN_FILENO]);
 	if (ctx->fd[STDOUT_FILENO] != STDOUT_FILENO)
 		close(ctx->fd[STDOUT_FILENO]);
-	set_child_pid(pid);
 }
 
 /* `<SUMMARY>`:

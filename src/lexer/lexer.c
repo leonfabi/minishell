@@ -44,6 +44,11 @@ t_lexer	ft_lexer(char *str)
 	t_lexer	lexer;
 
 	lexer = (t_lexer){};
+	// if (ft_strlen(str) == 0)
+	// {
+	// 	lexer.error_code = -1;
+	// 	return (lexer);
+	// }
 	lexer = ft_init_lexer(str);
 	if (ft_find_token(&lexer) == FALSE)
 	{

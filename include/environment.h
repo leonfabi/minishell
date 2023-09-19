@@ -4,7 +4,10 @@
 # include "defines.h"
 
 /* `<SUMMARY>`:
- * Initializes the main struct from minishell.
+ * Initializes the main struct from minishell. Copies stdin,
+ * stdout, and stderr for restoring them after redirections.
+ * Also, if there is no environment, init_shell will be creating
+ * a minimal working environment like bash would.
  * `<PARAM>`:
  * `main`: main struct containing all other variables;
  * `env`: array of strings containing the env variables;

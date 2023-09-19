@@ -12,6 +12,7 @@ static t_cmd	*parse_redirect(t_cmd *cmd, t_dlist **tok, t_main *sh)
 {
 	while (check_redirect(get_token_type(*tok)) == TRUE)
 	{
+		// FIX: add proper error handling if there is a missing file
 		if (check_arguments(get_token_type((*tok)->next)) == FALSE)
 			perror("missing file");
 		cmd = select_redirect(cmd, tok, sh->env);
@@ -95,6 +96,7 @@ static t_cmd	*parse_pipe(t_dlist **tok, t_main *sh)
 	cmd = parse_execution(tok, sh);
 	if (get_token_type(*tok) == TOKEN_PIPE)
 	{
+		// FIX: check for NULL dereference
 		*tok = (*tok)->next;
 		cmd = pipecmd(cmd, parse_pipe(tok, sh));
 	}
