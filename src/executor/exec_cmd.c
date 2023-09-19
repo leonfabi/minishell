@@ -58,6 +58,8 @@ static void	run_executable(t_execcmd *exec, t_context *ctx)
 
 static t_bool	check_executable(char *bin, t_context *ctx)
 {
+	struct stat		statbuf;
+
 	if (access(bin, F_OK) != 0)
 	{
 		ft_fprintf(2, "minishell: %s: %s\n", bin, strerror(2));
@@ -67,6 +69,13 @@ static t_bool	check_executable(char *bin, t_context *ctx)
 	if (access(bin, X_OK) != 0)
 	{
 		ft_fprintf(2, "minishell: %s: %s\n", bin, strerror(13));
+		ctx->exit_code = 126;
+		return (FALSE);
+	}
+	stat(bin, &statbuf);
+	if (S_ISDIR(statbuf.st_mode) != 0)
+	{
+		ft_fprintf(2, "minishell: %s: %s\n", bin, strerror(21));
 		ctx->exit_code = 126;
 		return (FALSE);
 	}
