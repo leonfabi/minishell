@@ -54,6 +54,8 @@ t_bool	executor_main(t_cmd *ast)
 	t_context	ctx;
 	int			status;
 
+	if (ast == NULL)
+		return (FALSE);
 	status = EXIT_SUCCESS;
 	ctx = (t_context){};
 	ctx.fd[STDIN_FILENO] = STDIN_FILENO;
