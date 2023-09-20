@@ -65,13 +65,13 @@ typedef struct s_lexer
 /* `<SUMMARY>`:
  * Main struct of the shell for holding all its attributes.
  * `<MEMBER>`
- * char			*user;
- * char			**env;
- * char			**bin_path;
- * t_lexer		lexer;
- * t_termios	xterm;
- * int			stdin;
- * int			stdout;
+ * char			`*user`;
+ * char			`**env`;
+ * char			`**bin_path`;
+ * t_lexer		`lexer`;
+ * t_termios	`xterm`;
+ * int			`stdin`;
+ * int			`stdout`;
  */
 typedef struct s_main
 {

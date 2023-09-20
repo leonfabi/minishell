@@ -115,23 +115,25 @@ Test(builtins, double_argv)
 ////////////////////////////////////////////////////////////////////////////////
 
 
-// TestSuite(export);
-// 
-// Test(export, export_single)
-// {
-// 	t_execcmd	cmd;
-// 	char		**env;
-// 
-// 	env = NULL;
-// 	cmd = (t_execcmd){};
-// 	cmd.argv[0] = "export";
-// 	cmd.argv[1] = "TEST=42";
-// 	// cmd.argv[2] = "42TEST=Hallo";
-// 
-// 	ft_export(&cmd, env);
-// 	printf("%s\n", env[0]);
-// }
-//
+TestSuite(export);
+
+Test(export, export_single)
+{
+	t_execcmd	cmd;
+	t_main		sh;
+
+	cmd = (t_execcmd){};
+	sh = (t_main){.env = (char *[]){
+		strdup("HOME=/user/makurz"),
+		strdup("PATH=/usr/bin")
+	}};
+	cmd.argv[0] = "export";
+	cmd.argv[1] = "TEST=42";
+	// cmd.argv[2] = "42TEST=Hallo";
+
+	ft_export(&cmd);
+}
+
 
 #include <errno.h>
 
