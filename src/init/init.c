@@ -10,16 +10,17 @@
  * Returns NULL on failure. */
 static char	**create_bin_paths(char **env)
 {
-	char	**bin_path;
-
+// 	char	**bin_path;
+// 
 	while (NULL != *env && ft_strncmp(*env, "PATH=", 5))
 		++env;
 	if (NULL == *env)
 		return (NULL);
-	bin_path = ft_split((*env) + 5, ':');
-	if (NULL == bin_path)
-		return (NULL);
-	return (bin_path);
+	return(ft_split((*env) + 5, ':'));
+	// bin_path = ft_split((*env) + 5, ':');
+	// if (NULL == bin_path)
+	// 	return (NULL);
+	// return (bin_path);
 }
 
 /* `<SUMMARY>`:
@@ -64,7 +65,7 @@ static t_bool	create_own_environment(t_main *main)
 t_bool	init_shell(t_main *main, char **env)
 {
 	set_exit_status(EXIT_SUCCESS);
-	set_child_pid(-1);
+	set_quit(NO_QUIT);
 	main->stdin = dup(STDIN_FILENO);
 	main->stdout = dup(STDOUT_FILENO);
 	main->stderr = dup(STDERR_FILENO);

@@ -29,6 +29,15 @@
 # define O_HEREDOC 04000
 # define CHILD_FORK 0
 # define MAX_CHILDS 1024
+# define QUIT 1 << 0
+# define NO_QUIT 1 << 1
+
+// Define error strings
+# define NO_FILE "Expected a string, but found end of the input"
+# define ERR_ARG "too many arguments"
+# define ERR_PARS "could not finish parsing"
+# define ERR_ID "not a valid identifier"
+# define ERR_CMD "command not found"
 
 /* `<summary>`:
  Typedefs to use a shorter version in the code
@@ -45,6 +54,7 @@ typedef int					(*t_builtin_p)(t_execcmd *);
 /* `<summary>`:
  Represents either TRUE (1) or FALSE (0). */
 typedef int					t_bool;
+typedef int					t_quit;
 typedef struct s_dlist		t_dlist;
 
 struct s_dlist
@@ -72,6 +82,7 @@ typedef struct s_lexer
  * t_termios	`xterm`;
  * int			`stdin`;
  * int			`stdout`;
+ * int			`stderr`;
  */
 typedef struct s_main
 {

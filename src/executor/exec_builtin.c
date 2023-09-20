@@ -62,8 +62,6 @@ t_bool	execute_builtin(t_execcmd *exec, t_context *ctx)
 
 	check = FALSE;
 	fn_builtin = is_builtin(exec);
-	if (ft_strncmp(exec->argv[0], "exit", 4) == 0)
-		ctx->quit = TRUE;
 	if (fn_builtin != NULL)
 	{
 		check = TRUE;

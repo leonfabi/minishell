@@ -14,10 +14,13 @@ static t_cmd	*parse_redirect(t_cmd *cmd, t_dlist **tok, t_main *sh)
 	{
 		// FIX: add proper error handling if there is a missing file
 		if (check_arguments(get_token_type((*tok)->next)) == FALSE)
-			perror("missing file");
+		{
+			general_error(NO_FILE, NULL, NULL);
+			set_exit_status(2);
+			(*tok) = (*tok)->next;
+			return (NULL);
+		}
 		cmd = select_redirect(cmd, tok, sh->env);
-		if (NULL == *tok)
-			perror("add something about EOF");
 	}
 	return (cmd);
 }
@@ -75,7 +78,10 @@ static t_cmd	*parse_execution(t_dlist **tok, t_main *sh)
 		cmd->argv[argc] = connect_tokens(tok, sh->env);
 		++argc;
 		if (argc >= MAXARGS)
-			perror("too many input arguments for the command");
+		{
+			general_error("exec", ERR_ARG, NULL);
+			return (NULL);
+		}
 		ret = parse_redirect(ret, tok, sh);
 	}
 	cmd->argv[argc] = NULL;
@@ -114,7 +120,7 @@ t_cmd	*parse_command(t_dlist **tok, t_main *sh)
 	cmd = parse_pipe(tok, sh);
 	if (get_token_type(*tok) != TOKEN_EOF)
 	{
-		print(2, "minishell: parsing: could not finish parsing\n");
+		general_error("parsing", ERR_PARS, NULL);
 	}
 	ft_dlstclear(get_lexer_root(), &free);
 	set_lexer_root(NULL);

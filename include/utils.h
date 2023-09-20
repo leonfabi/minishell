@@ -15,4 +15,6 @@ t_dlist	**get_lexer_root(void);
 
 void	set_lexer_root(t_dlist *root);
 
+void	general_error(char *s1, char *s2, char *s3);
+
 #endif

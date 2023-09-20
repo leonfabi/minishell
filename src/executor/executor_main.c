@@ -16,7 +16,7 @@ void	execute_redir(t_redircmd *redir, t_context *ctx)
 		fd = open(redir->file, redir->mode, 0644);
 		if (fd == -1)
 		{
-			ft_fprintf(2, "minishell: %s: %s\n", redir->file, strerror(errno));
+			general_error(redir->file, strerror(errno), NULL);
 			ctx->error = TRUE;
 			return ;
 		}
@@ -37,7 +37,7 @@ void	execute_pipe(t_pipecmd *pcmd, t_context *ctx)
 	ctx->pipeline = TRUE;
 	if (pipe(pipe_fd) == -1)
 	{
-		ft_fprintf(2, "minishell: pipe: %s\n", strerror(errno));
+		general_error("pipe", strerror(errno), NULL);
 		ctx->error = TRUE;
 		return ;
 	}
@@ -81,7 +81,7 @@ void	child_reaper(t_context *ctx)
 	set_child_exit_status(status, ctx);
 }
 
-t_bool	executor_main(t_cmd *ast)
+t_quit	executor_main(t_cmd *ast)
 {
 	t_context	ctx;
 
@@ -96,9 +96,8 @@ t_bool	executor_main(t_cmd *ast)
 	child_reaper(&ctx);
 	clean_ast(*get_ast_root());
 	set_ast_root(NULL);
-	set_child_pid(-1);
 	set_exit_status(ctx.exit_code);
-	return (ctx.quit);
+	return (*get_quit());
 }
 
 void	exec_node(t_cmd *ast, t_context *ctx)

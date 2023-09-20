@@ -3,6 +3,13 @@
 #define GREEN_PROMPT "\e[m\e[0;32m❯ \e[m"
 #define RED_PROMPT "\e[m\e[0;31m❯ \e[m"
 
+static void	reset_stdfd(t_main *sh)
+{
+		dup2(sh->stdin, STDIN_FILENO);
+		dup2(sh->stdout, STDOUT_FILENO);
+		dup2(sh->stderr, STDERR_FILENO);
+}
+
 static void	msh_loop(t_main *sh)
 {
 	t_cmd	*ast;
@@ -26,10 +33,9 @@ static void	msh_loop(t_main *sh)
 		quit = executor_main(ast);
 		free(line);
 		line = NULL;
-		if (quit == TRUE)
+		reset_stdfd(sh);
+		if (quit == QUIT)
 			break ;
-		dup2(sh->stdin, STDIN_FILENO);
-		dup2(sh->stdout, STDOUT_FILENO);
 	}
 }
 

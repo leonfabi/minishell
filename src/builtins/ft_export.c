@@ -41,22 +41,51 @@ static char	*replace_env_variable(char *env, char *var)
 	return (ft_strdup(var));
 }
 
+// char	**update_env_variables(t_main *sh, char *var)
+// {
+// 	int		i;
+// 	t_bool	check;
+// 	t_bool	replace;
+// 	size_t	len;
+// 
+// 	check = precheck_env_update(var);
+// 	replace = FALSE;
+// 	if (check == FALSE)
+// 		return (sh->env);
+// 	i = 0;
+// 	len = ft_strlen_c(var, '=');
+// 	while (NULL != sh->env[i])
+// 	{
+// 		if (ft_strncmp(sh->env[i], var, len) == 0 && sh->env[i][len] == '=')
+// 		{
+// 			replace = TRUE;
+// 			break ;
+// 		}
+// 		++i;
+// 	}
+// 	if (replace == TRUE)
+// 		sh->env[i] = replace_env_variable(sh->env[i], var);
+// 	else
+// 		sh->env = append_env_variable(sh->env, var);
+// 	return (sh->env);
+// }
+
 char	**update_env_variables(t_main *sh, char *var)
 {
 	int		i;
 	t_bool	check;
 	t_bool	replace;
-	size_t	len;
 
 	check = precheck_env_update(var);
 	replace = FALSE;
 	if (check == FALSE)
 		return (sh->env);
 	i = 0;
-	len = ft_strlen_c(var, '=');
+	if (ft_strncmp("PATH=", var, ft_strlen_c(var, '=') + 1) == 0)
+		sh->bin_path = update_bin_path(sh, var + 5);
 	while (NULL != sh->env[i])
 	{
-		if (ft_strncmp(sh->env[i], var, len) == 0 && sh->env[i][len] == '=')
+		if (ft_strncmp(sh->env[i], var, ft_strlen_c(var, '=') + 1) == 0)
 		{
 			replace = TRUE;
 			break ;

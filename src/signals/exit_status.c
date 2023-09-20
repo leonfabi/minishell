@@ -23,16 +23,16 @@ void	child_exit_status(int status)
 		set_exit_status(WTERMSIG(status));
 }
 
-int	*get_child_pid(void)
+t_quit	*get_quit(void)
 {
-	static pid_t	child_pid;
+	static t_quit	quit;
 
-	return (&child_pid);
+	return (&quit);
 }
 
-void	set_child_pid(int pid)
+void	set_quit(t_quit quit_status)
 {
-	pid_t	*child_pid;
-	child_pid = get_child_pid();
-	*child_pid = pid;
+	t_quit	*quit;
+	quit = get_quit();
+	*quit = quit_status;
 }

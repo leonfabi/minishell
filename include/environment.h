@@ -54,4 +54,14 @@ char	**update_env_variables(t_main *sh, char *var);
  * Nothing. */
 void	update_pwd(t_main *sh);
 
+/* `<SUMMARY>`:
+ * Update the bin path after unset or export is called with PATH as an
+ * argument..
+ * `<PARAM>`:
+ * `sh`: main struct containing the environment variable array of strings;
+ * `update`: string with which the bin_path is getting updated;
+ * `<RETURN>`:
+ * Freeable array of strings with the updated PATH, NULL after unset. */
+char **update_bin_path(t_main *sh, char *update);
+
 #endif

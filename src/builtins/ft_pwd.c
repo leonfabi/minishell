@@ -6,7 +6,7 @@ int	ft_pwd(t_execcmd *cmd)
 
 	if (cmd->argv[1] != NULL)
 	{
-		ft_fprintf(STDERR_FILENO, "pwd: too many arguments\n");
+		general_error("pwd", ERR_ARG, NULL);
 		set_exit_status(EXIT_FAILURE);
 		return (EXIT_FAILURE);
 	}

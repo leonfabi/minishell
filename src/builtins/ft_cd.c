@@ -16,7 +16,7 @@ static int	ft_chdir(t_main *sh, char *dir)
 		exit_code = EXIT_FAILURE;
 	else if (chdir(dir) == -1)
 	{
-		ft_fprintf(2, "minishell: cd: '%s': %s\n", dir, strerror(errno));
+		general_error("cd", dir, strerror(errno));
 		exit_code = EXIT_FAILURE;
 	}
 	else
@@ -45,9 +45,9 @@ static int	dir_specials(t_main *sh, char *dir)
 	else if (*dir == '~')
 		replace = get_env(sh->env, "HOME");
 	if (*dir == '-' && NULL == replace)
-		print(2, "minishell: cd: OLDPWD not set\n");
+		general_error("cd", "OLDPWD not set", NULL);
 	else if (*dir == '~' && NULL == replace)
-		print(2, "minishell: cd: HOME not set\n");
+		general_error("cd", "HOME not set", NULL);
 	exit_code = ft_chdir(sh, replace);
 	if (NULL != replace)
 		free(replace);
@@ -69,7 +69,7 @@ static int	ft_cd_home(t_main *sh)
 	exit_code = EXIT_SUCCESS;
 	if (NULL == home)
 	{
-		print(STDERR_FILENO, "minishell: cd: HOME not set\n");
+		general_error("cd", "HOME not set", NULL);
 		exit_code = EXIT_FAILURE;
 	}
 	else
@@ -110,7 +110,7 @@ int	ft_cd(t_execcmd *cmd)
 		exit_code = ft_chdir(cmd->sh, cmd->argv[1]);
 	else
 	{
-		print(STDERR_FILENO, "minishell: cd: too many arguments\n");
+		general_error("cd", ERR_ARG, NULL);
 		exit_code = EXIT_FAILURE;
 	}
 	return (exit_code);

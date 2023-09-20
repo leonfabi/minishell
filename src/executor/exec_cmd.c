@@ -20,7 +20,6 @@ static void	create_child_process(t_execcmd *exec, t_context *ctx)
 	if (ctx->fd[STDOUT_FILENO] != STDOUT_FILENO)
 		close(ctx->fd[STDOUT_FILENO]);
 	add_child_pids(pid, ctx);
-	set_child_pid(pid);
 }
 
 static char	*get_exec_path(char **bin_path, char *executable)
@@ -29,6 +28,8 @@ static char	*get_exec_path(char **bin_path, char *executable)
 	char	*path;
 	char	*full_path;
 
+	if (NULL == bin_path)
+		return (NULL);
 	count = -1;
 	path = NULL;
 	full_path = executable;
@@ -48,11 +49,11 @@ static char	*get_exec_path(char **bin_path, char *executable)
 static void	run_executable(t_execcmd *exec, t_context *ctx)
 {
 	exec->bin = get_exec_path(exec->sh->bin_path, exec->argv[0]);
-	if (exec->bin)
+	if (exec->bin != NULL)
 		create_child_process(exec, ctx);
 	else
 	{
-		ft_fprintf(2, "minishell: %s: command not found\n", exec->argv[0]);
+		general_error(exec->argv[0], ERR_CMD, NULL);
 		ctx->exit_code = 127;
 	}
 }
@@ -63,20 +64,20 @@ static t_bool	check_executable(char *bin, t_context *ctx)
 
 	if (access(bin, F_OK) != 0)
 	{
-		ft_fprintf(2, "minishell: %s: %s\n", bin, strerror(2));
+		general_error(bin, strerror(2), NULL);
 		ctx->exit_code = 127;
 		return (FALSE);
 	}
 	if (access(bin, X_OK) != 0)
 	{
-		ft_fprintf(2, "minishell: %s: %s\n", bin, strerror(13));
+		general_error(bin, strerror(13), NULL);
 		ctx->exit_code = 126;
 		return (FALSE);
 	}
 	stat(bin, &statbuf);
 	if (S_ISDIR(statbuf.st_mode) != 0)
 	{
-		ft_fprintf(2, "minishell: %s: %s\n", bin, strerror(21));
+		general_error(bin, strerror(21), NULL);
 		ctx->exit_code = 126;
 		return (FALSE);
 	}
@@ -91,6 +92,9 @@ void	execute_command(t_execcmd *exec, t_context *ctx)
 			run_executable(exec, ctx);
 	}
 	else if (check_executable(exec->argv[0], ctx))
+	{
+		exec->bin = ft_strdup(exec->argv[0]);
 		create_child_process(exec, ctx);
+	}
 	set_exit_status(ctx->exit_code);
 }

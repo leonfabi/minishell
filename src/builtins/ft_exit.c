@@ -26,15 +26,21 @@ int	ft_exit(t_execcmd *cmd)
 
 	exit_code = EXIT_SUCCESS;
 	if (cmd->argv[1] == NULL)
-		return (*get_exit_status());
-	if (cmd->argv[2] != NULL)
 	{
-		print(2, "minishell: exit: too many arguments\n");
-		return (127);
+		set_quit(QUIT);
+		return (*get_exit_status());
 	}
 	exit_code = check_exit_argument(cmd->argv[1]);
 	if (exit_code == 2)
+	{
+		set_quit(QUIT);
 		return (exit_code);
+	}
+	if (cmd->argv[2] != NULL)
+	{
+		general_error("exit", ERR_ARG, NULL);
+		return (127);
+	}
 	exit_code = normalize_exit_code(ft_atoi(cmd->argv[1]));
 	return (exit_code);
 }

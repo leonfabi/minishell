@@ -1,4 +1,5 @@
 #include "signals.h"
+#include "utils.h"
 
 /* `<SUMMARY>`:
  Function to cleanup the control-character.
@@ -12,12 +13,12 @@ static void	cleanup_control_character(t_termios *xterm)
 
 	if (tcgetattr(STDOUT_FILENO, xterm) == -1)
 	{
-		ft_fprintf(2, "minishell: cleanup: %s\n", strerror(errno));
+		general_error("cleanup", strerror(errno), NULL);
 		return ;
 	}
 	if (tcgetattr(STDOUT_FILENO, &local_termios) == -1)
 	{
-		ft_fprintf(2, "minishell: cleanup: %s\n", strerror(errno));
+		general_error("cleanup", strerror(errno), NULL);
 		return ;
 	}
 	local_termios.c_lflag &= ~(ECHOCTL);

@@ -35,6 +35,18 @@ char	*get_env(char **env, char *search)
 	return (NULL);
 }
 
+char **update_bin_path(t_main *sh, char *update)
+{
+	char	**bin_path;
+
+	ft_arrfree(sh->bin_path);
+	if (update == NULL)
+		return (NULL);
+	bin_path = ft_split(update, ':');
+	ft_arrprint((const char **)bin_path);
+	return (bin_path);
+}
+
 t_bool	check_env_variable(char *env, char *name)
 {
 	size_t	len;

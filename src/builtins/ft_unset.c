@@ -45,6 +45,12 @@ int	ft_unset(t_execcmd *cmd)
 	if (NULL == cmd->argv[1])
 		return (EXIT_SUCCESS);
 	while (NULL != cmd->argv[++i])
+	{
 		run_unset(cmd->sh, cmd->argv[i]);
+		if (ft_strcmp("PATH", cmd->argv[i]) == 0)
+		{
+			cmd->sh->bin_path = update_bin_path(cmd->sh, NULL);
+		}
+	}
 	return (EXIT_SUCCESS);
 }

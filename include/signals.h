@@ -36,17 +36,18 @@ void	set_exit_status(int status);
 void	child_exit_status(int status);
 
 /* `<SUMMARY>`:
- * Get the current last child pid.
+ * Get the current status of QUIT to check if the minishell should be
+ * quit or not.
  * `<RETURN>`:
- * Address to a static variable holding the last child pid.
+ * Address to a static variable containing the QUIT status of the shell.
  * Located in exit_status.c. */
-int		*get_child_pid(void);
+t_quit	*get_quit(void);
 
 /* `<SUMMARY>`:
- * Set the current child pid.
+ * Set the current QUIT status.
  * `<PARAM>`:
- * `pid` integer for setting the current last child pid.
+ * `quit_status` status to set the QUIT status with.
  * Located in exit_status.c. */
-void	set_child_pid(int pid);
+void	set_quit(t_quit quit_status);
 
 #endif // !SIGNALS_H
