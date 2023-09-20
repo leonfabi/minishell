@@ -71,7 +71,9 @@ void	child_reaper(t_context *ctx)
 	i = -1;
 	status = 0;
 	while (ctx->pids[++i] != 0)
+	{
 		waitpid(ctx->pids[i], &status, 0);
+	}
 	if (ctx->error == TRUE || ctx->exit_code)
 	{
 		return ;

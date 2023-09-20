@@ -5,94 +5,110 @@
 
 extern char	**environ;
 
-// void	redirect_all_std(void)
-// {
-// 	cr_redirect_stdout();
-// 	cr_redirect_stderr();
-// }
-// 
-// TestSuite(builtins, .init = redirect_all_std);
-// 
-// ////////////////////////////////////////////////////////////////////////////////
-// //////////////                    echo                        //////////////////
-// ////////////////////////////////////////////////////////////////////////////////
-// 
-// Test(builtins, echo_no_nl)
-// {
-// 	t_execcmd	cmd;
-// 
-// 	cmd = (t_execcmd){};
-// 	cmd.argv[0] = "echo";
-// 	cmd.argv[1] = "-n";
-// 	cmd.argv[2] = "first";
-// 	cmd.argv[3] = "second";
-// 	cmd.argv[4] = "third";
-// 	cmd.argv[5] = "fourth";
-// 	ft_echo(&cmd);
-// 	fflush(stdout);
-// 	cr_assert_stdout_eq_str("first second third fourth");
-// }
-// 
-// Test(builtins, no_argv)
-// {
-// 	t_execcmd	cmd;
-// 
-// 	cmd = (t_execcmd){};
-// 	cmd.argv[0] = "echo";
-// 	ft_echo(&cmd);
-// 	fflush(stdout);
-// 	cr_assert_stdout_eq_str("\n");
-// }
-// 
-// Test(builtins, no_argv_no_nl)
-// {
-// 	t_execcmd	cmd;
-// 
-// 	cmd = (t_execcmd){};
-// 	cmd.argv[0] = "echo";
-// 	cmd.argv[1] = "-n";
-// 	ft_echo(&cmd);
-// 	fflush(stdout);
-// 	cr_assert_stdout_eq_str("");
-// }
-// 
-// Test(builtins, single_argv)
-// {
-// 	t_execcmd	cmd;
-// 
-// 	cmd = (t_execcmd){};
-// 	cmd.argv[0] = "echo";
-// 	cmd.argv[1] = "testing";
-// 	ft_echo(&cmd);
-// 	fflush(stdout);
-// 	cr_assert_stdout_eq_str("testing\n");
-// }
-// 
-// Test(builtins, single_argv_no_nl)
-// {
-// 	t_execcmd	cmd;
-// 
-// 	cmd = (t_execcmd){};
-// 	cmd.argv[0] = "echo";
-// 	cmd.argv[1] = "-n";
-// 	cmd.argv[2] = "-n";
-// 	ft_echo(&cmd);
-// 	fflush(stdout);
-// 	cr_assert_stdout_eq_str("-n");
-// }
-// 
-// Test(builtins, double_argv)
-// {
-// 	t_execcmd	cmd;
-// 
-// 	cmd = (t_execcmd){};
-// 	cmd.argv[0] = "echo";
-// 	cmd.argv[1] = "testing";
-// 	cmd.argv[2] = "yes";
-// 	ft_echo(&cmd);
-// 	fflush(stdout);
-// 	cr_assert_stdout_eq_str("testing yes\n");
-// }
+void	redirect_all_std(void)
+{
+	cr_redirect_stdout();
+	cr_redirect_stderr();
+}
+
+TestSuite(builtins, .init = redirect_all_std);
+
+////////////////////////////////////////////////////////////////////////////////
+//////////////                    echo                        //////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+Test(builtins, echo_no_nl)
+{
+	t_execcmd	cmd;
+
+	cmd = (t_execcmd){
+		.argv = {
+			"echo",
+			"-n",
+			"first",
+			"second",
+			"third",
+			"fourth"
+		}
+	};
+	ft_echo(&cmd);
+	fflush(stdout);
+	cr_assert_stdout_eq_str("first second third fourth");
+}
+
+Test(builtins, no_argv)
+{
+	t_execcmd	cmd;
+
+	cmd = (t_execcmd){
+		.argv = {"echo"}
+	};
+	ft_echo(&cmd);
+	fflush(stdout);
+	cr_assert_stdout_eq_str("\n");
+}
+
+Test(builtins, no_argv_no_nl)
+{
+	t_execcmd	cmd;
+
+	cmd = (t_execcmd){
+		.argv = {
+			"echo",
+			"-n"
+		}
+	};
+	ft_echo(&cmd);
+	fflush(stdout);
+	cr_assert_stdout_eq_str("");
+}
+
+Test(builtins, single_argv)
+{
+	t_execcmd	cmd;
+
+	cmd = (t_execcmd){
+		.argv = {
+			"echo",
+			"testing"
+		}
+	};
+	ft_echo(&cmd);
+	fflush(stdout);
+	cr_assert_stdout_eq_str("testing\n");
+}
+
+Test(builtins, single_argv_no_nl)
+{
+	t_execcmd	cmd;
+
+	cmd = (t_execcmd){
+		.argv = {
+			"echo",
+			"-n",
+			"-n"
+		}
+	};
+	ft_echo(&cmd);
+	fflush(stdout);
+	cr_assert_stdout_eq_str("-n");
+}
+
+Test(builtins, double_argv)
+{
+	t_execcmd	cmd;
+
+	cmd = (t_execcmd){
+		.argv = {
+			"echo",
+			"testing",
+			"yes"
+		}
+	};
+	ft_echo(&cmd);
+	fflush(stdout);
+	cr_assert_stdout_eq_str("testing yes\n");
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 //////////////                   export                       //////////////////
