@@ -19,6 +19,7 @@ static void	create_child_process(t_execcmd *exec, t_context *ctx)
 		close(ctx->fd[STDIN_FILENO]);
 	if (ctx->fd[STDOUT_FILENO] != STDOUT_FILENO)
 		close(ctx->fd[STDOUT_FILENO]);
+	add_child_pids(pid, ctx);
 	set_child_pid(pid);
 }
 

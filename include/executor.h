@@ -50,4 +50,6 @@ t_bool	execute_builtin(t_execcmd *exec, t_context *ctx);
  * Returns TRUE if it is a builtin and FALSE otherwise. */
 void	copy_context(t_context *ctx, t_context next_ctx);
 
+void	add_child_pids(pid_t pid, t_context *ctx);
+
 #endif
