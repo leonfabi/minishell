@@ -3,6 +3,7 @@
 void	add_child_pids(pid_t pid, t_context *ctx)
 {
 	ctx->pids[ctx->child] = pid;
+	++ctx->child;
 }
 
 void	copy_context(t_context *ctx, t_context next_ctx)
@@ -16,6 +17,8 @@ void	copy_context(t_context *ctx, t_context next_ctx)
 	ctx->child = next_ctx.child;
 	while (next_ctx.pids[j] != 0)
 	{
-		ctx->pids[i++] = next_ctx.pids[j++];
+		ctx->pids[i] = next_ctx.pids[j];
+		++i;
+		++j;
 	}
 }

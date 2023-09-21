@@ -1,5 +1,6 @@
 #include "libft.h"
 #include "defines.h"
+#include "utils.h"
 
 void	adv_free(char **to_free)
 {
@@ -13,6 +14,6 @@ pid_t	adv_fork(void)
 
 	pid = fork();
 	if (pid == -1)
-		ft_fprintf(2, "ERROR");
+		general_error("forking", "could not fork the process", NULL);
 	return (pid);
 }

@@ -65,6 +65,7 @@ t_bool	init_shell(t_main *main, char **env)
 	main->stdin = dup(STDIN_FILENO);
 	main->stdout = dup(STDOUT_FILENO);
 	main->stderr = dup(STDERR_FILENO);
+	main->pars_error = FALSE;
 	if (NULL != env)
 	{
 		main->env = copy_env(env);

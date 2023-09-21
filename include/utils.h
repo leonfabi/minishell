@@ -61,8 +61,28 @@ void	set_lexer_root(t_dlist *root);
  * Nothing */
 void	general_error(char *s1, char *s2, char *s3);
 
+/* `<SUMMARY>`:
+ * Printer for parser error message that prints the wrong token type.
+ * `<PARAM>`:
+ * `type`: type of token after the redirect;
+ * `<RETURN>`:
+ * Nothing */
+void	parse_error(t_type type);
+
+/* `<SUMMARY>`:
+ * Function to free the string and additionally sets it to `NULL`..
+ * `<PARAM>`:
+ * `to_free`: string to free;
+ * `<RETURN>`:
+ * Nothing */
 void	adv_free(char **to_free);
 
+/* `<SUMMARY>`:
+ * Function that prints out an error if forking failed.
+ * `<PARAM>`:
+ * none;
+ * `<RETURN>`:
+ * `pid of the forked process or 0 if in child process` */
 pid_t	adv_fork(void);
 
 #endif

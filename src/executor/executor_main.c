@@ -94,7 +94,7 @@ t_quit	executor_main(t_cmd *ast)
 	ctx.fd[STDIN_FILENO] = STDIN_FILENO;
 	ctx.fd[STDOUT_FILENO] = STDOUT_FILENO;
 	ctx.fd_close = -1;
-	ctx.exit_code = *get_exit_status();
+	ctx.exit_code = EXIT_SUCCESS;
 	exec_node(ast, &ctx);
 	child_reaper(&ctx);
 	clean_ast(*get_ast_root());

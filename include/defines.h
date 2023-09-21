@@ -1,7 +1,7 @@
 #ifndef DEFINES_H
 # define DEFINES_H
 
-// # include "libft.h"
+
 
 // Standard Library Function Headers
 # include <errno.h>
@@ -34,9 +34,8 @@
 # define NO_QUIT 1 << 1
 
 // Define error strings
-# define NO_FILE "Expected a string, but found end of the input"
 # define ERR_ARG "too many arguments"
-# define ERR_PARS "could not finish parsing"
+# define ERR_PARS "Expected a string, but found "
 # define ERR_ID "not a valid identifier"
 # define ERR_CMD "command not found"
 
@@ -95,6 +94,7 @@ typedef struct s_main
 	int			stdin;
 	int			stdout;
 	int			stderr;
+	int			pars_error;
 }	t_main;
 
 typedef enum e_parscmd

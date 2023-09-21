@@ -17,13 +17,13 @@ static t_cmd	*parse_redirect(t_cmd *cmd, t_dlist **tok, t_main *sh)
 {
 	while (check_redirect(get_token_type(*tok)) == TRUE)
 	{
-		// FIX: add proper error handling if there is a missing file
 		if (check_arguments(get_token_type((*tok)->next)) == FALSE)
 		{
-			general_error(NO_FILE, NULL, NULL);
 			set_exit_status(2);
+			sh->pars_error = TRUE;
 			(*tok) = (*tok)->next;
-			return (NULL);
+			parse_error(get_token_type(*tok));
+			return (cmd);
 		}
 		cmd = select_redirect(cmd, tok, sh->env);
 	}
@@ -76,16 +76,17 @@ static t_cmd	*parse_execution(t_dlist **tok, t_main *sh)
 	argc = 0;
 	while (check_metachars(get_token_type(*tok)) == FALSE)
 	{
-		if (get_token_type(*tok) == TOKEN_EOF)
-			break ;
+		// if (get_token_type(*tok) == TOKEN_EOF)
+		// 	break ;
 		if (check_arguments(get_token_type(*tok)) == FALSE)
-			perror("Add some error handling if this is wrong");
+			break ;
 		cmd->argv[argc] = connect_tokens(tok, sh->env);
 		++argc;
 		if (argc >= MAXARGS)
 		{
 			general_error("exec", ERR_ARG, NULL);
-			return (NULL);
+			sh->pars_error = TRUE;
+			return (ret);
 		}
 		ret = parse_redirect(ret, tok, sh);
 	}
@@ -105,6 +106,8 @@ static t_cmd	*parse_pipe(t_dlist **tok, t_main *sh)
 	t_cmd		*cmd;
 
 	cmd = parse_execution(tok, sh);
+	if (sh->pars_error == TRUE)
+		return (cmd);
 	if (get_token_type(*tok) == TOKEN_PIPE)
 	{
 		// FIX: check for NULL dereference
@@ -123,10 +126,15 @@ t_cmd	*parse_command(t_dlist **tok, t_main *sh)
 		return (NULL);
 	}
 	cmd = parse_pipe(tok, sh);
-	if (get_token_type(*tok) != TOKEN_EOF)
+	if (sh->pars_error == TRUE)
 	{
-		general_error("parsing", ERR_PARS, NULL);
+		clean_ast(cmd);
+		cmd = NULL;
 	}
+	// if (get_token_type(*tok) != TOKEN_EOF)
+	// {
+	// 	general_error(ERR_PARS, ERR_PARS, NULL);
+	// }
 	ft_dlstclear(get_lexer_root(), &free);
 	set_lexer_root(NULL);
 	set_ast_root(cmd);
