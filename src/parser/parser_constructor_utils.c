@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "parser.h"
 
 int	get_correct_fd(t_type type)
 {

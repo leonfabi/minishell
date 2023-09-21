@@ -1,4 +1,11 @@
-#include "minishell.h"
+#include "libft.h"
+#include "defines.h"
+#include "environment.h"
+#include "lexer.h"
+#include "parser.h"
+#include "executor.h"
+#include "signals.h"
+#include "utils.h"
 
 #define GREEN_PROMPT "\e[m\e[0;32m❯ \e[m"
 #define RED_PROMPT "\e[m\e[0;31m❯ \e[m"

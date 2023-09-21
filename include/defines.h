@@ -1,7 +1,7 @@
 #ifndef DEFINES_H
 # define DEFINES_H
 
-# include "libft.h"
+// # include "libft.h"
 
 // Standard Library Function Headers
 # include <errno.h>
@@ -29,6 +29,7 @@
 # define O_HEREDOC 04000
 # define CHILD_FORK 0
 # define MAX_CHILDS 1024
+# define GENERAL_ERROR 1
 # define QUIT 1 << 0
 # define NO_QUIT 1 << 1
 

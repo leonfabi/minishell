@@ -1,4 +1,8 @@
-#include "minishell.h"
+#include "libft.h"
+#include "defines.h"
+#include "executor.h"
+#include "utils.h"
+#include "signals.h"
 
 static void	create_child_process(t_execcmd *exec, t_context *ctx)
 {

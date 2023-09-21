@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "executor.h"
 
 void	add_child_pids(pid_t pid, t_context *ctx)
 {

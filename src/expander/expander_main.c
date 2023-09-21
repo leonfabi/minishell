@@ -1,4 +1,7 @@
-#include "minishell.h"
+#include "libft.h"
+#include "environment.h"
+#include "expander.h"
+#include "utils.h"
 
 /* `<SUMMARY>`:
  * Searches the whole environment for the given `name` to try to

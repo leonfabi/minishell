@@ -1,4 +1,5 @@
-#include "minishell.h"
+#include "libft.h"
+#include "parser.h"
 
 t_cmd	*execcmd(t_main *sh)
 {

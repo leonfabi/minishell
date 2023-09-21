@@ -1,4 +1,6 @@
-#include "minishell.h"
+#include "libft.h"
+#include "defines.h"
+#include "signals.h"
 
 /* `<SUMMARY>`:
  * Creates a separate array of strings for faster
@@ -10,17 +12,11 @@
  * Returns NULL on failure. */
 static char	**create_bin_paths(char **env)
 {
-// 	char	**bin_path;
-// 
 	while (NULL != *env && ft_strncmp(*env, "PATH=", 5))
 		++env;
 	if (NULL == *env)
 		return (NULL);
 	return(ft_split((*env) + 5, ':'));
-	// bin_path = ft_split((*env) + 5, ':');
-	// if (NULL == bin_path)
-	// 	return (NULL);
-	// return (bin_path);
 }
 
 /* `<SUMMARY>`:

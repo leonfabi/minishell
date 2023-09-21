@@ -2,7 +2,6 @@
 # define PARSER_H
 
 # include "defines.h"
-# include "lexer.h"
 
 /* `<SUMMARY>`:
  * Main entrance point for the parsing routine, and beginning
@@ -139,13 +138,5 @@ t_bool	check_tok_connection(t_token *tok);
  * need to connect or expand anything, it will just return the given
  * token value. */
 char	*connect_tokens(t_dlist **list, char **env);
-
-/* `<SUMMARY>`:
- * Cleanup function for the AST.
- * `<PARAM>`:
- * `cmd`: Head root of the abstract syntax tree;
- * `<RETURN>`:
- * Nothing */
-void	clean_ast(t_cmd *cmd);
 
 #endif

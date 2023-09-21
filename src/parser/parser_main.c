@@ -1,4 +1,9 @@
-#include "minishell.h"
+#include "libft.h"
+#include "parser.h"
+#include "lexer.h"
+#include "expander.h"
+#include "utils.h"
+#include "signals.h"
 
 /* `<SUMMARY>`:
  * Main function for parsing a redirect token.

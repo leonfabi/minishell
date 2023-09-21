@@ -1,4 +1,6 @@
-#include "minishell.h"
+#include "defines.h"
+#include "utils.h"
+#include "signals.h"
 
 int	ft_pwd(t_execcmd *cmd)
 {

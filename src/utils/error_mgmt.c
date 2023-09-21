@@ -1,4 +1,6 @@
-#include "minishell.h"
+#include "libft.h"
+#include "lexer.h"
+#include "signals.h"
 
 void	error_handler(t_lexer *lexer)
 {
@@ -10,6 +12,7 @@ void	error_handler(t_lexer *lexer)
 void	error_msg(t_lexer *lexer, char *str)
 {
 	ft_fprintf(2, "minishell: lexer: %s\n", str);
+	set_exit_status(GENERAL_ERROR);
 	error_handler(lexer);
 }
 

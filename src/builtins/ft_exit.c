@@ -1,4 +1,7 @@
-#include "minishell.h"
+#include "libft.h"
+#include "defines.h"
+#include "signals.h"
+#include "utils.h"
 
 static int	check_exit_argument(char *argv)
 {

@@ -1,4 +1,8 @@
-#include "minishell.h"
+#include "libft.h"
+#include "builtins.h"
+#include "defines.h"
+#include "environment.h"
+#include "signals.h"
 
 /* `<SUMMARY>`:
  * Function to append a new environment variable to the environment
@@ -41,35 +45,6 @@ static char	*replace_env_variable(char *env, char *var)
 	return (ft_strdup(var));
 }
 
-// char	**update_env_variables(t_main *sh, char *var)
-// {
-// 	int		i;
-// 	t_bool	check;
-// 	t_bool	replace;
-// 	size_t	len;
-// 
-// 	check = precheck_env_update(var);
-// 	replace = FALSE;
-// 	if (check == FALSE)
-// 		return (sh->env);
-// 	i = 0;
-// 	len = ft_strlen_c(var, '=');
-// 	while (NULL != sh->env[i])
-// 	{
-// 		if (ft_strncmp(sh->env[i], var, len) == 0 && sh->env[i][len] == '=')
-// 		{
-// 			replace = TRUE;
-// 			break ;
-// 		}
-// 		++i;
-// 	}
-// 	if (replace == TRUE)
-// 		sh->env[i] = replace_env_variable(sh->env[i], var);
-// 	else
-// 		sh->env = append_env_variable(sh->env, var);
-// 	return (sh->env);
-// }
-
 char	**update_env_variables(t_main *sh, char *var)
 {
 	int		i;
@@ -105,6 +80,7 @@ int	ft_export(t_execcmd *cmd)
 	int		i;
 
 	i = 0;
+	set_exit_status(EXIT_SUCCESS);
 	arrlen = ft_arrlen((const char **)cmd->argv);
 	if (arrlen == 1)
 		declare_x(cmd->sh->env);
@@ -114,6 +90,5 @@ int	ft_export(t_execcmd *cmd)
 	}
 	if (*get_exit_status() == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	set_exit_status(EXIT_SUCCESS);
 	return (EXIT_SUCCESS);
 }

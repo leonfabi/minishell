@@ -1,4 +1,7 @@
-#include "minishell.h"
+#include "libft.h"
+#include "builtins.h"
+#include "executor.h"
+#include "utils.h"
 
 /* `<SUMMARY>`:
  * Function to execute the builtin command within a child because it

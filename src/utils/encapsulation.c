@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "defines.h"
 
 t_cmd	**get_ast_root(void)
 {

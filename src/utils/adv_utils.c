@@ -1,4 +1,5 @@
-#include "minishell.h"
+#include "libft.h"
+#include "defines.h"
 
 void	adv_free(char **to_free)
 {
@@ -12,6 +13,6 @@ pid_t	adv_fork(void)
 
 	pid = fork();
 	if (pid == -1)
-		print(2, "ERROR");
+		ft_fprintf(2, "ERROR");
 	return (pid);
 }

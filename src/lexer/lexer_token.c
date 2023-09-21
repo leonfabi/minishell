@@ -1,4 +1,5 @@
-#include "minishell.h"
+#include "libft.h"
+#include "lexer.h"
 
 t_bool	ft_quoted_token(t_lexer *lexer)
 {

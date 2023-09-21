@@ -1,4 +1,7 @@
-#include "minishell.h"
+#include "libft.h"
+#include "expander.h"
+#include "signals.h"
+#include "utils.h"
 
 /* `<SUMMARY>`:
  * .Helper function for creating the key list for the expansion.

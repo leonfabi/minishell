@@ -1,4 +1,8 @@
-#include "minishell.h"
+#include "libft.h"
+#include "builtins.h"
+#include "defines.h"
+#include "utils.h"
+#include "signals.h"
 
 t_bool	precheck_env_update(char *var)
 {

@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "defines.h"
 
 int	*get_exit_status(void)
 {

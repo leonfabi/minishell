@@ -1,4 +1,6 @@
-#include "minishell.h"
+#include "libft.h"
+#include "defines.h"
+#include "environment.h"
 
 /* `<SUMMARY>`:
  * Updates the PWD and OLDPWD environment variable after changing the

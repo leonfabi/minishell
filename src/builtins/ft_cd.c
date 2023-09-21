@@ -1,4 +1,9 @@
-#include "minishell.h"
+#include "libft.h"
+#include "defines.h"
+#include "utils.h"
+#include "builtins.h"
+#include "environment.h"
+
 
 /* `<SUMMARY>`:
  * Changes the directory to the given `dir` variable.

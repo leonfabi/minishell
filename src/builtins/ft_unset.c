@@ -1,4 +1,7 @@
-#include "minishell.h"
+#include "libft.h"
+#include "defines.h"
+#include "environment.h"
+#include "signals.h"
 
 /* `<SUMMARY>`:
  * .Function to unset the given `key` from the environment array

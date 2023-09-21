@@ -1,4 +1,5 @@
-#include "minishell.h"
+#include "lexer.h"
+#include "utils.h"
 
 t_lexer	ft_init_lexer(char *str)
 {

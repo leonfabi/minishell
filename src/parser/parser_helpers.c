@@ -1,4 +1,5 @@
-#include "minishell.h"
+#include "libft.h"
+#include "parser.h"
 
 t_bool	check_tok_connection(t_token *tok)
 {

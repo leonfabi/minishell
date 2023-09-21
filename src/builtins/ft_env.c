@@ -1,4 +1,5 @@
-#include "minishell.h"
+#include "defines.h"
+#include "signals.h"
 
 int	ft_env(t_execcmd *cmd)
 {

@@ -1,16 +1,19 @@
-#include "minishell.h"
+#include "executor.h"
+#include "utils.h"
+#include "signals.h"
 
-void	execute_heredoc(t_redircmd *redir, t_context *ctx)
-{
-
-}
+// void	execute_heredoc(t_redircmd *redir, t_context *ctx)
+// {
+// 
+// }
 
 void	execute_redir(t_redircmd *redir, t_context *ctx)
 {
 	int	fd;
 
 	if (redir->type == O_HEREDOC)
-		return (execute_heredoc(redir, ctx));
+		return ;
+		// return (execute_heredoc(redir, ctx));
 	else
 	{
 		fd = open(redir->file, redir->mode, 0644);

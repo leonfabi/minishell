@@ -1,4 +1,5 @@
-#include "minishell.h"
+#include "libft.h"
+#include "parser.h"
 
 int	get_token_length(t_dlist *token)
 {

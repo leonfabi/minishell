@@ -1,4 +1,6 @@
-#include "minishell.h"
+#include "libft.h"
+#include "defines.h"
+#include "utils.h"
 
 /* `<SUMMARY>`:
  * Function for cleaning an execution command. An execution
@@ -74,6 +76,9 @@ void	clean_ast(t_cmd *cmd)
 void	msh_cleanup(t_main *sh)
 {
 	clean_ast(*get_ast_root());
+	close(sh->stdin);
+	close(sh->stdout);
+	close(sh->stderr);
 	ft_arrfree(sh->bin_path);
 	ft_arrfree(sh->env);
 }
