@@ -20,6 +20,7 @@ void	execute_redir(t_redircmd *redir, t_context *ctx)
 		if (fd == -1)
 		{
 			general_error(redir->file, strerror(errno), NULL);
+			ctx->exit_code = EXIT_FAILURE;
 			ctx->error = TRUE;
 			return ;
 		}
