@@ -1,5 +1,6 @@
 #include "libft.h"
 #include "defines.h"
+#include "defines.h"
 #include "lexer.h"
 
 t_bool	ft_find_more_token(t_lexer *lexer)

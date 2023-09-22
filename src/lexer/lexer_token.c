@@ -1,3 +1,4 @@
+#include "defines.h"
 #include "libft.h"
 #include "lexer.h"
 
@@ -60,7 +61,7 @@ t_bool	ft_word_token(t_lexer *lexer)
 	return (TRUE);
 }
 
-t_bool	ft_identify_token(t_lexer *lexer)
+static t_bool	ft_identify_token(t_lexer *lexer)
 {
 	while (*lexer->counter != '\0')
 	{

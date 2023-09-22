@@ -1,4 +1,5 @@
 #include "defines.h"
+#include "signals.h"
 
 int	*get_exit_status(void)
 {
@@ -33,6 +34,7 @@ t_quit	*get_quit(void)
 void	set_quit(t_quit quit_status)
 {
 	t_quit	*quit;
+
 	quit = get_quit();
 	*quit = quit_status;
 }

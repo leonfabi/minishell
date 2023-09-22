@@ -1,8 +1,6 @@
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
-# include "defines.h"
-
 /* `<SUMMARY>`:
  * Builtin function to change the directory.
  * `<PARAM>`:

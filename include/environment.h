@@ -1,8 +1,6 @@
 #ifndef ENVIRONMENT_H
 # define ENVIRONMENT_H
 
-# include "defines.h"
-
 /* `<SUMMARY>`:
  * Initializes the main struct from minishell. Copies stdin,
  * stdout, and stderr for restoring them after redirections.
@@ -62,6 +60,6 @@ void	update_pwd(t_main *sh);
  * `update`: string with which the bin_path is getting updated;
  * `<RETURN>`:
  * Freeable array of strings with the updated PATH, NULL after unset. */
-char **update_bin_path(t_main *sh, char *update);
+char	**update_bin_path(t_main *sh, char *update);
 
 #endif

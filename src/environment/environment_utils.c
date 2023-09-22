@@ -37,7 +37,7 @@ char	*get_env(char **env, char *search)
 	return (NULL);
 }
 
-char **update_bin_path(t_main *sh, char *update)
+char	**update_bin_path(t_main *sh, char *update)
 {
 	char	**bin_path;
 

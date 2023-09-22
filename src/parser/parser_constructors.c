@@ -1,4 +1,5 @@
 #include "libft.h"
+#include "defines.h"
 #include "parser.h"
 
 t_cmd	*execcmd(t_main *sh)

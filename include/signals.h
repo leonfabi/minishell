@@ -1,8 +1,6 @@
 #ifndef SIGNALS_H
 # define SIGNALS_H
 
-# include "defines.h"
-
 /* `<SUMMARY>`:
  * Main function for handling signals in minishell.
  * `<PARAM>`:

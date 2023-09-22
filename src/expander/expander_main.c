@@ -1,4 +1,5 @@
 #include "libft.h"
+#include "defines.h"
 #include "environment.h"
 #include "expander.h"
 #include "utils.h"

@@ -12,17 +12,17 @@
 
 static void	reset_stdfd(t_main *sh)
 {
-		dup2(sh->stdin, STDIN_FILENO);
-		dup2(sh->stdout, STDOUT_FILENO);
-		dup2(sh->stderr, STDERR_FILENO);
-		sh->pars_error = FALSE;
+	dup2(sh->stdin, STDIN_FILENO);
+	dup2(sh->stdout, STDOUT_FILENO);
+	dup2(sh->stderr, STDERR_FILENO);
+	sh->pars_error = FALSE;
 }
 
 static void	msh_loop(t_main *sh)
 {
 	t_cmd	*ast;
 	char	*line;
-	t_bool	quit;
+	t_quit	quit;
 
 	while (TRUE)
 	{

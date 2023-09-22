@@ -32,15 +32,15 @@ SRCS := ft_cd.c ft_echo.c ft_env.c ft_exit.c
 SRCS += ft_export.c ft_export_utils.c ft_pwd.c ft_unset.c
 SRCS += minishell.c
 SRCS += environment_utils.c
-SRCS += exec_builtin.c exec_cmd.c exec_helper.c executor_main.c
+SRCS += exec_builtin.c exec_cmd.c exec_helper.c exec_pipe.c
+SRCS += exec_redir.c executor_main.c
 SRCS += expander_main.c expander_utils.c
 SRCS += init.c
 SRCS += lexer.c lexer_token.c lexer_token_2.c
 SRCS += parser_constructor_utils.c parser_constructors.c 
 SRCS += parser_helpers.c parser_helpers_tok.c parser_main.c
 SRCS += exit_status.c signal_handler.c
-SRCS += adv_utils.c cleanup.c double_list.c encapsulation.c  error_mgmt.c
-# SRCS += main_testing.c
+SRCS += adv_utils.c cleanup.c double_list.c encapsulation.c error_mgmt.c
 
 OBJS := $(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
 
@@ -50,13 +50,6 @@ OBJS := $(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
 
 CFLAGS ?= -g -MMD -MP $(addprefix -I, $(INC_DIRS)) # -Wextra -Wall -Werror 
 LDFLAGS := -L $(LIBFT_DIR) -lft -lreadline
-
-################################################################################
-################################################################################
-# ONLY FOR TESTING PURPOSES
-LDFLAGS += -lm
-################################################################################
-################################################################################
 
 all: $(NAME)
 

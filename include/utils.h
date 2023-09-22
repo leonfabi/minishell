@@ -1,8 +1,6 @@
 #ifndef UTILS_H
 # define UTILS_H
 
-# include "defines.h"
-
 /* `<SUMMARY>`:
  * Cleanup function for the AST.
  * `<PARAM>`:

@@ -1,4 +1,5 @@
 #include "libft.h"
+#include "defines.h"
 #include "parser.h"
 
 t_bool	check_tok_connection(t_token *tok)

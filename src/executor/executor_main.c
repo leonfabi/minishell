@@ -1,89 +1,7 @@
+#include "defines.h"
 #include "executor.h"
 #include "utils.h"
 #include "signals.h"
-
-// void	execute_heredoc(t_redircmd *redir, t_context *ctx)
-// {
-// 
-// }
-
-void	execute_redir(t_redircmd *redir, t_context *ctx)
-{
-	int	fd;
-
-	if (redir->type == O_HEREDOC)
-		return ;
-		// return (execute_heredoc(redir, ctx));
-	else
-	{
-		fd = open(redir->file, redir->mode, 0644);
-		if (fd == -1)
-		{
-			general_error(redir->file, strerror(errno), NULL);
-			ctx->exit_code = EXIT_FAILURE;
-			ctx->error = TRUE;
-			return ;
-		}
-		if (redir->fd == 1)
-			dup2(fd, STDOUT_FILENO);
-		else if (redir->fd == 0)
-			dup2(fd, STDIN_FILENO);
-		close(fd);
-	}
-	exec_node(redir->cmd, ctx);
-}
-
-void	execute_pipe(t_pipecmd *pcmd, t_context *ctx)
-{
-	t_context	next_ctx;
-	int			pipe_fd[2];
-
-	ctx->pipeline = TRUE;
-	if (pipe(pipe_fd) == -1)
-	{
-		general_error("pipe", strerror(errno), NULL);
-		ctx->error = TRUE;
-		return ;
-	}
-	next_ctx = *ctx;
-	next_ctx.fd[STDOUT_FILENO] = pipe_fd[STDOUT_FILENO];
-	next_ctx.fd_close = pipe_fd[STDIN_FILENO];
-	exec_node(pcmd->left, &next_ctx);
-	copy_context(ctx, next_ctx);
-	next_ctx = *ctx;
-	next_ctx.fd[STDIN_FILENO] = pipe_fd[STDIN_FILENO];
-	next_ctx.fd_close = pipe_fd[STDOUT_FILENO];
-	exec_node(pcmd->right, &next_ctx);
-	copy_context(ctx, next_ctx);
-	close(pipe_fd[STDIN_FILENO]);
-	close(pipe_fd[STDOUT_FILENO]);
-}
-
-void	set_child_exit_status(int status, t_context *ctx)
-{
-	if (WIFEXITED(status))
-		ctx->exit_code = WEXITSTATUS(status);
-	else if (WIFSIGNALED(status))
-		ctx->exit_code = WTERMSIG(status) + 128;
-}
-
-void	child_reaper(t_context *ctx)
-{
-	int		i;
-	int		status;
-
-	i = -1;
-	status = 0;
-	while (ctx->pids[++i] != 0)
-	{
-		waitpid(ctx->pids[i], &status, 0);
-	}
-	if (ctx->error == TRUE || ctx->exit_code)
-	{
-		return ;
-	}
-	set_child_exit_status(status, ctx);
-}
 
 t_quit	executor_main(t_cmd *ast)
 {
@@ -115,4 +33,3 @@ void	exec_node(t_cmd *ast, t_context *ctx)
 	else if (ast->type == PIPE)
 		execute_pipe((t_pipecmd *) ast, ctx);
 }
-

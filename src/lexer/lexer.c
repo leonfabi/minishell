@@ -1,3 +1,4 @@
+#include "defines.h"
 #include "lexer.h"
 #include "utils.h"
 

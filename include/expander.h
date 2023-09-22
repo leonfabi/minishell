@@ -1,8 +1,6 @@
 #ifndef EXPANDER_H
 # define EXPANDER_H
 
-# include "defines.h"
-
 /* `<SUMMARY>`:
  * Main entry point for expanding tokens when having a `$`
  * and not being a QUOTE token.

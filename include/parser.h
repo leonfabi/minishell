@@ -1,8 +1,6 @@
 #ifndef PARSER_H
 # define PARSER_H
 
-# include "defines.h"
-
 /* `<SUMMARY>`:
  * Main entrance point for the parsing routine, and beginning
  * of the AST representation of our commands.
@@ -13,13 +11,32 @@
  * Returns the top node of the AST. */
 t_cmd	*parse_command(t_dlist **tok, t_main *sh);
 
-// Function for initializing an execute node of the AST
+/* `<SUMMARY>`:
+ * Function to construct an execution node for the AST.
+ * `<PARAM>`:
+ * `sh`: Main struct holding all the attributes of the shell;
+ * `<RETURN>`:
+ * An allocated execution node or NULL if malloc fails. */
 t_cmd	*execcmd(t_main *sh);
 
-// Function for initializing a redirect node of the AST
+/* `<SUMMARY>`:
+ * Function to construct a redirection node for the AST.
+ * `<PARAM>`:
+ * `subcmd`: sub command for the redir command structure;
+ * `tok`: pointer to current token in the double linked list;
+ * `file`: double linked list of the tokens;
+ * `env`: array of strings containing the env variables;
+ * `<RETURN>`:
+ * An allocated redirection node or NULL if malloc fails. */
 t_cmd	*redircmd(t_cmd *subcmd, t_token *tok, t_dlist **file, char **env);
 
-// Function for initializing a pipe node of the AST
+/* `<SUMMARY>`:
+ * Function to construct a pipe node for the AST.
+ * `<PARAM>`:
+ * `left`: left node of the AST to get executed;
+ * `right`: right node of the AST to get executed;
+ * `<RETURN>`:
+ * An allocated pipe node or NULL if malloc fails. */
 t_cmd	*pipecmd(t_cmd *left, t_cmd *right);
 
 /* `<SUMMARY>`:

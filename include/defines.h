@@ -1,8 +1,6 @@
 #ifndef DEFINES_H
 # define DEFINES_H
 
-
-
 // Standard Library Function Headers
 # include <errno.h>
 # include <limits.h>
@@ -30,8 +28,12 @@
 # define CHILD_FORK 0
 # define MAX_CHILDS 1024
 # define GENERAL_ERROR 1
-# define QUIT 1 << 0
-# define NO_QUIT 1 << 1
+
+typedef enum e_quit
+{
+	QUIT = 1 << 0,
+	NO_QUIT = 1 << 1
+}	t_quit;
 
 // Define error strings
 # define ERR_ARG "too many arguments"
@@ -41,7 +43,8 @@
 
 /* `<summary>`:
  Typedefs to use a shorter version in the code
- for more readability and structure. */
+ for more readability and structure.
+ ans also forward declaration for usage in the prototypes.*/
 typedef struct sigaction	t_signal;
 typedef struct termios		t_termios;
 typedef void				t_handler(int);
@@ -51,10 +54,10 @@ typedef struct s_pipecmd	t_pipecmd;
 typedef struct s_redircmd	t_redircmd;
 typedef int					(*t_builtin_p)(t_execcmd *);
 
-/* `<summary>`:
- Represents either TRUE (1) or FALSE (0). */
+// Represents either `TRUE` (1) or `FALSE` (0).
 typedef int					t_bool;
-typedef int					t_quit;
+
+// Forward declaration of the s_dlist struct for the lexer.
 typedef struct s_dlist		t_dlist;
 
 struct s_dlist
@@ -83,6 +86,7 @@ typedef struct s_lexer
  * int			`stdin`;
  * int			`stdout`;
  * int			`stderr`;
+ * int			`pars_error`;
  */
 typedef struct s_main
 {

@@ -1,4 +1,5 @@
 #include "libft.h"
+#include "defines.h"
 #include "builtins.h"
 #include "executor.h"
 #include "utils.h"
@@ -7,7 +8,7 @@
  * Function to execute the builtin command within a child because it
  * is part of a pipe.
  * `<PARAM>`:
- * `exec`: execution node of the AST;
+ * `exec`: current execution node of the AST;
  * `builtin`: function pointer to the correct builtin function;
  * `ctx`: context for handling the correct redirection;*/
 static void	fork_builtin(t_execcmd *exec, t_builtin_p builtin, t_context *ctx)
@@ -37,21 +38,21 @@ static void	fork_builtin(t_execcmd *exec, t_builtin_p builtin, t_context *ctx)
 /* `<SUMMARY>`:
  * Function to find the corresponding builtin for exec->argv[0].
  * `<PARAM>`:
- * `exec`: execution node of the AST;
+ * `exec`: current execution node of the AST;
  * `<RETURN>`:
  * Returns the function pointer to the correct builtin or NULL. */
 static t_builtin_p	is_builtin(t_execcmd *exec)
 {
-	int					id;
-	static const char			*ft_builtin_name[] = {"cd", "echo", "env",\
+	int							id;
+	static const char			*ft_builtin_name[] = {"cd", "echo", "env", \
 		"exit", "export", "pwd", "unset", NULL};
-	static const t_builtin_p	ft_builtin_p[] = {&ft_cd, &ft_echo, &ft_env,\
+	static const t_builtin_p	ft_builtin_p[] = {&ft_cd, &ft_echo, &ft_env, \
 		&ft_exit, &ft_export, &ft_pwd, &ft_unset, NULL};
 
 	id = 0;
 	while (NULL != ft_builtin_name[id])
 	{
-		if (ft_strcmp(exec->argv[0],ft_builtin_name[id]) == 0)
+		if (ft_strcmp(exec->argv[0], ft_builtin_name[id]) == 0)
 			return (ft_builtin_p[id]);
 		id++;
 	}

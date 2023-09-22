@@ -16,7 +16,7 @@ static char	**create_bin_paths(char **env)
 		++env;
 	if (NULL == *env)
 		return (NULL);
-	return(ft_split((*env) + 5, ':'));
+	return (ft_split((*env) + 5, ':'));
 }
 
 /* `<SUMMARY>`:

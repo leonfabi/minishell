@@ -1,4 +1,5 @@
 #include "libft.h"
+#include "defines.h"
 #include "lexer.h"
 #include "signals.h"
 

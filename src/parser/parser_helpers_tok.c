@@ -1,4 +1,5 @@
 #include "libft.h"
+#include "defines.h"
 #include "parser.h"
 
 int	get_token_length(t_dlist *token)

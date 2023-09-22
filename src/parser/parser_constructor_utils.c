@@ -1,3 +1,4 @@
+#include "defines.h"
 #include "parser.h"
 
 int	get_correct_fd(t_type type)
@@ -6,7 +7,7 @@ int	get_correct_fd(t_type type)
 		return (STDIN_FILENO);
 	if (type & (TOKEN_GREATER | TOKEN_DGREATER))
 		return (STDOUT_FILENO);
-	return (0); // NOTE: think about common return type
+	return (-1);
 }
 
 int	get_correct_mode(t_type type)
