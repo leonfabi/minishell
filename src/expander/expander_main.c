@@ -59,6 +59,18 @@ static char	*create_expanded_string(t_list *run, char **env)
 	return (expand);
 }
 
+// char	*expand_readline(char *input, char **env)
+// {
+// 	t_list	*keylist;
+// 	char	*expand;
+// 
+// 	keylist = create_keylist(input);
+// 	expand = create_expanded_string(keylist, env);
+// 	adv_free(&input);
+// 	ft_lstclear(&keylist, &free);
+// 	return (expand);
+// }
+
 char	*expand_token(t_token *tok, char **env)
 {
 	char	*input;
