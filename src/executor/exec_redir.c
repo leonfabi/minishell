@@ -7,8 +7,7 @@ void	execute_redir(t_redircmd *redir, t_context *ctx)
 	int	fd;
 
 	if (redir->type == O_HEREDOC)
-		return ;
-		//return (execute_heredoc(redir, ctx));
+		execute_heredoc(redir, ctx);
 	else
 	{
 		fd = open(redir->file, redir->mode, 0644);
