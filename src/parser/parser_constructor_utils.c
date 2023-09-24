@@ -1,6 +1,21 @@
 #include "defines.h"
 #include "parser.h"
 
+int	*get_expand(void)
+{
+	static int	expand;
+
+	return (&expand);
+}
+
+void	set_expand(int state)
+{
+	int		*expand;
+
+	expand = get_expand();
+	*expand = state;
+}
+
 int	get_correct_fd(t_type type)
 {
 	if (type == TOKEN_LESS)

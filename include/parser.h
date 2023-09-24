@@ -76,28 +76,12 @@ t_cmd	*adjust_redir(t_cmd *subcmd, t_redircmd *cmd);
 t_token	*get_token(t_dlist *token);
 
 /* `<SUMMARY>`:
- * Function for getting a pointer to the start of the current token value.
- * `<PARAM>`:
- * `token`: pointer to current token in the double linked list;
- * `<RETURN>`:
- * Returns the token value of the current token. */
-char	*get_token_value(t_dlist *token);
-
-/* `<SUMMARY>`:
  * Function for getting the token type out of the linked list.
  * `<PARAM>`:
  * `token`: pointer to current token in the double linked list;
  * `<RETURN>`:
  * Returns the token type of the current token. */
 t_type	get_token_type(t_dlist *token);
-
-/* `<SUMMARY>`:
- * Function for getting the length of the value from the current token.
- * `<PARAM>`:
- * `token`: pointer to current token in the double linked list;
- * `<RETURN>`:
- * Returns the token length of the current token. */
-int		get_token_length(t_dlist *token);
 
 /* `<SUMMARY>`:
  * Helper function to check if the token is a redirect token.
@@ -155,5 +139,9 @@ t_bool	check_tok_connection(t_token *tok);
  * need to connect or expand anything, it will just return the given
  * token value. */
 char	*connect_tokens(t_dlist **list, char **env);
+
+int		*get_expand(void);
+
+void	set_expand(int state);
 
 #endif

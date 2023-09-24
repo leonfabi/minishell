@@ -11,15 +11,15 @@
  * Returns a freeable string with the expanded token. */
 char	*expand_token(t_token *tok, char **env);
 
-// /* `<SUMMARY>`:
-//  * Main entry point for expanding the heredoc string
-//  * when having a `$` and the delimiter is not a QUOTE or DQUOTE.
-//  * `<PARAM>`:
-//  * `input`: input to get expanded;
-//  * `env`: array of strings of the environment variables;
-//  * `<RETURN>`:
-//  * Returns a freeable string with the expanded token. */
-// char	*expand_readline(char *input, char **env);
+/* `<SUMMARY>`:
+ * Main entry point for expanding the heredoc string
+ * when having a `$` and the delimiter is not a QUOTE or DQUOTE.
+ * `<PARAM>`:
+ * `input`: input to get expanded;
+ * `env`: array of strings of the environment variables;
+ * `<RETURN>`:
+ * Returns a freeable string with the expanded token. */
+char	*expand_readline(char *input, char **env);
 
 /* `<SUMMARY>`:
  * Creates a linked list of keys to get expanded..

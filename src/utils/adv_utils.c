@@ -4,6 +4,8 @@
 
 void	adv_free(char **to_free)
 {
+	if (NULL == to_free)
+		return ;
 	free(*to_free);
 	*to_free = NULL;
 }

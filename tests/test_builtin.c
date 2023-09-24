@@ -118,26 +118,6 @@ Test(echo, double_argv)
 
 TestSuite(export);
 
-// base construction
-// Test(export, export_single)
-// {
-// 	t_execcmd	cmd;
-// 	char		*result;
-// 	t_main		sh;
-// 
-// 	cmd = (t_execcmd){};
-// 	sh.env = ft_arrdup((const char **)environ);
-// 	cmd.sh = &sh;
-// 	cmd.argv[0] = "export";
-// 	cmd.argv[1] = "TEST=42";
-// 	cmd.argv[2] = NULL;
-// 
-// 	ft_export(&cmd);
-// 	result = get_env(sh.env, "TEST");
-// 	cr_assert(eq(str, result, "42"));
-// 	ft_arrfree(sh.env);
-// }
-
 Test(export, export_single)
 {
 	t_execcmd	cmd;
@@ -157,7 +137,6 @@ Test(export, export_single)
 	ft_arrfree(sh.env);
 	free(result);
 }
-
 
 // #include <errno.h>
 

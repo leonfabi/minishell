@@ -3,6 +3,7 @@
 
 # include "libft.h"
 # include "defines.h"
+# include "utils.h"
 # include "expander.h"
 # include "environment.h"
 # include "signals.h"
@@ -10,6 +11,5 @@
 # include "builtins.h"
 # include "parser.h"
 # include "executor.h"
-# include "utils.h"
 
 #endif

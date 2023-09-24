@@ -45,7 +45,6 @@ char	**update_bin_path(t_main *sh, char *update)
 	if (update == NULL)
 		return (NULL);
 	bin_path = ft_split(update, ':');
-	ft_arrprint((const char **)bin_path);
 	return (bin_path);
 }
 

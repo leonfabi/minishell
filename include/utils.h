@@ -49,6 +49,9 @@ t_dlist	**get_lexer_root(void);
  * Nothing */
 void	set_lexer_root(t_dlist *root);
 
+char	***get_env_arr(void);
+
+void	set_env_arr(char **env);
 /* `<SUMMARY>`:
  * Printer for error message that prints up to 3 strings into its message.
  * `<PARAM>`:

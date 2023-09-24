@@ -1,6 +1,7 @@
 #include "libft.h"
 #include "defines.h"
 #include "signals.h"
+#include "utils.h"
 
 /* `<SUMMARY>`:
  * Creates a separate array of strings for faster
@@ -52,6 +53,8 @@ static t_bool	create_own_environment(t_main *main)
 	own[0] = ft_strdup("SHLVL=1");
 	own[1] = ft_strjoin("PWD=", pwd);
 	own[2] = ft_strdup("_=/usr/bin/env");
+	main->env = own;
+	set_env_arr(main->env);
 	main->bin_path = NULL;
 	main->user = NULL;
 	free(pwd);
@@ -66,9 +69,10 @@ t_bool	init_shell(t_main *main, char **env)
 	main->stdout = dup(STDOUT_FILENO);
 	main->stderr = dup(STDERR_FILENO);
 	main->pars_error = FALSE;
-	if (NULL != env)
+	if (ft_arrlen((const char **)env) != 0)
 	{
 		main->env = copy_env(env);
+		set_env_arr(main->env);
 		if (NULL == main->env)
 			return (FALSE);
 		main->user = getenv("USER");

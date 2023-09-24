@@ -9,7 +9,10 @@ t_bool	check_tok_connection(t_token *tok)
 	else if (tok->type & (TOKEN_DQUOTE | TOKEN_QUOTE))
 	{
 		if (ft_isspace(*(tok->value + tok->len + 1)) == 0)
+		{
+			set_expand(FALSE);
 			return (TRUE);
+		}
 	}
 	return (FALSE);
 }

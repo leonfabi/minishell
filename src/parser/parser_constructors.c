@@ -21,17 +21,23 @@ t_cmd	*redircmd(t_cmd *subcmd, t_token *tok, t_dlist **file, char **env)
 {
 	t_redircmd	*cmd;
 
+	if (get_token_type(*file) & TOKEN_WORD)
+		set_expand(TRUE);
+	else if (get_token_type(*file) & (TOKEN_QUOTE | TOKEN_DQUOTE))
+		set_expand(FALSE);
 	cmd = ft_calloc(1, sizeof(*cmd));
 	if (NULL == cmd)
 		return (NULL);
 	*cmd = (t_redircmd){
 		.type = REDIR,
 		.cmd = subcmd,
-		.expand = get_token_type(*file) & TOKEN_WORD,
+		.expand = *get_expand(),
 		.mode = get_correct_mode(tok->type),
 		.fd = get_correct_fd(tok->type)
 	};
 	cmd->file = connect_tokens(file, env);
+	if (*get_expand() == FALSE)
+		cmd->expand = FALSE;
 	if (subcmd->type == REDIR)
 		return (adjust_redir(subcmd, cmd));
 	return ((t_cmd *)cmd);

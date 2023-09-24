@@ -2,6 +2,8 @@
 #include "signals.h"
 #include "utils.h"
 
+#define RED_PROMPT "\e[m\e[0;31m❯ \e[m"
+
 /* `<SUMMARY>`:
  Function to cleanup the control-character.
  Control-characters appear after pressing ctrl-c.
@@ -35,6 +37,7 @@ static void	cleanup_control_character(t_termios *xterm)
 static void	termination_handler(int signum)
 {
 	write(STDOUT_FILENO, "\n", 1);
+	rl_set_prompt(RED_PROMPT);
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
