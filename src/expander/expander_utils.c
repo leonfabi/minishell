@@ -80,7 +80,8 @@ char	*expand_special(char *input)
 	if (*(input + 1) == '0')
 		return (ft_strdup("minishell"));
 	if (*(input + 1) == '$')
-		return (ft_itoa((int)getpid()));
+		return (ft_strdup("not_implemented"));
+		// return (ft_itoa((int)getpid()));
 	if (*(input + 1) == '\0')
 		return (ft_strdup("$"));
 	return (ft_strdup(""));
