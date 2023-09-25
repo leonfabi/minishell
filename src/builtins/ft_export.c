@@ -3,6 +3,7 @@
 #include "builtins.h"
 #include "environment.h"
 #include "signals.h"
+#include "utils.h"
 
 /* `<SUMMARY>`:
  * Function to append a new environment variable to the environment
@@ -87,6 +88,7 @@ int	ft_export(t_execcmd *cmd)
 	while (++i < arrlen)
 	{
 		cmd->sh->env = update_env_variables(cmd->sh, cmd->argv[i]);
+		set_env_arr(cmd->sh->env);
 	}
 	if (*get_exit_status() == EXIT_FAILURE)
 		return (EXIT_FAILURE);

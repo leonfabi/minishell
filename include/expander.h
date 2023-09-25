@@ -14,6 +14,7 @@ char	*expand_token(t_token *tok, char **env);
 /* `<SUMMARY>`:
  * Main entry point for expanding the heredoc string
  * when having a `$` and the delimiter is not a QUOTE or DQUOTE.
+ * The input string gets freed if not already NULL.
  * `<PARAM>`:
  * `input`: input to get expanded;
  * `env`: array of strings of the environment variables;

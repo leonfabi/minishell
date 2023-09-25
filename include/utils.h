@@ -21,6 +21,15 @@ void	clean_ast(t_cmd *cmd);
 void	msh_cleanup(t_main *sh);
 
 /* `<SUMMARY>`:
+ * Cleanup function for the heredoc child. Environment and path
+ * variables are being retrieved by getters..
+ * `<PARAM>`:
+ * Nothing;
+ * `<RETURN>`:
+ * Nothing */
+void	here_cleanup(void);
+
+/* `<SUMMARY>`:
  * Getter for the AST root to free the AST from the top after execution.
  * `<RETURN>`:
  * Root node of the abstract syntax tree */
@@ -49,9 +58,34 @@ t_dlist	**get_lexer_root(void);
  * Nothing */
 void	set_lexer_root(t_dlist *root);
 
+/* `<SUMMARY>`:
+ * Getter for the environment array of strings.
+ * `<RETURN>`:
+ * Pointer to array of strings containing the environment variables */
 char	***get_env_arr(void);
 
+/* `<SUMMARY>`:
+ * Setter function for setting the pointer to the environment array.
+ * `<PARAM>`:
+ * `env`: array of strings holding the environment variables;
+ * `<RETURN>`:
+ * Nothing */
 void	set_env_arr(char **env);
+
+/* `<SUMMARY>`:
+ * Getter for the bin_path array of strings.
+ * `<RETURN>`:
+ * Pointer to array of strings containing the bin_path */
+char	***get_bin_path(void);
+
+/* `<SUMMARY>`:
+ * Setter function for setting the pointer to the bin_path array.
+ * `<PARAM>`:
+ * `bin`: array of strings holding the bin_path;
+ * `<RETURN>`:
+ * Nothing */
+void	set_bin_path(char **bin);
+
 /* `<SUMMARY>`:
  * Printer for error message that prints up to 3 strings into its message.
  * `<PARAM>`:

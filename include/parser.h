@@ -140,8 +140,22 @@ t_bool	check_tok_connection(t_token *tok);
  * token value. */
 char	*connect_tokens(t_dlist **list, char **env);
 
+/* `<SUMMARY>`:
+ * Helper function to get the flag if the heredoc string should be
+ * expanded or not.
+ * `<PARAM>`:
+ * Nothing;
+ * `<RETURN>`:
+ * `TRUE` if token needs to be connected, otherwise `FALSE`. */
 int		*get_expand(void);
 
+/* `<SUMMARY>`:
+ * Helper function to set the flag if the heredoc string should be
+ * expanded or not.
+ * `<PARAM>`:
+ * `state`: state if it should be expanded or not;
+ * `<RETURN>`:
+ * `Nothing`. */
 void	set_expand(int state);
 
 #endif

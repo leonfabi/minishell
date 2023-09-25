@@ -80,4 +80,12 @@ void	add_child_pids(pid_t pid, t_context *ctx);
  * `ctx`: context for handling the correct redirection; */
 void	child_reaper(t_context *ctx);
 
+/* `<SUMMARY>`:
+ * Function to execute the heredoc function. Dups the correct
+ * file descriptors and creates a child for the heredoc input.
+ * `<PARAM>`:
+ * `redir`: current redirection node of the AST;
+ * `ctx`: context for handling the correct redirection; */
+void	execute_heredoc(t_redircmd *redir, t_context *ctx);
+
 #endif

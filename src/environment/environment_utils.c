@@ -1,6 +1,7 @@
 #include "libft.h"
 #include "defines.h"
 #include "environment.h"
+#include "utils.h"
 
 /* `<SUMMARY>`:
  * Updates the PWD and OLDPWD environment variable after changing the
@@ -45,6 +46,7 @@ char	**update_bin_path(t_main *sh, char *update)
 	if (update == NULL)
 		return (NULL);
 	bin_path = ft_split(update, ':');
+	set_bin_path(bin_path);
 	return (bin_path);
 }
 

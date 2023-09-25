@@ -77,6 +77,7 @@ t_bool	init_shell(t_main *main, char **env)
 			return (FALSE);
 		main->user = getenv("USER");
 		main->bin_path = create_bin_paths(env);
+		set_bin_path(main->bin_path);
 	}
 	else
 		create_own_environment(main);

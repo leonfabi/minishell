@@ -6,7 +6,7 @@ void	execute_redir(t_redircmd *redir, t_context *ctx)
 {
 	int	fd;
 
-	if (redir->type == O_HEREDOC)
+	if (redir->mode == O_HEREDOC)
 		execute_heredoc(redir, ctx);
 	else
 	{
