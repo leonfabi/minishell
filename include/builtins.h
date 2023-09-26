@@ -98,4 +98,19 @@ char	**sort_array(char **arr);
  * Returns the exit status of the unset function (always true)*/
 int		ft_unset(t_execcmd *cmd);
 
+/* `<SUMMARY>`:
+ * Get the current status of QUIT to check if the minishell should be
+ * quit or not.
+ * `<RETURN>`:
+ * Address to a static variable containing the QUIT status of the shell.
+ * Located in exit_status.c. */
+t_quit	*get_quit(void);
+
+/* `<SUMMARY>`:
+ * Set the current QUIT status.
+ * `<PARAM>`:
+ * `quit_status` status to set the QUIT status with.
+ * Located in exit_status.c. */
+void	set_quit(t_quit quit_status);
+
 #endif

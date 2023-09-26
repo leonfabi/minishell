@@ -1,5 +1,6 @@
 #include "defines.h"
 #include "executor.h"
+#include "builtins.h"
 #include "utils.h"
 #include "signals.h"
 

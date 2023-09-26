@@ -27,6 +27,6 @@ void	set_bin_path(char **bin)
 {
 	char	***bin_path;
 
-	bin_path = get_env_arr();
+	bin_path = get_bin_path();
 	*bin_path = bin;
 }

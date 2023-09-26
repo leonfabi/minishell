@@ -23,6 +23,6 @@ void	execute_redir(t_redircmd *redir, t_context *ctx)
 		else if (redir->fd == 0)
 			dup2(fd, STDIN_FILENO);
 		close(fd);
+		exec_node(redir->cmd, ctx);
 	}
-	exec_node(redir->cmd, ctx);
 }

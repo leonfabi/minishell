@@ -34,18 +34,23 @@ void	set_exit_status(int status);
 void	child_exit_status(int status);
 
 /* `<SUMMARY>`:
- * Get the current status of QUIT to check if the minishell should be
- * quit or not.
- * `<RETURN>`:
- * Address to a static variable containing the QUIT status of the shell.
- * Located in exit_status.c. */
-t_quit	*get_quit(void);
+ * Function to cleanup the control-character.
+ * Control-characters appear after pressing ctrl-c.
+ * `<PARAM>`:
+ * `xterm`: t_termios struct of current terminal.
+ * Located in signal_handling.c. */
+void	cleanup_control_character(t_termios *xterm);
 
 /* `<SUMMARY>`:
- * Set the current QUIT status.
+ * Function to handle signals during heredoc execution..
  * `<PARAM>`:
- * `quit_status` status to set the QUIT status with.
- * Located in exit_status.c. */
-void	set_quit(t_quit quit_status);
+ * `sig`: signal number. */
+void	exit_heredoc(int sig);
+
+void	heredoc_parent_handler(void);
+
+void	heredoc_child_handler(void);
+
+void	wait_user_signals(void);
 
 #endif // !SIGNALS_H

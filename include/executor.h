@@ -88,4 +88,8 @@ void	child_reaper(t_context *ctx);
  * `ctx`: context for handling the correct redirection; */
 void	execute_heredoc(t_redircmd *redir, t_context *ctx);
 
+int		*get_close_fd(void);
+
+void	set_close_fd(int set_fd);
+
 #endif

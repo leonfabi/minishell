@@ -2,10 +2,11 @@
 #include "defines.h"
 #include "executor.h"
 #include "expander.h"
+#include "signals.h"
 #include "utils.h"
 
 #define HEREDOC_PROMPT "\e[m\e[0;35m> \e[m"
-#define HEREDOCERR "here-document delimited by end-of-file (wanted `eof`)"
+#define HEREDOCERR "here-document delimited by end-of-file, wanted"
 
 /* `<SUMMARY>`:
  * Checks if the current string read from readline is either NULL or
@@ -20,7 +21,8 @@ static t_bool	check_line(char *input, char *delim)
 {
 	if (NULL == input)
 	{
-		general_error("warning", HEREDOCERR, NULL);
+		ft_fprintf(2, "minishell: warning: %s -> '%s'\n", HEREDOCERR, delim);
+		// general_error("warning", HEREDOCERR, delim);
 		return (FALSE);
 	}
 	else if (ft_strcmp(input, delim) == 0)
@@ -44,6 +46,8 @@ static void	heredoc(t_redircmd *redir, t_context *ctx)
 	char	*delim;
 
 	delim = redir->file;
+	set_close_fd(ctx->fd[STDOUT_FILENO]);
+	heredoc_child_handler();
 	while (TRUE)
 	{
 		input = readline(HEREDOC_PROMPT);
@@ -51,7 +55,7 @@ static void	heredoc(t_redircmd *redir, t_context *ctx)
 			break ;
 		if (redir->expand == TRUE)
 			input = expand_readline(input, *get_env_arr());
-		ft_fprintf(ctx->fd[STDOUT_FILENO], "%s", input);
+		ft_fprintf(ctx->fd[STDOUT_FILENO], "%s\n", input);
 		adv_free(&input);
 	}
 }
@@ -77,7 +81,10 @@ static void	fork_heredoc(t_redircmd *redir, t_context *ctx)
 		here_cleanup();
 		exit(EXIT_SUCCESS);
 	}
+	heredoc_parent_handler();
 	add_child_pids(pid, ctx);
+	child_reaper(ctx);
+	wait_user_signals();
 }
 
 void	execute_heredoc(t_redircmd *redir, t_context *ctx)
@@ -95,10 +102,12 @@ void	execute_heredoc(t_redircmd *redir, t_context *ctx)
 	here_ctx.fd[STDOUT_FILENO] = here_fd[STDOUT_FILENO];
 	here_ctx.fd_close = here_fd[STDOUT_FILENO];
 	fork_heredoc(redir, &here_ctx);
-	child_reaper(&here_ctx);
 	if (ctx->exit_code == EXIT_SUCCESS)
 	{
+		write(2, "TEST\n", 5);
 		ctx->fd[STDIN_FILENO] = here_fd[STDIN_FILENO];
-		// exec_node(redir->cmd, ctx);
+		ft_printf("%d\n", ctx->fd[STDIN_FILENO]);
+		exec_node(redir->cmd, ctx);
+		// close(ctx->fd[STDIN_FILENO]);
 	}
 }

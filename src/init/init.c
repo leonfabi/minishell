@@ -1,5 +1,6 @@
 #include "libft.h"
 #include "defines.h"
+#include "builtins.h"
 #include "signals.h"
 #include "utils.h"
 
