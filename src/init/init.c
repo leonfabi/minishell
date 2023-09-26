@@ -50,7 +50,7 @@ static t_bool	create_own_environment(t_main *main)
 	own = ft_calloc(4, sizeof(char *));
 	pwd = getcwd(NULL, 0);
 	if (NULL == pwd || NULL == own)
-		return (free(pwd), free(own), FALSE);
+		return (adv_free(&pwd), adv_free(own), FALSE);
 	own[0] = ft_strdup("SHLVL=1");
 	own[1] = ft_strjoin("PWD=", pwd);
 	own[2] = ft_strdup("_=/usr/bin/env");
@@ -58,7 +58,7 @@ static t_bool	create_own_environment(t_main *main)
 	set_env_arr(main->env);
 	main->bin_path = NULL;
 	main->user = NULL;
-	free(pwd);
+	adv_free(&pwd);
 	return (TRUE);
 }
 
