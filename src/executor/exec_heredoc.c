@@ -71,7 +71,6 @@ static void	fork_heredoc(t_redircmd *redir, t_context *ctx)
 	pid = adv_fork();
 	if (CHILD_FORK == pid)
 	{
-		dup2(ctx->fd[STDOUT_FILENO], STDOUT_FILENO);
 		heredoc(redir, ctx);
 		if (ctx->fd_close >= 0)
 			close(ctx->fd_close);
