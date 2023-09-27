@@ -29,7 +29,7 @@ void	exit_heredoc(int sig)
 	fd = *get_close_fd();
 	if (fd != STDIN_FILENO || fd != STDOUT_FILENO)
 		close(fd);
-	// set_exit_status(sig);
+	set_exit_status(sig);
 	write(STDOUT_FILENO, "\n", 1);
 	here_cleanup();
 	exit(sig);

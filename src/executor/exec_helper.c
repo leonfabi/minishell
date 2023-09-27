@@ -37,9 +37,13 @@ void	copy_context(t_context *ctx, t_context next_ctx)
 static void	set_child_exit_status(int status, t_context *ctx)
 {
 	if (WIFEXITED(status))
+	{
 		ctx->exit_code = WEXITSTATUS(status);
+	}
 	else if (WIFSIGNALED(status))
+	{
 		ctx->exit_code = WTERMSIG(status) + 128;
+	}
 }
 
 void	child_reaper(t_context *ctx)
