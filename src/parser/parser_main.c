@@ -16,17 +16,27 @@
  * Returns a initialized redirect node. */
 static t_cmd	*parse_redirect(t_cmd *cmd, t_dlist **tok, t_main *sh)
 {
+	t_redircmd		*check;
+	t_execcmd		*subcmd;
+
 	while (check_redirect(get_token_type(*tok)) == TRUE)
 	{
 		if (check_arguments(get_token_type((*tok)->next)) == FALSE)
 		{
-			set_exit_status(2);
 			sh->pars_error = TRUE;
 			(*tok) = (*tok)->next;
-			parse_error(get_token_type(*tok));
 			return (cmd);
 		}
 		cmd = select_redirect(cmd, tok, sh->env);
+		check = (t_redircmd *)cmd;
+		if (check->cmd->type == EXECUTE)
+		{
+			subcmd = (t_execcmd *)check->cmd;
+			if (subcmd->argv[0] == NULL)
+			{
+				sh->pars_error = TRUE;
+			}
+		}
 	}
 	return (cmd);
 }
@@ -77,8 +87,6 @@ static t_cmd	*parse_execution(t_dlist **tok, t_main *sh)
 	argc = 0;
 	while (check_metachars(get_token_type(*tok)) == FALSE)
 	{
-		// if (get_token_type(*tok) == TOKEN_EOF)
-		// 	break ;
 		if (check_arguments(get_token_type(*tok)) == FALSE)
 			break ;
 		cmd->argv[argc] = connect_tokens(tok, sh->env);
@@ -107,11 +115,16 @@ static t_cmd	*parse_pipe(t_dlist **tok, t_main *sh)
 	t_cmd		*cmd;
 
 	cmd = parse_execution(tok, sh);
+	if (cmd->type == EXECUTE && ((t_execcmd *)cmd)->argv[0] == NULL)
+	{
+		sh->pars_error = TRUE;
+	}
 	if (sh->pars_error == TRUE)
+	{
 		return (cmd);
+	}
 	if (get_token_type(*tok) == TOKEN_PIPE)
 	{
-		// FIX: check for NULL dereference
 		*tok = (*tok)->next;
 		cmd = pipecmd(cmd, parse_pipe(tok, sh));
 	}
@@ -129,13 +142,11 @@ t_cmd	*parse_command(t_dlist **tok, t_main *sh)
 	cmd = parse_pipe(tok, sh);
 	if (sh->pars_error == TRUE)
 	{
+		parse_error(get_token_type(*tok));
+		set_exit_status(2);
 		clean_ast(cmd);
 		cmd = NULL;
 	}
-	// if (get_token_type(*tok) != TOKEN_EOF)
-	// {
-	// 	general_error(ERR_PARS, ERR_PARS, NULL);
-	// }
 	ft_dlstclear(get_lexer_root(), &free);
 	set_lexer_root(NULL);
 	set_ast_root(cmd);
