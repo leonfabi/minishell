@@ -15,7 +15,6 @@ static int	ft_chdir(t_main *sh, char *dir)
 {
 	int		exit_code;
 
-	exit_code = EXIT_SUCCESS;
 	if (dir == NULL)
 		exit_code = EXIT_FAILURE;
 	else if (chdir(dir) == -1)
@@ -24,7 +23,10 @@ static int	ft_chdir(t_main *sh, char *dir)
 		exit_code = EXIT_FAILURE;
 	}
 	else
+	{
+		exit_code = EXIT_SUCCESS;
 		update_pwd(sh);
+	}
 	return (exit_code);
 }
 

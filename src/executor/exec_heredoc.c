@@ -22,7 +22,6 @@ static t_bool	check_line(char *input, char *delim)
 	if (NULL == input)
 	{
 		ft_fprintf(2, "minishell: warning: %s -> '%s'\n", HEREDOCERR, delim);
-		// general_error("warning", HEREDOCERR, delim);
 		return (FALSE);
 	}
 	else if (ft_strcmp(input, delim) == 0)
@@ -75,12 +74,14 @@ static void	fork_heredoc(t_redircmd *redir, t_context *ctx)
 	pid = adv_fork();
 	if (CHILD_FORK == pid)
 	{
+		close(ctx->fd[STDIN_FILENO]);
 		heredoc(redir, ctx);
 		if (ctx->fd_close >= 0)
 			close(ctx->fd_close);
 		here_cleanup();
 		exit(EXIT_SUCCESS);
 	}
+	close(ctx->fd[STDOUT_FILENO]);
 	heredoc_parent_handler();
 	add_child_pids(pid, ctx);
 	child_reaper(ctx);
@@ -100,14 +101,12 @@ void	execute_heredoc(t_redircmd *redir, t_context *ctx)
 	}
 	here_ctx = *ctx;
 	here_ctx.fd[STDOUT_FILENO] = here_fd[STDOUT_FILENO];
+	here_ctx.fd[STDIN_FILENO] = here_fd[STDIN_FILENO];
 	here_ctx.fd_close = here_fd[STDOUT_FILENO];
 	fork_heredoc(redir, &here_ctx);
 	if (ctx->exit_code == EXIT_SUCCESS)
 	{
-		write(2, "TEST\n", 5);
 		ctx->fd[STDIN_FILENO] = here_fd[STDIN_FILENO];
-		ft_printf("%d\n", ctx->fd[STDIN_FILENO]);
 		exec_node(redir->cmd, ctx);
-		// close(ctx->fd[STDIN_FILENO]);
 	}
 }
