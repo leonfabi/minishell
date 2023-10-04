@@ -87,7 +87,7 @@ static char	*get_exec_path(char **bin_path, char *bin)
 	path = NULL;
 	full_path = bin;
 	if (access(full_path, X_OK) == 0)
-		return (full_path);
+		return (ft_strdup(full_path));
 	while (bin_path[++count] != NULL)
 	{
 		path = ft_strjoin(bin_path[count], "/");
