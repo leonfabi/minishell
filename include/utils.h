@@ -88,6 +88,7 @@ void	set_bin_path(char **bin);
 
 /* `<SUMMARY>`:
  * Printer for error message that prints up to 3 strings into its message.
+ * Always adds "minishell: " to the front of the error message.
  * `<PARAM>`:
  * `s1`: first error message string;
  * `s2`: second error message string;
