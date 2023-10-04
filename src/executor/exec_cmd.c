@@ -5,6 +5,37 @@
 #include "signals.h"
 
 /* `<SUMMARY>`:
+ * Function for checking if an executable given as relative or
+ * absolute path is executable or not and sets the
+ * error code accordingly.
+ * `<PARAM>`:
+ * `bin`: executable that is given as a command;
+ * `<RETURN>`:
+ * `TRUE` if everything is fine, `FALSE` if not. */
+static int	check_executable(char *bin)
+{
+	struct stat		statbuf;
+
+	if (access(bin, F_OK) != 0)
+	{
+		general_error(bin, "command not found", NULL);
+		return (127);
+	}
+	if (access(bin, X_OK) != 0)
+	{
+		general_error(bin, strerror(13), NULL);
+		return (126);
+	}
+	stat(bin, &statbuf);
+	if (S_ISDIR(statbuf.st_mode) != 0)
+	{
+		general_error(bin, strerror(21), NULL);
+		return (126);
+	}
+	return (TRUE);
+}
+
+/* `<SUMMARY>`:
  * Function for creating a child process to execute the given
  * command in a child and also close the appropriate file descriptor
  * if necessary.
@@ -25,8 +56,9 @@ static void	create_child_process(t_execcmd *exec, t_context *ctx)
 		if (ctx->fd_close >= 0)
 			close(ctx->fd_close);
 		execve(exec->bin, exec->argv, exec->sh->env);
+		ctx->exit_code = check_executable(exec->bin);
 		msh_cleanup(exec->sh);
-		exit(EXIT_FAILURE);
+		exit(ctx->exit_code);
 	}
 	if (ctx->fd[STDIN_FILENO] != STDIN_FILENO)
 		close(ctx->fd[STDIN_FILENO]);
@@ -62,9 +94,9 @@ static char	*get_exec_path(char **bin_path, char *bin)
 		full_path = ft_strjoinfree(path, bin, 'L');
 		if (access(full_path, X_OK) == 0)
 			return (full_path);
-		free(full_path);
+		adv_free(&full_path);
 	}
-	return (NULL);
+	return (ft_strdup(bin));
 }
 
 /* `<SUMMARY>`:
@@ -78,48 +110,13 @@ static char	*get_exec_path(char **bin_path, char *bin)
 static void	run_executable(t_execcmd *exec, t_context *ctx)
 {
 	exec->bin = get_exec_path(exec->sh->bin_path, exec->argv[0]);
-	if (exec->bin != NULL)
-		create_child_process(exec, ctx);
-	else
-	{
-		general_error(exec->argv[0], ERR_CMD, NULL);
-		ctx->exit_code = 127;
-	}
-}
-
-/* `<SUMMARY>`:
- * Function for checking if an executable given as relative or
- * absolute path is executable or not and sets the
- * error code accordingly.
- * `<PARAM>`:
- * `bin`: executable that is given as a command;
- * `ctx`: context for handling the correct redirection;
- * `<RETURN>`:
- * `TRUE` if everything is fine, `FALSE` if not. */
-static t_bool	check_executable(char *bin, t_context *ctx)
-{
-	struct stat		statbuf;
-
-	if (access(bin, F_OK) != 0)
-	{
-		general_error(bin, strerror(2), NULL);
-		ctx->exit_code = 127;
-		return (FALSE);
-	}
-	if (access(bin, X_OK) != 0)
-	{
-		general_error(bin, strerror(13), NULL);
-		ctx->exit_code = 126;
-		return (FALSE);
-	}
-	stat(bin, &statbuf);
-	if (S_ISDIR(statbuf.st_mode) != 0)
-	{
-		general_error(bin, strerror(21), NULL);
-		ctx->exit_code = 126;
-		return (FALSE);
-	}
-	return (TRUE);
+	// if (exec->bin != NULL)
+	create_child_process(exec, ctx);
+	// else
+	// {
+	// 	general_error(exec->argv[0], ERR_CMD, NULL);
+	// 	ctx->exit_code = 127;
+	// }
 }
 
 void	execute_command(t_execcmd *exec, t_context *ctx)
@@ -129,7 +126,7 @@ void	execute_command(t_execcmd *exec, t_context *ctx)
 		if (execute_builtin(exec, ctx) == FALSE)
 			run_executable(exec, ctx);
 	}
-	else if (check_executable(exec->argv[0], ctx))
+	else // if (check_executable(exec->argv[0], ctx))
 	{
 		exec->bin = ft_strdup(exec->argv[0]);
 		create_child_process(exec, ctx);
