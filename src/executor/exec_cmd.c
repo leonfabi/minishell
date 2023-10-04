@@ -51,6 +51,7 @@ static void	create_child_process(t_execcmd *exec, t_context *ctx)
 	pid = adv_fork();
 	if (CHILD_FORK == pid)
 	{
+		signal(SIGINT, SIG_DFL);
 		dup2(ctx->fd[STDIN_FILENO], STDIN_FILENO);
 		dup2(ctx->fd[STDOUT_FILENO], STDOUT_FILENO);
 		if (ctx->fd_close >= 0)
@@ -64,6 +65,7 @@ static void	create_child_process(t_execcmd *exec, t_context *ctx)
 		close(ctx->fd[STDIN_FILENO]);
 	if (ctx->fd[STDOUT_FILENO] != STDOUT_FILENO)
 		close(ctx->fd[STDOUT_FILENO]);
+	block_parent_handler();
 	add_child_pids(pid, ctx);
 }
 

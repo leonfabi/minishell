@@ -53,7 +53,7 @@ int	user_signal_listener(t_termios *xterm)
 	return (EXIT_SUCCESS);
 }
 
-void	heredoc_parent_handler(void)
+void	block_parent_handler(void)
 {
 	universal_handler(SIGINT, SIG_IGN);
 	universal_handler(SIGQUIT, SIG_IGN);

@@ -82,7 +82,7 @@ static void	fork_heredoc(t_redircmd *redir, t_context *ctx)
 		exit(EXIT_SUCCESS);
 	}
 	close(ctx->fd[STDOUT_FILENO]);
-	heredoc_parent_handler();
+	block_parent_handler();
 	add_child_pids(pid, ctx);
 	child_reaper(ctx);
 	wait_user_signals();

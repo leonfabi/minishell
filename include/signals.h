@@ -47,7 +47,7 @@ void	cleanup_control_character(t_termios *xterm);
  * `sig`: signal number. */
 void	exit_heredoc(int sig);
 
-void	heredoc_parent_handler(void);
+void	block_parent_handler(void);
 
 void	heredoc_child_handler(void);
 
