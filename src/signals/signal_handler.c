@@ -5,11 +5,11 @@
 #define RED_PROMPT "\e[m\e[0;31m❯ \e[m"
 
 /* `<SUMMARY>`:
- Function for handling the SIGINT signal. SIGINT represents
- the signal provoked by pressing ctrl+c and the exit code 130.
- `<PARAM>`:
- `signum`integer represents the signal to handle.
- Located in signal_handling.c. */
+ * Function for handling the SIGINT signal. SIGINT represents
+ * the signal provoked by pressing ctrl+c and the exit code 130.
+ * `<PARAM>`:
+ * `signum`: integer represents the signal to handle.
+ * Located in signal_handling.c. */
 static void	termination_handler(int signum)
 {
 	write(STDOUT_FILENO, "\n", 1);
@@ -20,6 +20,13 @@ static void	termination_handler(int signum)
 	set_exit_status(128 + signum);
 }
 
+/* `<SUMMARY>`:
+ * Generic function to invoke signal handler with the default
+ * presets..
+ * `<PARAM>`:
+ * `sig`: integer represents the signal to handle.
+ * `handler`: pointer to the handler function.
+ * Located in signal_handling.c. */
 static void	universal_handler(int sig, t_handler *handler)
 {
 	t_signal	action;
