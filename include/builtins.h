@@ -61,7 +61,7 @@ int		ft_export(t_execcmd *cmd);
  * `var`: string that represents the variable name;
  * `<RETURN>`:
  * Returns `TRUE` on success and `FALSE` on fail. */
-t_bool	precheck_env_update(char *var);
+t_bool	precheck_env_update(char **var);
 
 /* `<SUMMARY>`:
  * Small helper function to easily print a single string to a given

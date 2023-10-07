@@ -41,7 +41,7 @@ char	*get_env(char **env, char *search);
  * `var`: variable to update the environment with;
  * `<RETURN>`:
  * Updated environment array of strings. */
-char	**update_env_variables(t_main *sh, char *var);
+char	**update_env_variables(t_main *sh, char **var);
 
 /* `<SUMMARY>`:
  * Updates the PWD and OLDPWD environment variable after changing the

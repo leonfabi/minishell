@@ -46,7 +46,7 @@ static char	*replace_env_variable(char *env, char *var)
 	return (ft_strdup(var));
 }
 
-char	**update_env_variables(t_main *sh, char *var)
+char	**update_env_variables(t_main *sh, char **var)
 {
 	int		i;
 	t_bool	check;
@@ -57,11 +57,11 @@ char	**update_env_variables(t_main *sh, char *var)
 	if (check == FALSE)
 		return (sh->env);
 	i = 0;
-	if (ft_strncmp("PATH=", var, ft_strlen_c(var, '=') + 1) == 0)
-		sh->bin_path = update_bin_path(sh, var + 5);
+	if (ft_strncmp("PATH=", *var, ft_strlen_c(*var, '=') + 1) == 0)
+		sh->bin_path = update_bin_path(sh, *var + 5);
 	while (NULL != sh->env[i])
 	{
-		if (ft_strncmp(sh->env[i], var, ft_strlen_c(var, '=') + 1) == 0)
+		if (ft_strncmp(sh->env[i], *var, ft_strlen_c(*var, '=') + 1) == 0)
 		{
 			replace = TRUE;
 			break ;
@@ -69,9 +69,9 @@ char	**update_env_variables(t_main *sh, char *var)
 		++i;
 	}
 	if (replace == TRUE)
-		sh->env[i] = replace_env_variable(sh->env[i], var);
+		sh->env[i] = replace_env_variable(sh->env[i], *var);
 	else
-		sh->env = append_env_variable(sh->env, var);
+		sh->env = append_env_variable(sh->env, *var);
 	return (sh->env);
 }
 
@@ -87,7 +87,7 @@ int	ft_export(t_execcmd *cmd)
 		declare_x(cmd->sh->env);
 	while (++i < arrlen)
 	{
-		cmd->sh->env = update_env_variables(cmd->sh, cmd->argv[i]);
+		cmd->sh->env = update_env_variables(cmd->sh, &cmd->argv[i]);
 		set_env_arr(cmd->sh->env);
 	}
 	if (*get_exit_status() == EXIT_FAILURE)

@@ -4,20 +4,24 @@
 #include "utils.h"
 #include "signals.h"
 
-t_bool	precheck_env_update(char *var)
+t_bool	precheck_env_update(char **var)
 {
 	t_bool	check;
 	char	*run;
 
-	run = var;
+	run = *var;
 	check = TRUE;
 	check &= ft_isalpha(*run) | ('_' == *run);
 	while (check == TRUE && *(++run) != '\0' && *run != '=')
 		check &= ft_isalnum(*run) | ('_' == *run);
 	if (check == FALSE)
 	{
-		general_error("export", var, ERR_ID);
+		general_error("export", *var, ERR_ID);
 		set_exit_status(EXIT_FAILURE);
+	}
+	if (ft_strchr(*var, '=') == NULL)
+	{
+		*var = ft_strjoinfree(*var, "=", 'L');
 	}
 	return (check);
 }
