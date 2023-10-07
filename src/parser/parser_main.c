@@ -17,7 +17,6 @@
 static t_cmd	*parse_redirect(t_cmd *cmd, t_dlist **tok, t_main *sh)
 {
 	t_redircmd		*check;
-	t_execcmd		*subcmd;
 
 	while (check_redirect(get_token_type(*tok)) == TRUE)
 	{
@@ -29,14 +28,6 @@ static t_cmd	*parse_redirect(t_cmd *cmd, t_dlist **tok, t_main *sh)
 		}
 		cmd = select_redirect(cmd, tok, sh->env);
 		check = (t_redircmd *)cmd;
-		if (check->cmd->type == EXECUTE)
-		{
-			subcmd = (t_execcmd *)check->cmd;
-			if (subcmd->argv[0] == NULL)
-			{
-				sh->pars_error = TRUE;
-			}
-		}
 	}
 	return (cmd);
 }
