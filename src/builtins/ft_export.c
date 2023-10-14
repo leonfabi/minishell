@@ -18,7 +18,6 @@ static char	**append_env_variable(char **env, char *var)
 {
 	int		arrlen;
 	char	**new_env;
-	int		i;
 
 	arrlen = ft_arrlen((const char **)env);
 	new_env = ft_resize_array(env, arrlen, arrlen + 1);

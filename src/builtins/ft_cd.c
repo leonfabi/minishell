@@ -41,7 +41,6 @@ static int	ft_chdir(t_main *sh, char *dir)
 static int	dir_specials(t_main *sh, char *dir)
 {
 	char	*replace;
-	char	*tmp;
 	int		exit_code;
 
 	exit_code = EXIT_SUCCESS;

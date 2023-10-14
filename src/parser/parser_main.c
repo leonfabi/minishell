@@ -16,8 +16,6 @@
  * Returns a initialized redirect node. */
 static t_cmd	*parse_redirect(t_cmd *cmd, t_dlist **tok, t_main *sh)
 {
-	t_redircmd		*check;
-
 	while (check_redirect(get_token_type(*tok)) == TRUE)
 	{
 		if (check_arguments(get_token_type((*tok)->next)) == FALSE)
@@ -27,7 +25,6 @@ static t_cmd	*parse_redirect(t_cmd *cmd, t_dlist **tok, t_main *sh)
 			return (cmd);
 		}
 		cmd = select_redirect(cmd, tok, sh->env);
-		check = (t_redircmd *)cmd;
 	}
 	return (cmd);
 }

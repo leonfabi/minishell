@@ -74,7 +74,6 @@ char	*expand_readline(char *input, char **env)
 char	*expand_token(t_token *tok, char **env)
 {
 	char	*input;
-	int		amount;
 	t_list	*keylist;
 	char	*expand;
 

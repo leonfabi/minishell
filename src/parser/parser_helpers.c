@@ -4,7 +4,7 @@
 
 t_bool	check_tok_connection(t_token *tok)
 {
-	if (tok->type & TOKEN_WORD & ft_isspace(*(tok->value + tok->len)) == 0)
+	if (tok->type & TOKEN_WORD & (ft_isspace(*(tok->value + tok->len)) == 0))
 		return (TRUE);
 	else if (tok->type & (TOKEN_DQUOTE | TOKEN_QUOTE))
 	{

@@ -29,7 +29,6 @@ t_bool	precheck_env_update(char **var)
 void	declare_x(char **env)
 {
 	char	**copy;
-	char	*tmp;
 	char	**start;
 
 	copy = ft_arrdup((const char **)env);
