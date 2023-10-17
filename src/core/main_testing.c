@@ -1,12 +1,5 @@
 #include "minishell.h"
 
-// main loop
-// signal_handler
-// readline
-// lexer
-// parser -> expander
-// executer
-// readline
 #include <math.h>
 
 char* types[] = {
@@ -36,6 +29,13 @@ char* parse_types[] = {
 	"REDIR"
 };
 
+const char *get_node_name(t_parscmd type)
+{
+	int		index;
+
+	index = log2(type);
+	return (parse_types[index]);
+}
 void	ft_print_token_list(t_lexer *lexer)
 {
 	int		len;
@@ -81,7 +81,7 @@ void	print_AST(t_cmd *cmd)
 			while (ecmd->argv[++i] != NULL)
 			{
 				if (i == 0)
-					printf("%s: %s ", parse_types[ecmd->type], ecmd->argv[i]);
+					printf("%s: %s ", get_node_name(ecmd->type), ecmd->argv[i]);
 				else
 					printf("%s ", ecmd->argv[i]);
 			}
@@ -89,13 +89,13 @@ void	print_AST(t_cmd *cmd)
 			break ;
 		case REDIR:
 			rcmd = (t_redircmd *)cmd;
-			printf("%s: %s\n", parse_types[rcmd->type], rcmd->file);
+			printf("%s: %s\n", get_node_name(ecmd->type), rcmd->file);
 			// printf("Cmd: %s, fd: %d, mode: %d\n", parse_types[rcmd->cmd->type], rcmd->fd, rcmd->mode);
 			print_AST(rcmd->cmd);
 			break ;
 		case PIPE:
 			pcmd = (t_pipecmd *)cmd;
-			printf("%s: %s\n", parse_types[pcmd->type], "Node");
+			printf("%s: %s\n", get_node_name(ecmd->type), "Node");
 			printf("---------------------------------------------------\n");
 			print_AST(pcmd->left);
 			print_AST(pcmd->right);
@@ -110,10 +110,13 @@ void	print_AST(t_cmd *cmd)
 // 	char	*str;
 // 
 // 	sh = (t_main){};
+// 	ast = NULL;
+// 	str = NULL;
 // 	init_shell(&sh, envp);
 // 	str = readline(" > ");
 // 	sh.lexer = ft_lexer(str);
 // 	ast = parse_command(&sh.lexer.token_list, &sh);
+// 	sh.ast_root = ast;
 // 	print_AST(ast);
 // }
 
@@ -144,11 +147,10 @@ int	main(int argc, char *argv[], char *envp[])
 	// 	}
 	// }
 	// printf("\n");
-	print_AST(ast);
-	executor(ast);
+	// print_AST(ast);
+	//executor(ast);
+	executor_main(ast);
 	// // CLEANUP
-	clean_ast(ast);
-	ft_dlstclear(&sh.lexer.token_list, &free);
 	ft_arrfree(sh.env);
 	ft_arrfree(sh.bin_path);
 	free(str);

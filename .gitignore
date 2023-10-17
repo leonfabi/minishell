@@ -57,3 +57,4 @@ dkms.conf
 *.txt
 .vscode
 minishell
+static/

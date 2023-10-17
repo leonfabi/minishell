@@ -1,4 +1,5 @@
-#include "minishell.h"
+#include "libft.h"
+#include "defines.h"
 
 int	print(int fd, char *str)
 {

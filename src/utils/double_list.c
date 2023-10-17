@@ -1,4 +1,5 @@
-#include "minishell.h"
+#include "defines.h"
+#include "lexer.h"
 
 t_dlist	*ft_dlstlast(t_dlist *lst)
 {

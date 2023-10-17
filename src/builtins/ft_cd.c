@@ -1,40 +1,46 @@
-#include "minishell.h"
+#include "libft.h"
+#include "defines.h"
+#include "utils.h"
+#include "builtins.h"
+#include "environment.h"
 
-static void	update_pwd(t_main *sh)
-{
-	char	*update;
-
-	update = NULL;
-	update = ft_strjoinfree("OLDPWD=", get_env(sh->env, "PWD"), 'R');
-	sh->env = update_env_variables(sh, update);
-	free(update);
-	update = NULL;
-	update = ft_strjoinfree("PWD=", getcwd(NULL, 0), 'R');
-	sh->env = update_env_variables(sh, update);
-	free(update);
-}
-
+/* `<SUMMARY>`:
+ * Changes the directory to the given `dir` variable.
+ * `<PARAM>`:
+ * `sh`: main struct containing the environment variable array of strings;
+ * `dir`: string of directory the user wants to change to;
+ * `<RETURN>`:
+ * Returns `exit_code` respective to if the cd succeeded or failed. */
 static int	ft_chdir(t_main *sh, char *dir)
 {
 	int		exit_code;
-	
-	exit_code = EXIT_SUCCESS;
+
 	if (dir == NULL)
 		exit_code = EXIT_FAILURE;
 	else if (chdir(dir) == -1)
 	{
-		ft_fprintf(2, "minishell: cd: '%s': %s\n", dir, strerror(errno));
+		general_error("cd", dir, strerror(errno));
 		exit_code = EXIT_FAILURE;
 	}
 	else
+	{
+		exit_code = EXIT_SUCCESS;
 		update_pwd(sh);
+	}
 	return (exit_code);
 }
 
+/* `<SUMMARY>`:
+ * Function for `-` and `~` input for the cd command.
+ * Changes directory to OLDPWD or HOME, accordingly.
+ * `<PARAM>`:
+ * `sh`: main struct containing the environment variable array of strings;
+ * `dir`: string of directory the user wants to change to;
+ * `<RETURN>`:
+ * Returns `exit_code` respective to if the cd succeeded or failed. */
 static int	dir_specials(t_main *sh, char *dir)
 {
 	char	*replace;
-	char	*tmp;
 	int		exit_code;
 
 	exit_code = EXIT_SUCCESS;
@@ -44,15 +50,21 @@ static int	dir_specials(t_main *sh, char *dir)
 	else if (*dir == '~')
 		replace = get_env(sh->env, "HOME");
 	if (*dir == '-' && NULL == replace)
-		print(2, "minishell: cd: OLDPWD not set\n");
+		general_error("cd", "OLDPWD not set", NULL);
 	else if (*dir == '~' && NULL == replace)
-		print(2, "minishell: cd: HOME not set\n");
+		general_error("cd", "HOME not set", NULL);
 	exit_code = ft_chdir(sh, replace);
 	if (NULL != replace)
 		free(replace);
 	return (exit_code);
 }
 
+/* `<SUMMARY>`:
+ * Function for changing the directory to HOME.
+ * `<PARAM>`:
+ * `sh`: main struct containing the environment variable array of strings;
+ * `<RETURN>`:
+ * Returns `exit_code` respective to if the cd succeeded or failed. */
 static int	ft_cd_home(t_main *sh)
 {
 	char	*home;
@@ -62,7 +74,7 @@ static int	ft_cd_home(t_main *sh)
 	exit_code = EXIT_SUCCESS;
 	if (NULL == home)
 	{
-		print(STDERR_FILENO, "minishell: cd: HOME not set\n");
+		general_error("cd", "HOME not set", NULL);
 		exit_code = EXIT_FAILURE;
 	}
 	else
@@ -73,11 +85,18 @@ static int	ft_cd_home(t_main *sh)
 	return (exit_code);
 }
 
-t_bool	symbol_verify(char *str)
+/* `<SUMMARY>`:
+ * Function to verify if the given special character is given
+ * correctly to the cd command. Checks for `-` and `~`.
+ * `<PARAM>`:
+ * `dir`: string with special symbol for the cd command;
+ * `<RETURN>`:
+ * `TRUE` if symbol is verified, otherwise `FALSE`. */
+static t_bool	symbol_verify(char *dir)
 {
-	if (*str == '-' && *(str + 1) == '\0')
+	if (*dir == '-' && *(dir + 1) == '\0')
 		return (TRUE);
-	if (*str == '~' && *(str + 1) == '\0')
+	if (*dir == '~' && *(dir + 1) == '\0')
 		return (TRUE);
 	return (FALSE);
 }
@@ -96,7 +115,7 @@ int	ft_cd(t_execcmd *cmd)
 		exit_code = ft_chdir(cmd->sh, cmd->argv[1]);
 	else
 	{
-		print(STDERR_FILENO, "minishell: cd: too many arguments\n");
+		general_error("cd", ERR_ARG, NULL);
 		exit_code = EXIT_FAILURE;
 	}
 	return (exit_code);

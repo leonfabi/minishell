@@ -1,16 +1,18 @@
-#include "minishell.h"
+#include "libft.h"
+#include "defines.h"
+#include "parser.h"
 
 t_bool	check_tok_connection(t_token *tok)
 {
-	t_type		type;
-
-	type = tok->type;
-	if (tok->type == TOKEN_WORD && *(tok->value + tok->len) != 32)
+	if (tok->type & TOKEN_WORD & (ft_isspace(*(tok->value + tok->len)) == 0))
 		return (TRUE);
 	else if (tok->type & (TOKEN_DQUOTE | TOKEN_QUOTE))
 	{
-		if (*(tok->value + tok->len + 1) != 32)
+		if (ft_isspace(*(tok->value + tok->len + 1)) == 0)
+		{
+			set_expand(FALSE);
 			return (TRUE);
+		}
 	}
 	return (FALSE);
 }

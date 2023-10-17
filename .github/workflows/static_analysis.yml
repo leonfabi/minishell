@@ -1,0 +1,33 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Static code analysis
+run-name: ${{ github.actor }} is doing static code analysis.
+
+# Controls when the workflow will run
+on: [push]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  static-analysis:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        submodules: 'recursive'
+
+    - name: Install clang-tools and clang
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y clang clang-tools
+
+    - name: Run clang static analyzer
+      run: |
+        scan-build make
+
+    - name: Upload scan-build results
+      uses: actions/upload-artifact@v3
+      with:
+        name: scan-build-results
+        path: /tmp/scan-build*

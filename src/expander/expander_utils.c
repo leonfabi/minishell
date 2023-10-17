@@ -1,5 +1,34 @@
-#include "minishell.h"
+#include "libft.h"
+#include "defines.h"
+#include "expander.h"
+#include "signals.h"
+#include "utils.h"
 
+/* `<SUMMARY>`:
+ * .Helper function for creating the key list for the expansion.
+ *  Copies the key and advances the char pointer.
+ * `<PARAM>`:
+ * `input`: Pointer to the input string;
+ * `size`: size of the key;
+ * `<RETURN>`:
+ * Returns a freeable copy of the key (`$` is being removed). */
+static char	*advance_and_copy(char **input, int size)
+{
+	char	*key;
+
+	key = NULL;
+	key = ft_strndup(*input, size);
+	*input += size;
+	return (key);
+}
+
+/* `<SUMMARY>`:
+ * .Function to extract the key from a given string.
+ * Checks for `$` and decides accordingly.
+ * `<PARAM>`:
+ * `input`: Pointer to the input string;
+ * `<RETURN>`:
+ * Returns a freeable copy of the key (`$` is being removed). */
 static char	*get_key(char **input)
 {
 	t_bool	check;
@@ -42,16 +71,6 @@ t_list	*create_keylist(char *input)
 	return (start);
 }
 
-char	*advance_and_copy(char **input, int size)
-{
-	char	*key;
-
-	key = NULL;
-	key = ft_strndup(*input, size);
-	*input += size;
-	return (key);
-}
-
 char	*expand_special(char *input)
 {
 	if (*input != '$')
@@ -61,7 +80,7 @@ char	*expand_special(char *input)
 	if (*(input + 1) == '0')
 		return (ft_strdup("minishell"));
 	if (*(input + 1) == '$')
-		return (ft_itoa((int)getpid()));
+		return (ft_strdup("not_implemented"));
 	if (*(input + 1) == '\0')
 		return (ft_strdup("$"));
 	return (ft_strdup(""));

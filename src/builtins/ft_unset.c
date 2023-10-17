@@ -1,5 +1,17 @@
-#include "minishell.h"
+#include "libft.h"
+#include "defines.h"
+#include "environment.h"
+#include "signals.h"
 
+/* `<SUMMARY>`:
+ * .Function to unset the given `key` from the environment array
+ * of strings.
+ * `<PARAM>`:
+ * `sh`: main struct containing also the environment;
+ * `name`: variable to remove from the environment;
+ * `<RETURN>`:
+ * False if environment length is 0, `TRUE` after removing the
+ * given key=value pairs. */
 static t_bool	run_unset(t_main *sh, char *name)
 {
 	char	**delete;
@@ -29,15 +41,19 @@ static t_bool	run_unset(t_main *sh, char *name)
 
 int	ft_unset(t_execcmd *cmd)
 {
-	int		arrlen;
 	int		i;
 
 	i = 0;
 	set_exit_status(EXIT_SUCCESS);
-	arrlen = ft_arrlen((const char **)cmd->argv);
 	if (NULL == cmd->argv[1])
 		return (EXIT_SUCCESS);
 	while (NULL != cmd->argv[++i])
+	{
 		run_unset(cmd->sh, cmd->argv[i]);
+		if (ft_strcmp("PATH", cmd->argv[i]) == 0)
+		{
+			cmd->sh->bin_path = update_bin_path(cmd->sh, NULL);
+		}
+	}
 	return (EXIT_SUCCESS);
 }

@@ -1,27 +1,63 @@
 #ifndef DEFINES_H
 # define DEFINES_H
 
-# include "libft.h"
-# include <termios.h>
+// Standard Library Function Headers
+# include <errno.h>
+# include <limits.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+
+// System Calls and OS-specific interfaces
+# include <fcntl.h>
+# include <signal.h>
+# include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <termios.h>
+# include <unistd.h>
+
+// Used for interactive input editing and history
+# include <readline/history.h>
+# include <readline/readline.h>
 
 # define TRUE 1
 # define FALSE 0
-# define WHITESPACE " \t\r\n\v"
 # define MAXARGS 20
-# define O_HEREDOC 0x0300
+# define O_HEREDOC 04000
+# define CHILD_FORK 0
+# define MAX_CHILDS 1024
+# define GENERAL_ERROR 1
+
+typedef enum e_quit
+{
+	QUIT = 1 << 0,
+	NO_QUIT = 1 << 1
+}	t_quit;
+
+// Define error strings
+# define ERR_ARG "too many arguments"
+# define ERR_PARS "Expected a string, but found "
+# define ERR_ID "not a valid identifier"
+# define ERR_CMD "command not found"
 
 /* `<summary>`:
- Define structs to use a shorter version in the code
- for more readability and structure. */
+ Typedefs to use a shorter version in the code
+ for more readability and structure.
+ ans also forward declaration for usage in the prototypes.*/
 typedef struct sigaction	t_signal;
 typedef struct termios		t_termios;
 typedef void				t_handler(int);
+typedef struct s_cmd		t_cmd;
+typedef struct s_execcmd	t_execcmd;
+typedef struct s_pipecmd	t_pipecmd;
+typedef struct s_redircmd	t_redircmd;
+typedef int					(*t_builtin_p)(t_execcmd *);
 
-/* `<summary>`:
- Represents either TRUE (1) or FALSE (0). */
+// Represents either `TRUE` (1) or `FALSE` (0).
 typedef int					t_bool;
+
+// Forward declaration of the s_dlist struct for the lexer.
 typedef struct s_dlist		t_dlist;
 
 struct s_dlist
@@ -42,13 +78,15 @@ typedef struct s_lexer
 /* `<SUMMARY>`:
  * Main struct of the shell for holding all its attributes.
  * `<MEMBER>`
- * char			*user;
- * char			**env;
- * char			**bin_path;
- * t_lexer		lexer;
- * t_termios	xterm;
- * int			stdin;
- * int			stdout;
+ * char			`*user`;
+ * char			`**env`;
+ * char			`**bin_path`;
+ * t_lexer		`lexer`;
+ * t_termios	`xterm`;
+ * int			`stdin`;
+ * int			`stdout`;
+ * int			`stderr`;
+ * int			`pars_error`;
  */
 typedef struct s_main
 {
@@ -60,29 +98,30 @@ typedef struct s_main
 	int			stdin;
 	int			stdout;
 	int			stderr;
+	int			pars_error;
 }	t_main;
 
 typedef enum e_parscmd
 {
-	EXECUTE,
-	PIPE,
-	REDIR
+	EXECUTE = 1 << 0,
+	PIPE = 1 << 1,
+	REDIR = 1 << 2
 }	t_parscmd;
 
-typedef struct s_cmd
+struct s_cmd
 {
 	int		type;
-}	t_cmd;
+};
 
-typedef struct execcmd
+struct s_execcmd
 {
 	t_parscmd	type;
 	char		*bin;
 	char		*argv[MAXARGS];
 	t_main		*sh;
-}	t_execcmd;
+};
 
-typedef struct redircmd
+struct s_redircmd
 {
 	t_parscmd	type;
 	t_cmd		*cmd;
@@ -90,28 +129,14 @@ typedef struct redircmd
 	int			mode;
 	int			fd;
 	t_bool		expand;
-}	t_redircmd;
+};
 
-typedef struct pipecmd
+struct s_pipecmd
 {
 	t_parscmd	type;
 	t_cmd		*left;
 	t_cmd		*right;
-}	t_pipecmd;
-
-// typedef enum e_type
-// {
-// 	TOKEN_WORD,
-// 	TOKEN_PIPE,
-// 	TOKEN_LESS,
-// 	TOKEN_GREATER,
-// 	TOKEN_DLESS,
-// 	TOKEN_DGREATER,
-// 	TOKEN_EOF,
-// 	TOKEN_QUOTE,
-// 	TOKEN_DQUOTE,
-// 	TOKEN_NEWLINE
-// }	t_type;
+};
 
 typedef enum e_type
 {
@@ -133,5 +158,16 @@ typedef struct s_token
 	char	*value;
 	int		len;
 }	t_token;
+
+typedef struct s_context {
+	int		fd[2];
+	int		fd_close;
+	int		exit_code;
+	pid_t	pids[MAX_CHILDS];
+	int		child;
+	t_bool	error;
+	t_bool	quit;
+	t_bool	pipeline;
+}	t_context;
 
 #endif

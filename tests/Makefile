@@ -16,7 +16,7 @@ LIBFT_DIR := ../libft
 LIBFT := $(LIBFT_DIR)/libft.a
 INC_DIRS := -I../include -I../libft/include
 VPATH := ../src ../src/lexer ../src/signals ../src/utils ../src/builtins
-VPATH += ../src/environment ../src/init
+VPATH += ../src/environment ../src/init ../src/expander
 OBJ_DIR := ./_obj
 
 # define compiler and linker flags
@@ -44,6 +44,7 @@ OBJS_LEXER := $(addprefix $(OBJ_DIR)/, $(SRC_LEXER:%.c=%.o))
 # Source files for builtins
 SRC_BUILTIN := ft_cd.c ft_echo.c ft_env.c ft_exit.c ft_export.c ft_pwd.c ft_unset.c
 SRC_BUILTIN += exit_status.c environment_utils.c init.c ft_export_utils.c
+SRC_BUILTIN += error_mgmt.c double_list.c adv_utils.c
 OBJS_BUILTIN := $(addprefix $(OBJ_DIR)/, $(SRC_BUILTIN:%.c=%.o))
 
 ####################################################################
@@ -69,7 +70,7 @@ signals: $(LIBFT) $(OBJS_SIGNALS) test_signals.c
 .PHONY: builtin
 builtin: $(OBJS_BUILTIN) test_builtin.c | $(LIBFT)
 	$(CC) $^ $(INC_DIRS) $(LDFLAGS) -o $@ -g
-	# @$(call run, "$^")
+	@$(call run, "$^")
 
 $(OBJ_DIR)/%.o: %.c
 	mkdir -p $(OBJ_DIR)

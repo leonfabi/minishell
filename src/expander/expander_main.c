@@ -1,5 +1,17 @@
-#include "minishell.h"
+#include "libft.h"
+#include "defines.h"
+#include "environment.h"
+#include "expander.h"
+#include "utils.h"
 
+/* `<SUMMARY>`:
+ * Searches the whole environment for the given `name` to try to
+ * expand it.
+ * `<PARAM>`:
+ * `tok`: token to get expanded;
+ * `env`: array of strings of the environment variables;
+ * `<RETURN>`:
+ * Returns a freeable string with the expanded token. */
 static char	*check_whole_env(char **env, char *name)
 {
 	char	**check;
@@ -16,6 +28,16 @@ static char	*check_whole_env(char **env, char *name)
 	return (ft_strdup(""));
 }
 
+/* `<SUMMARY>`:
+ * Main function for expanding a string of the given input. It will
+ * run through the key list and appends each expanded or non expanded
+ * string to the current string. Key is getting expanded if it starts
+ * with a `$` and is not a TOKEN_QUOTE.
+ * `<PARAM>`:
+ * `run`: linked list of keys to expand;
+ * `env`: array of strings of the environment variables;
+ * `<RETURN>`:
+ * Returns a freeable string with the expanded keys. */
 static char	*create_expanded_string(t_list *run, char **env)
 {
 	char	*expand;
@@ -37,10 +59,21 @@ static char	*create_expanded_string(t_list *run, char **env)
 	return (expand);
 }
 
+char	*expand_readline(char *input, char **env)
+{
+	t_list	*keylist;
+	char	*expand;
+
+	keylist = create_keylist(input);
+	expand = create_expanded_string(keylist, env);
+	adv_free(&input);
+	ft_lstclear(&keylist, &free);
+	return (expand);
+}
+
 char	*expand_token(t_token *tok, char **env)
 {
 	char	*input;
-	int		amount;
 	t_list	*keylist;
 	char	*expand;
 

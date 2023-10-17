@@ -1,13 +1,20 @@
-#include "minishell.h"
+#include "defines.h"
+#include "signals.h"
+#include "utils.h"
 
-int	ft_env(char **env)
+int	ft_env(t_execcmd *cmd)
 {
 	char	**run;
 
-	run = env;
+	if (cmd->argv[1] != NULL)
+	{
+		general_error(cmd->argv[1], "No such file or directory", NULL);
+		set_exit_status(127);
+		return (127);
+	}
+	run = cmd->sh->env;
 	while (*run != NULL)
 	{
-		// if (*run + ft_strlen_c(*run, '='))
 		printf("%s\n", *run);
 		++run;
 	}
