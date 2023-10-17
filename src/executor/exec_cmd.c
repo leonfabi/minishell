@@ -84,7 +84,7 @@ static char	*get_exec_path(char **bin_path, char *bin)
 	char	*full_path;
 
 	if (NULL == bin_path)
-		return (NULL);
+		return (ft_strdup(bin));
 	count = -1;
 	path = NULL;
 	full_path = bin;
@@ -112,13 +112,7 @@ static char	*get_exec_path(char **bin_path, char *bin)
 static void	run_executable(t_execcmd *exec, t_context *ctx)
 {
 	exec->bin = get_exec_path(exec->sh->bin_path, exec->argv[0]);
-	// if (exec->bin != NULL)
 	create_child_process(exec, ctx);
-	// else
-	// {
-	// 	general_error(exec->argv[0], ERR_CMD, NULL);
-	// 	ctx->exit_code = 127;
-	// }
 }
 
 void	execute_command(t_execcmd *exec, t_context *ctx)
@@ -128,7 +122,7 @@ void	execute_command(t_execcmd *exec, t_context *ctx)
 		if (execute_builtin(exec, ctx) == FALSE)
 			run_executable(exec, ctx);
 	}
-	else // if (check_executable(exec->argv[0], ctx))
+	else
 	{
 		exec->bin = ft_strdup(exec->argv[0]);
 		create_child_process(exec, ctx);
