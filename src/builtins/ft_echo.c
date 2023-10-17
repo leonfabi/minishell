@@ -23,9 +23,9 @@ int	ft_echo(t_execcmd *cmd)
 		++i;
 	}
 	while (++i < arr_len - 1)
-		printf("%s ", cmd->argv[i]);
+		ft_fprintf(1, "%s ", cmd->argv[i]);
 	if (cmd->argv[i] != NULL)
-		printf("%s", cmd->argv[i]);
+		ft_fprintf(1,"%s", cmd->argv[i]);
 	if (nl_flag == TRUE)
 		printf("\n");
 	return (EXIT_SUCCESS);
