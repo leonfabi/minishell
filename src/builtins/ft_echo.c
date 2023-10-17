@@ -27,6 +27,6 @@ int	ft_echo(t_execcmd *cmd)
 	if (cmd->argv[i] != NULL)
 		ft_fprintf(1,"%s", cmd->argv[i]);
 	if (nl_flag == TRUE)
-		printf("\n");
+		ft_fprintf(1, "\n");
 	return (EXIT_SUCCESS);
 }
