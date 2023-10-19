@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/19 11:45:26 by fkrug             #+#    #+#             */
+/*   Updated: 2023/10/19 11:45:38 by fkrug            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "defines.h"
 #include "lexer.h"
 #include "utils.h"
@@ -46,11 +58,6 @@ t_lexer	ft_lexer(char *str)
 	t_lexer	lexer;
 
 	lexer = (t_lexer){};
-	// if (ft_strlen(str) == 0)
-	// {
-	// 	lexer.error_code = -1;
-	// 	return (lexer);
-	// }
 	lexer = ft_init_lexer(str);
 	if (ft_find_token(&lexer) == FALSE)
 	{
