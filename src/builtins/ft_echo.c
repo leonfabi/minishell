@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_echo.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: makurz <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/19 10:51:22 by makurz            #+#    #+#             */
+/*   Updated: 2023/10/19 11:30:18 by makurz           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 #include "defines.h"
 
@@ -25,7 +37,7 @@ int	ft_echo(t_execcmd *cmd)
 	while (++i < arr_len - 1)
 		ft_fprintf(1, "%s ", cmd->argv[i]);
 	if (cmd->argv[i] != NULL)
-		ft_fprintf(1,"%s", cmd->argv[i]);
+		ft_fprintf(1, "%s", cmd->argv[i]);
 	if (nl_flag == TRUE)
 		ft_fprintf(1, "\n");
 	return (EXIT_SUCCESS);

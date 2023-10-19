@@ -47,10 +47,45 @@ void	cleanup_control_character(t_termios *xterm);
  * `sig`: signal number. */
 void	exit_heredoc(int sig);
 
+/* `<SUMMARY>`:
+ * Generic function to invoke signal handler with the default
+ * presets..
+ * `<PARAM>`:
+ * `sig`: integer represents the signal to handle.
+ * `handler`: pointer to the handler function.
+ * Located in signal_handling.c. */
+void	universal_handler(int sig, t_handler *handler);
+
+/* `<SUMMARY>`:
+ * Function for handling the SIGINT signal. SIGINT represents
+ * the signal provoked by pressing ctrl+c and the exit code 130.
+ * `<PARAM>`:
+ * `signum`: integer represents the signal to handle.
+ * Located in signal_handling.c. */
+void	termination_handler(int signum);
+
+/* `<SUMMARY>`:
+ * Function for handling the SIGINT signal. SIGINT represents
+ * the signal provoked by pressing ctrl+c and the exit code 130.
+ * `<PARAM>`:
+ * `signum`: integer represents the signal to handle.
+ * Located in signal_handling.c. */
 void	block_parent_handler(void);
 
+/* `<SUMMARY>`:
+ * Function for handling the SIGINT signal. SIGINT represents
+ * the signal provoked by pressing ctrl+c and the exit code 130.
+ * `<PARAM>`:
+ * `signum`: integer represents the signal to handle.
+ * Located in signal_handling.c. */
 void	heredoc_child_handler(void);
 
+/* `<SUMMARY>`:
+ * Function for handling the SIGINT signal. SIGINT represents
+ * the signal provoked by pressing ctrl+c and the exit code 130.
+ * `<PARAM>`:
+ * `signum`: integer represents the signal to handle.
+ * Located in signal_handling.c. */
 void	wait_user_signals(void);
 
 #endif // !SIGNALS_H

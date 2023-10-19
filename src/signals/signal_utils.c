@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signal_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: makurz <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/19 10:49:54 by makurz            #+#    #+#             */
+/*   Updated: 2023/10/19 11:31:32 by makurz           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "defines.h"
 #include "signals.h"
 #include "executor.h"
@@ -33,4 +45,22 @@ void	exit_heredoc(int sig)
 	write(STDOUT_FILENO, "\n", 1);
 	here_cleanup();
 	exit(sig);
+}
+
+void	wait_user_signals(void)
+{
+	universal_handler(SIGINT, termination_handler);
+	universal_handler(SIGQUIT, SIG_IGN);
+}
+
+void	block_parent_handler(void)
+{
+	universal_handler(SIGINT, SIG_IGN);
+	universal_handler(SIGQUIT, SIG_IGN);
+}
+
+void	heredoc_child_handler(void)
+{
+	universal_handler(SIGINT, exit_heredoc);
+	universal_handler(SIGQUIT, SIG_IGN);
 }
