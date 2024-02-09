@@ -48,7 +48,7 @@ static char	*create_expanded_string(t_list *run, char **env)
 	while (run)
 	{
 		key = run->content;
-		if (ft_strlen(key) <= 2)
+		if (ft_strlen(key) <= 2 && ft_isalpha(*(key + 1)) == FALSE)
 			add = expand_special(key);
 		else
 			add = check_whole_env(env, key);

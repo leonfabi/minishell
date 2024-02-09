@@ -83,7 +83,7 @@ static char	*get_exec_path(char **bin_path, char *bin)
 	char	*path;
 	char	*full_path;
 
-	if (NULL == bin_path)
+	if (NULL == bin_path || ft_strlen(bin) == 0)
 		return (ft_strdup(bin));
 	count = -1;
 	path = NULL;

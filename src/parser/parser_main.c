@@ -79,7 +79,7 @@ static t_cmd	*parse_execution(t_dlist **tok, t_main *sh)
 			break ;
 		cmd->argv[argc] = connect_tokens(tok, sh->env);
 		++argc;
-		if (argc >= MAXARGS)
+		if (argc >= MAXARGS - 1)
 		{
 			general_error("exec", ERR_ARG, NULL);
 			sh->pars_error = TRUE;

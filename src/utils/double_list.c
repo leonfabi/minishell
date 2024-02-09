@@ -43,7 +43,7 @@ void	ft_dlstclear(t_dlist **lst, void (*del)(void *))
 	t_dlist	*tmp;
 
 	tmp = NULL;
-	if (lst == NULL)
+	if (lst == NULL || *lst == NULL)
 		return ;
 	while ((*lst)->prev != NULL)
 		*lst = (*lst)->prev;
